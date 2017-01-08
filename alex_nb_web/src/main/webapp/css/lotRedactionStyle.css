@@ -1,0 +1,176 @@
+#b1{
+    display: table;
+    width: 100%;
+    height: 25%;
+}
+#bidBlock{
+    display: table-cell;
+    width: 40%;
+    height: 100%;
+    text-align: center;
+    /* border: 3px solid sandybrown;*/
+    font-style: inherit;
+    background-color: lightgoldenrodyellow;
+    align-content: center;
+}
+#fdBlock{
+    display: table-cell;
+    width: 30%;
+    height: 100%;
+    text-align: left;
+    /*border: double;*/
+}
+#docBlock{
+    display: table-cell;
+    width: 25%;
+    height: 100%;
+    align-content: center;
+    /*text-align: right;*/
+}
+#b1 div{
+    border: double cyan;
+}
+#docBlock table{
+    width: 100%;
+}
+#lotAboutTab {
+    width: 10%;
+    border: 3px solid cyan;
+    align-content: center;
+    text-align: center;
+    background-color: white;
+    font-size: 120%;
+    font-weight: bolder;
+}
+#bidTab {
+    width: 100%;
+}
+/*border="3" style="font-size: 100% ; font-style: inherit"*/
+#bidTab th {
+    background-color: sandybrown;
+}
+#bidTab td {
+    border: 3px solid sandybrown;
+    font-weight: bold;
+    text-align: center;
+}
+#finInfoTr{
+    font-weight: bold
+}
+#butAccept{
+    color: white;
+    background-color: darkgreen;
+    border-radius: 10% ;
+    width: 180px ;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold
+}
+#butAccept:hover{
+    background-color: lightgreen;
+    color: black;
+}
+#doc1:hover{
+    border: double gold;
+}
+#doc1:hover{
+    cursor:pointer;
+    background-color: white;
+    color: black;
+}
+#fileList, #delLotButton, #setSoldButton, #butAccept, #paymentsSum, #bidDate, .bidHistoryTr, #bidTd
+{
+    cursor:pointer;
+}
+#bidDate:hover{
+    background-color: lightcyan;
+    font-weight: bold
+}
+.bidHistoryTr{
+    background-color: whitesmoke;
+    color: darkblue;
+}
+.bidHistoryTr:hover{
+    background-color: white;
+}
+#delLotButton{
+    background-color: red;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    height: 50px;
+    width: 120px;
+}
+#delLotButton:hover{
+    background-color: darkred;
+    color: white;
+}
+#setSoldButton{
+    background-color: darkgreen;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    height: 50px;
+}
+#setSoldButton:hover{
+    background-color: lawngreen;
+    color: black;
+}
+#addPay{
+    font-weight: bold;
+}
+#fdTab{
+    cursor: pointer;
+    background-color: whitesmoke;
+    font-weight: bolder;
+    font-size: large;
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+    border: 2px solid cyan;
+}
+#fdTab tr:hover{
+    background-color: white;
+    color: darkblue;
+}
+#fdTab td{
+    border: 2px solid cyan;
+    width: 33%;
+}
+button{
+    font-weight: bolder;
+}
+select, option{
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+}
+#mainButBlock{
+    display: table;
+    width: 100%;
+}
+#commBlock{
+    display: table-cell;
+    width: 70%;
+}
+#actDelButBlock{
+    display: table-cell;
+    width: 15%;
+}
+#acceptButBlock {
+    display: table-cell;
+    width: 15%;
+    text-align: right;
+}
+#commBlock input{
+    width: 60%;
+    font-size: large;
+    height: 35px;
+    background-color: whitesmoke;
+}
+#showCredits{
+    cursor:pointer;
+    height: 35px;
+    font-size: 20px;
+    font-weight: bold;
+}
