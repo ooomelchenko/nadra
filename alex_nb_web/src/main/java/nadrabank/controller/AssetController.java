@@ -1733,6 +1733,7 @@ public class AssetController {
         model.addAttribute("bidResultList", bidResultList);
         model.addAttribute("allBidsList", bidService.getAllBids());
         model.addAttribute("fondDecisionsList", fondDecisionsList);
+        model.addAttribute("allExchangeList", exchangeService.getAllExchanges());
         List<Long> bidIdList = lotService.getBidsIdByLot(Long.parseLong(lotId));
 
         Set<Bid> historyBids = new TreeSet<>();

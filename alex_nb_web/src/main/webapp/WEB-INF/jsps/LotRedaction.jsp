@@ -1,4 +1,5 @@
 <%@ page import="nadrabank.domain.Bid" %>
+<%@ page import="nadrabank.domain.Exchange" %>
 <%@ page import="nadrabank.domain.Lot" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.text.SimpleDateFormat" %>
@@ -19,6 +20,7 @@
     Set<Bid> bidsHistoryList = (TreeSet<Bid>)request.getAttribute("bidsHistoryList");
     String userName = (String) request.getAttribute("user");
     List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");
+    List<Exchange> allExchangeList = (List<Exchange>) request.getAttribute("allExchangeList");
 %>
 <html>
 <head>
@@ -468,6 +470,37 @@
                 }
             });
 
+            $("#okButton").click(function () {
+                $.ajax({
+                    url: "setAcceptEx",
+                    type: "POST",
+                    data: {
+                        lotId: $('#lotId').text(),
+                        acceptEx: $('#inputAccEx').val()
+                    },
+                    success: function (result) {
+                        if (result == "1") {
+                            alert("затверджена біржа змінена!");
+                            location.reload(true);
+                        }
+                        else alert("данні не внесені!");
+                    }
+                });
+            });
+            $('.acceptEx').dblclick(function () {
+                var accExChoose = $("#accExChoose");
+                var accExCurrent = $('#accExCurrent');
+                var okButton = $("#okButton");
+                if (accExChoose.is(":hidden")) {
+                    accExChoose.show();
+                    accExCurrent.hide();
+                }
+                else {
+                    accExChoose.hide();
+                    accExCurrent.show();
+                }
+            });
+
             <%if (lot.getItSold()){%>
             $('#delLotTd').hide();
             $('#setSoldTd').hide();
@@ -626,8 +659,33 @@
     <div id="fdBlock">
         <table id="fdTab">
             <tr>
-                <td colspan="3" style="font-size: large; font-weight: bolder">
+                <th colspan="3" style="font-size: large; font-weight: bolder">
                     Погодження продажу ФГВФО
+                </th>
+            </tr>
+            <tr id="accExCurrent" title="клікніть двічі для зміни погодженої фондом біржі">
+                <td colspan="3" class="acceptEx" >
+                    <%out.print(lot.getAcceptExchange());%>
+                </td>
+            </tr>
+            <tr id="accExChoose" hidden="hidden">
+                <td colspan="2">
+                    <select id="inputAccEx" name="exSelect" style="width: 100%">
+                        <%
+                            if (allExchangeList != null) {
+                                for (Exchange ex : allExchangeList) {
+                        %>
+                        <option value="<%=ex.getId()%>">
+                            <%out.print(ex.getCompanyName());%>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
+                </td>
+                <td>
+                    <button id='okButton' style="width: 100%">ok</button>
                 </td>
             </tr>
             <tr id="fdCurrent">

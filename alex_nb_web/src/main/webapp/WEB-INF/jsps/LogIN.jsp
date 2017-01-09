@@ -30,7 +30,7 @@
             background-size: 100%;
         }
         #logTable{
-            width: 20%;
+            width: 15%;
             font-weight: bolder;
             font-size: x-large;
         }
@@ -51,7 +51,7 @@
 <body id="bd">
 
 <div id="wrapper" class="login-form">
-    <div class="header">
+    <div class="infoBlock">
         <h1>Введіть логін користувача і пароль </h1>
         <h3 style="color: darkred" id="loginMessage"></h3>
     </div>
