@@ -174,3 +174,13 @@ select, option{
     font-size: 20px;
     font-weight: bold;
 }
+.delPayButt{
+    width: 22px;
+    height: 22px;
+}
+.delPayButt:hover{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: solid red;
+}

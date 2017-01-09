@@ -717,9 +717,9 @@
                     %>
                 </select>
             </td>
-            <td class ="isNeadNewFondDec">
+            <td class ="isNeedNewFondDec">
                 <%
-                if(asset.getLot()!=null && asset.getLot().isNeadNewFondDec())out.print("Так");
+                if(asset.getLot()!=null && asset.getLot().isNeedNewFondDec())out.print("Так");
                 else out.print("Ні");
                 %>
             </td>

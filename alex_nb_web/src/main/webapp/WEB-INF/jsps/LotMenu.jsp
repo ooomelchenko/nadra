@@ -5,7 +5,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Лоти</title>
+    <title>Меню лотів</title>
+    <link rel="stylesheet" media="screen" type="text/css" href="css/lotMenuStyle.css"/>
     <script src="js/jquery-1.11.1.js"></script>
     <script src="js/lotsMenu.js"></script>
     <script type="text/javascript">
@@ -100,40 +101,6 @@
             });
         });
     </script>
-    <style type="text/css">
-        .lotId, .bidDate, .bidStatus, .bidStage, .workstage{
-            font-weight: bold;
-        }
-        .dateSelector, .exSelector, .bidStatusSelector :hover{
-        background-color: #00ffff;
-        }
-        .spoiler_body {
-            display:none;
-            cursor:pointer;
-            float:left;
-            width:auto;
-            background-color: white;
-            text-align:center;
-            position:absolute;
-            z-index:99;}
-        .spoiler_body a {padding:0px 10px;}
-        .spoiler_links {
-            cursor: pointer;
-            float:left;
-            margin:0px 5px;
-            width:220px;
-            line-height:1.5;
-            text-align:center;}
-        .trL {
-            cursor: pointer;
-        }
-        .trL:hover {
-            background-color : white;
-        }
-        button {
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body id="bd" style="background-color: mintcream">
 <%
@@ -151,27 +118,41 @@
         exchangeSet.add(lot.getBid().getExchange().getCompanyName());
     }
 %>
-<button onclick="location.href='index'">Назад до меню</button>
-<H1 align="center">Меню лотів</H1>
-<div style="width: 100%">
-    <table>
-        <tr align="left">
-            <td>
-                <button id="createSingleLot" class="button" style="height: 40px ; font-size: 100%"
-                        onclick="location.href ='lotCreator'">Формування лоту активів
-                </button>
-            </td>
-            <td>
-                <img src="css/images/plus.jpeg" width="30px" height="30px"/>
-            </td>
-            <td>
-                <button id="createCrLot" class="button" style="height: 40px ; font-size: 100%"
-                        onclick="location.href ='lotCreditsCreator'">Формування лоту кредитів
-                </button>
-            </td>
-        </tr>
-    </table>
+
+<div id="blockHead">
+    <div id="backBlock">
+        <button onclick="location.href='index'">Назад до меню</button>
+    </div>
+    <div id="headerBlock">
+        <H1 align="center">Меню лотів</H1>
+    </div>
+    <div id="buttonsBlock">
+        <table>
+            <tr align="left">
+                <td>
+                    <button id="createSingleLot" onclick="location.href ='lotCreator'">
+                        Новий лот активів
+                    </button>
+                </td>
+                <td>
+                    <img src="images/plus_green.png"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="createCrLot" onclick="location.href ='lotCreditsCreator'">
+                        Новий лот кредитів
+                    </button>
+                </td>
+                <td>
+                    <img src="images/plus_blue.png"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
+
 <div id="lotsDiv" class="view">
     <table id="lTable" border="light" class="table" style="background-color: lightcyan">
         <tr class="trh" style="background-color: #00ffff">
@@ -248,7 +229,6 @@
         </tr>
         <%}%>
     </table>
-
 </div>
 
 </body>

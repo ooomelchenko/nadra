@@ -6,7 +6,7 @@
         var authRequest = new XMLHttpRequest();
         authRequest.onreadystatechange = function () {
             if (authRequest.readyState == 4
-                    && authRequest.status == 200) {
+                && authRequest.status == 200) {
                 if (authRequest.responseText == '0') {
                     document.getElementById('loginMessage').innerHTML = 'Логін або пароль введені невірно';
                 }
@@ -24,36 +24,58 @@
         }
     </script>
     <style>
-        body{
-            background: url(images/emblema.jpg) no-repeat fixed top right;
+        body {
+            /*background: url(images/emblema.jpg) no-repeat fixed top right;*/
+            background: url(images/office.jpg);
+            background-size: 100%;
+        }
+        #logTable{
+            width: 20%;
+            font-weight: bolder;
+            font-size: x-large;
+        }
+        button{
+            font: inherit;
+            color: darkblue;
+
+            width: 100%;
+        }
+        input{
+            font-size: x-large;
+            font-weight: bolder;
+            width:100%;
         }
     </style>
 </head>
 
-<body id="bd" >
+<body id="bd">
 
 <div id="wrapper" class="login-form">
     <div class="header">
         <h1>Введіть логін користувача і пароль </h1>
         <h3 style="color: darkred" id="loginMessage"></h3>
     </div>
-
-    <table class="logTable">
-        <tr>
-            <td>Логін</td>
-            <td>
-                <input id="login" type="text" class="login" placeholder="Логін" <%--value="alexandr"--%>/>
-            </td>
-        </tr>
-        <tr>
-            <td>Пароль</td>
-            <td>
-                <input id="password" type="password" class="password" placeholder="Пароль" <%--value="a44n73"--%>/>
-            </td>
-        </tr>
-    </table>
-    <input type="button" class="button" id="authbut" onclick="auth()" value="УВІЙТИ"
-           style="font:inherit;color: darkblue; width: 200px; height: 30px">
+    <div>
+        <table id="logTable">
+            <tr>
+                <td>
+                    <input id="login" type="text" class="login" placeholder="Логін" <%--value="alexandr"--%>/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="password" type="password" class="password" placeholder="Пароль" <%--value="a44n73"--%>/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="authbut" onclick="auth()">
+                        УВІЙТИ
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </body>

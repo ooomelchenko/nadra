@@ -83,7 +83,7 @@
                                 '<td>'+ d.toISOString().substring(0, 10) +'</td>'+
                                 '<td>'+ payments[i].paySum +'</td>'+
                                 '<td>'+ payments[i].paySource +'</td>'+
-                                '<td><button class="delPayButt" title="натисніть для видалення оплати" style="font-weight: bold; color: red">ВИДАЛИТИ</button></td>'+
+                                '<td><img class="delPayButt" src="images/delete.png" title="натисніть для видалення платежу"/></td>'+
                                 +'</tr>'));
                         }
                         $('.delPayButt').click(function(){
@@ -817,7 +817,7 @@
                 <button id="showCredits" title="Показати/Приховати список об'єктів в лоті">Список об'єктів</button>
             </td>
             <td align="right" title="натисніть для збереження в форматі .xls">
-                <img id="doc1" src="images/excel.jpg" width="30px" height="30px">
+                <img id="doc1" src="images/excel.jpg" width="30px" height="30px"/>
             </td>
         </tr>
     </table>

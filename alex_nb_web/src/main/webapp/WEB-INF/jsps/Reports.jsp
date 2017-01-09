@@ -45,7 +45,7 @@
                         }
                     }
                 });
-            })
+            });
             $('#downloadAss').click(function(){
                 $.ajax({
                     url: "setReportPath",
@@ -64,7 +64,11 @@
     </script>
     <style type="text/css">
         body {
-            background-color: lightgreen;
+            background-image: url(images/reports_font.jpg);
+            background-size: 100%;
+        }
+        body img{
+            opacity: 0.5;
         }
         .reportTr:hover {
             color: darkblue;

@@ -1,0 +1,70 @@
+.lotId, .bidDate, .bidStatus, .bidStage, .workstage {
+     font-weight: bold;
+ }
+
+.dateSelector, .exSelector, .bidStatusSelector :hover {
+    background-color: #00ffff;
+}
+
+.spoiler_body {
+    display: none;
+    cursor: pointer;
+    float: left;
+    width: auto;
+    background-color: white;
+    text-align: center;
+    position: absolute;
+    z-index: 99;
+}
+
+.spoiler_body a {
+    padding: 0px 10px;
+}
+
+.spoiler_links {
+    cursor: pointer;
+    float: left;
+    margin: 0px 5px;
+    width: 220px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.trL {
+    cursor: pointer;
+}
+
+.trL:hover {
+    background-color: white;
+}
+
+button {
+    cursor: pointer;
+}
+
+#blockHead {
+    width: 100%;
+    display: table;
+}
+#backBlock {
+    display: table-cell;
+    width: 20%;
+}
+#headerBlock {
+    display: table-cell;
+    width: 60%;
+}
+#buttonsBlock {
+    display: table-cell;
+    width: 20%;
+}
+#buttonsBlock button {
+    width: 120%;
+    height: 30px ;
+    font-size: 100%;
+    text-align: left;
+}
+#buttonsBlock img {
+    width: 25px ;
+    height: 25px;
+}

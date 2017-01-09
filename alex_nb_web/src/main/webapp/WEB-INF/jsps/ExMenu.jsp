@@ -7,8 +7,8 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
-            $(".idEx").each(function(){
-                var idEx=$(this);
+            $(".idEx").each(function () {
+                var idEx = $(this);
                 $.ajax({
                     url: "countSumLotsByExchange",
                     type: "POST",
@@ -45,26 +45,43 @@
         });
     </script>
     <style type="text/css">
-        .exTr{
+        body {
+            background-image: url(images/exchanges_font.jpg);
+            background-size: 100%;
+        }
+        #headBlock{
+            display: table;
+        }
+        #headBlock div{
+            display: table-cell;
+            width: 400px;
+        }
+        .exTr {
             cursor: pointer;
         }
-        .exTr:hover{
+        .exTr:hover {
             background-color: white;
             color: darkblue;
             font-weight: bold;
-}
+        }
     </style>
 </head>
 <%
     List<Exchange> exchangeList = (List<Exchange>) request.getAttribute("exchangesList");
 %>
 
-<body style="background-color: mintcream">
-<button onclick="location.href='index'">Назад до меню</button>
-<H1 align="center">Меню біржі</H1>
+<body>
+<div id="headBlock">
+    <div>
+        <button onclick="location.href='index'">Назад до меню</button>
+    </div>
+    <div>
+        <H1 align="center">Меню біржі</H1>
+    </div>
+</div>
 
 <div id="exDiv" class="view">
-    <table id="extbl" border="light" style="background-color: lightcyan">
+    <table id="extbl" border="light" style="background-color: lightcyan; width: 90%; font-weight: bold">
         <tr align="center" style="background-color: darkblue; color: ghostwhite">
             <th>Номер</th>
             <th>ЄДРПОУ</th>
@@ -73,7 +90,7 @@
             <th>Кількість лотів</th>
             <th>Оціночна вартість</th>
         </tr>
-        <%for (Exchange ex: exchangeList){%>
+        <%for (Exchange ex : exchangeList) {%>
         <tr class="exTr">
             <td class="idEx"><%=ex.getId()%></td>
             <td><%=ex.getInn()%></td>

@@ -963,7 +963,7 @@ public class AssetController {
     private @ResponseBody String delPay(@RequestParam("payId") Long payId){
         Pay pay = payService.getPay(payId);
         Lot lot = lotService.getLot(pay.getLotId());
-        if(lot.getLotType()==1) {
+        if (lot.getLotType() == 1) {
             List<Asset> assetsByLot = lotService.getAssetsByLot(pay.getLotId());
             BigDecimal lotFactPrice = lot.getFactPrice();
 
@@ -980,21 +980,17 @@ public class AssetController {
 
                 if (i == assetsByLot.size() - 1) {
                     minusByAsset = totalToMinus.subtract(currentMinus);
-                }
-                else
-                minusByAsset = totalToMinus.multiply(coeff).setScale(2, BigDecimal.ROUND_HALF_UP);
+                } else
+                    minusByAsset = totalToMinus.multiply(coeff).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                if(pay.getPaySource().equals("Біржа")) {
+                if (pay.getPaySource().equals("Біржа")) {
                     asset.setPaysBid(asset.getPaysBid().subtract(minusByAsset));
-                //    asset.setBidPayDate(date); //С этого места
-                }
-                else{
+                    //    asset.setBidPayDate(date); //С этого места
+                } else {
                     asset.setPaysCustomer(asset.getPaysCustomer().subtract(minusByAsset));
-                //    asset.setCustomerPayDate(date);
+                    //    asset.setCustomerPayDate(date);
                 }
                 currentMinus = currentMinus.add(minusByAsset);
-
-
                 assetService.updateAsset(asset);
             }
 

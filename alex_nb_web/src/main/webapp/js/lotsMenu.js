@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    lotsCalculations()
+    lotsCalculations();
 });
 function lotsCalculations(){
     var trL = $('.trL');

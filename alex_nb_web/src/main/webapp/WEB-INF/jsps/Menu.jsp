@@ -19,42 +19,71 @@
             cursor: pointer;
         }
         #reportsButton{
-            background-color: darkgreen;
-            color: white;
-            border-radius: 100%;
-            width: 80px ;
+            width: 80px;
             height: 60px;
-            font-size: 25px
         }
         #reportsButton:hover{
-            background-color: lightgreen;
-            color: black;
-            width: 100px ;
-            height: 75px;
-            font-weight: bold;
-            font-size: 30px
+            cursor: pointer;
+            width: 90px ;
+            height: 70px;
+        }
+        body{
+            background-image: url(images/menu.jpg);
+            background-size: 100%;
+        }
+        .menu-button button{
+            width: 160px;
+            height: 50px;
+            font-size: 30px;
+            font-weight: bolder;
+        }
+        .menu-button div{
+            height: 70px;
+        }
+        #lotBut:hover{
+            border: double cyan;
+            color: cyan;
+        }
+        #bidBut:hover{
+            border: double sandybrown;
+            color: sandybrown;
+        }
+        #exBut:hover{
+            border: double darkblue;
+            color: darkblue;
+        }
+        #assButt:hover{
+            border: double darkgreen;
+            color: darkgreen;
+        }
+        #crdButt:hover{
+            border: double blue;
+            color: blue ;
         }
     </style>
 </head>
 
-<body id="bd" style="background-color: mintcream">
-
-<h2>Вітаємо, ${userId} !</h2>
-<h1 align="center"> ГОЛОВНЕ МЕНЮ </h1>
-
+<body id="bd">
+<div>
+    <h2>Вітаємо, ${userId} !</h2>
+    <h1 align="center"> ГОЛОВНЕ МЕНЮ </h1>
+</div>
 <div class="menu-button" align="center">
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="exBut" onclick="location.href = 'exMenu'">Біржі</button>
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="bidBut" onclick="location.href = 'bidMenu'">Аукціони</button>
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="assButt" >Об'єкти</button>
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="crdButt" >Кредити</button>
+    <div id="headButBlock">
+        <button id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
+        <button id="bidBut" onclick="location.href = 'bidMenu'">Аукціони</button>
+        <button id="exBut" onclick="location.href = 'exMenu'">Біржі</button>
+    </div>
+    <div id="objButBlock">
+        <button id="assButt">Об'єкти</button>
+        <button id="crdButt">Кредити</button>
+    </div>
+    <div id="repButBlock">
+        <img id="reportsButton" src="images/reports.png" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів"/>
+    </div>
 </div>
 
-<div align="center">
-    <br>
-    <br>
-    <button id="reportsButton" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів">Звіти</button>
-</div>
+
 
 </body>
 </html>
