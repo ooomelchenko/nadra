@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Створення лоту</title>
+    <link rel="stylesheet" media="screen" type="text/css" href="css/lotCreatorStyle.css"/>
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
@@ -24,15 +25,15 @@
                         for (var i = 0; i < asset.length; i++) {
                             var approveNBU = asset[i].approveNBU ? "Так" : "Ні";
                             var tr = $('<tr class="ftr" align="center">' +
-                                    '<td class="idAsset">' + asset[i].id + '</td>' +
-                                    '<td>' + asset[i].inn + '</td>' +
-                                    '<td>' + asset[i].asset_name + '</td>' +
-                                    '<td>' + asset[i].asset_descr + '</td>' +
-                                    '<td>' + asset[i].region + '</td>' +
-                                    '<td>' + asset[i].zb + '</td>' +
-                                    '<td>' + asset[i].rv + '</td>' +
-                                    '<td>' + approveNBU + '</td>' +
-                                    '</tr>');
+                                '<td class="idAsset">' + asset[i].id + '</td>' +
+                                '<td>' + asset[i].inn + '</td>' +
+                                '<td>' + asset[i].asset_name + '</td>' +
+                                '<td>' + asset[i].asset_descr + '</td>' +
+                                '<td>' + asset[i].region + '</td>' +
+                                '<td>' + asset[i].zb + '</td>' +
+                                '<td>' + asset[i].rv + '</td>' +
+                                '<td>' + approveNBU + '</td>' +
+                                '</tr>');
                             var addButton = $('<button id="addButton">Додати в лот</button>');
                             addButton.on('click', function () {
                                 var thisTr = $(this).parent();
@@ -103,9 +104,9 @@
                     success(ok){
                         if (ok == '1') {
                             alert("Лот створено!");
-                           // window.close();
+                            // window.close();
                             //window.open("lotRedactor");
-                            location.href="lotRedactor";
+                            location.href = "lotRedactor";
                         }
                         else
                             alert("Лот не створено!");
@@ -117,71 +118,61 @@
 </head>
 
 <body style="background-color: mintcream">
-<button onclick="location.href='lotMenu'">Назад</button>
-<div id="credSort" class="choice-box">
+<div>
+    <button onclick="location.href='lotMenu'">Назад</button>
     <H1 align="center">Створення нового лоту</H1>
-    <table width="100%">
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td colspan="2">Інвентарний номер</td>
-                        <td colspan="3">
-                            <input input id="in" type="text" style="background-color: lightgreen; width: 100%">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="3">
-                            <button id="findCrdt" class="button" style="width: 100%">Знайти</button>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-
-            <td align="top">
-                <table>
-                    <tr>
-                        <td colspan="1">Коментар</td>
-                        <td colspan="2"><input id="commId" type="text" style="width: 100%"></td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td>
-                            <table border="1" class="table" style="background-color: lightcyan" id="tblParam">
-                                <tr>
-                                    <th>Ціна лоту, грн.</th>
-                                    <th>К-ть об'єктів</th>
-                                </tr>
-                                <tr>
-                                    <td id="priceId" align="center">0</td>
-                                    <td id="kolId" align="center">0</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: none" colspan="2">
-                                        <button id="showLCrdts" class="button"
-                                                style="background-color: cyan; width: 100%"> Показати список лоту
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td>
-                            <button style="font: inherit; color: darkblue; width: 120px; height: 60px"
-                                    id="createLot" class="button">СТВОРИТИ ЛОТ
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-    </table>
 </div>
 
-<div id="assetList" class="view" style="width: 100%">
-    <table id="findTab" class="table" border="2" hidden="hidden" bgcolor="#ffffe0">
+<div id="credSort" class="choice-box">
+
+    <div>
+        <table border="1" class="table" style="background-color: lightcyan; width: 100%" id="tblParam">
+            <tr>
+                <td colspan="2"><input id="commId" type="text" style="width: 100%" placeholder="Коментар"></td>
+            </tr>
+            <tr>
+                <th>Ціна лоту, грн.</th>
+                <th>К-ть об'єктів</th>
+            </tr>
+            <tr>
+                <td id="priceId" align="center">0</td>
+                <td id="kolId" align="center">0</td>
+            </tr>
+            <tr>
+                <td style="border: none" colspan="2">
+                    <button id="showLCrdts" class="button"
+                            style="background-color: cyan; width: 100%"> Показати список лоту
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div align="center">
+        <button id="createLot" class="button" title="Натисніть для створення лоту з обраних об'єктів" >
+            СТВОРИТИ ЛОТ
+        </button>
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr>
+                <td>
+                    <input id="in" type="text" placeholder="Введіть ІНН для пошуку" style="background-color: #a0ffa0; width: 100%">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="findCrdt" class="button" style="width: 100%">Знайти</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<br/>
+
+<div id="assetList" class="view">
+    <table id="findTab" class="table" border="2" hidden="hidden" bgcolor="#90ee90">
         <tr align="center" bgcolor="#ffefd5">
             <th>ID</th>
             <th>Інвентарний №</th>
@@ -193,8 +184,8 @@
             <th>В заставі НБУ</th>
         </tr>
     </table>
-    <table id="lotTab" class="table" border="3" hidden="hidden">
-        <tr align="center" bgcolor="#90ee90">
+    <table id="lotTab" class="table" border="2" hidden="hidden">
+        <tr align="center" bgcolor="#00ffff">
             <th>ID</th>
             <th>Інвентарний №</th>
             <th>Назва активу</th>
@@ -205,19 +196,28 @@
             <th>В заставі НБУ</th>
         </tr>
         <% List<Asset> assetList = (List<Asset>) request.getAttribute("assetList"); %>
-        <% for(Asset asset: assetList){
-        if(asset.getLot()==null && !asset.getFondDecision().equals("Відправлено до ФГВФО") && !asset.getFondDecision().equals("") )
-        {
+        <% for (Asset asset : assetList) {
+            if (asset.getLot() == null /*&& !asset.getLot().getFondDecision().equals("Відправлено до ФГВФО") && !asset.getLot().getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idAsset"><%=asset.getId()%></td>
-            <td><%=asset.getInn()%></td>
-            <td><%=asset.getAsset_name()%></td>
-            <td><%=asset.getAsset_descr()%></td>
-            <td><%=asset.getRegion()%></td>
-            <td><%=asset.getZb()%></td>
-            <td><%=asset.getRv()%></td>
-            <td><%if(asset.isApproveNBU())out.print("Так");else out.print("Ні");%></td>
+            <td class="idAsset"><%=asset.getId()%>
+            </td>
+            <td><%=asset.getInn()%>
+            </td>
+            <td><%=asset.getAsset_name()%>
+            </td>
+            <td><%=asset.getAsset_descr()%>
+            </td>
+            <td><%=asset.getRegion()%>
+            </td>
+            <td><%=asset.getZb()%>
+            </td>
+            <td><%=asset.getRv()%>
+            </td>
+            <td><%
+                if (asset.isApproveNBU()) out.print("Так");
+                else out.print("Ні");
+            %></td>
         </tr>
         <%
                 }

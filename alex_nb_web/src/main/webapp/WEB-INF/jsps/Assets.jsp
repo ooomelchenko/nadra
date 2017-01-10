@@ -348,7 +348,7 @@
                     $(this).find("div").show();
                 }
             });
-            $('.acceptEx').dblclick(function () {
+            /*$('.acceptEx').dblclick(function () {
                 if ($(this).find(".inputAccEx").is(":hidden")) {
                     $(this).find(".inputAccEx").show();
                     $(this).find("div").hide();
@@ -381,7 +381,7 @@
                     $(this).find(".okButton").remove();
                     $(this).find("div").show();
                 }
-            });
+            });*/
 
             $('.planSaleDate').dblclick(function(){
                 var planSaleTd = $(this);
@@ -633,7 +633,7 @@
                     </div>
                 </div>
             </th>
-            <%--<th>Дата прийняття рішення ФГВФО</th>
+            <th>Дата прийняття рішення ФГВФО</th>
             <th>Рівень прийняття рішення</th>
             <th>
                 <div class="spoiler_links" style="width: 100%; height: 100%">^Номер рішення^
@@ -644,7 +644,7 @@
                         <%}%>
                     </div>
                 </div>
-            </th>--%>
+            </th>
             <th>Погоджена початкова ціна</th>
             <th>Погоджена біржа</th>
             <th>Необхідно перепогодити</th>
@@ -681,9 +681,9 @@
             <td class="residualToPay" style="font-weight: bold"><%if(asset.getFactPrice()!=null )out.print(asset.getFactPrice().subtract(asset.getPaysBid().add(asset.getPaysCustomer())));%></td>
             <td class="customerName"><%if(asset.getLot()!=null) out.print(asset.getLot().getCustomerName());%></td>
             <td class="workStage"><%if(asset.getLot()!=null) out.print(asset.getLot().getWorkStage());%></td>
-            <%--<td><input class="inputFondDecDate" value="<%if(asset.getLot()!=null && asset.getLot().getFondDecisionDate()!=null)out.print(sdf.format(asset.getLot().getFondDecisionDate()));%>" hidden="hidden"> <div class="fondDecDat"><%if(asset.getLot()!=null && asset.getLot().getFondDecisionDate()!=null)out.print(sdf.format(asset.getLot().getFondDecisionDate()));%></div></td>
+            <td><%--<input class="inputFondDecDate" value="<%if(asset.getLot()!=null && asset.getLot().getFondDecisionDate()!=null)out.print(sdf.format(asset.getLot().getFondDecisionDate()));%>" hidden="hidden">--%> <div class="fondDecDat"><%if(asset.getLot()!=null && asset.getLot().getFondDecisionDate()!=null)out.print(sdf.format(asset.getLot().getFondDecisionDate()));%></div></td>
             <td>
-                <select class="inputFondDec" name="decisionSelect" style="width: 100%" hidden="hidden">
+                <%--<select class="inputFondDec" name="decisionSelect" style="width: 100%" hidden="hidden">
                     <%
                         if (fondDecisionsList != null) {
                             for (String decision : fondDecisionsList) {
@@ -696,14 +696,14 @@
                             }
                         }
                     %>
-                </select>
+                </select>--%>
                 <div class="fondDec"><%if(asset.getLot()!=null && asset.getLot().getFondDecision() != null) out.print(asset.getLot().getFondDecision());%></div>
             </td>
             <td class="fondDecNum"><%if(asset.getLot()!=null && asset.getLot().getDecisionNumber()!=null)out.print(asset.getLot().getDecisionNumber());%></td>
-            --%><td class="acceptPrice"><div class="acceptDiv"><%if(asset.getAcceptPrice()!=null) out.print(asset.getAcceptPrice());%></div><input class="inputAcceptPrice" type="number" step="0.01" hidden="hidden"></td>
+            <td class="acceptPrice"><div class="acceptDiv"><%if(asset.getAcceptPrice()!=null) out.print(asset.getAcceptPrice());%></div><input class="inputAcceptPrice" type="number" step="0.01" hidden="hidden"></td>
             <td class="acceptEx" title="клікніть двічі для зміни погодженої фондом біржі">
                 <div class="accExDiv"><%if(asset.getLot()!=null && asset.getLot().getAcceptExchange()!=null) out.print(asset.getLot().getAcceptExchange());%></div>
-                <select class="inputAccEx" name="exSelect" style="width: 100%" hidden="hidden">
+                <%--<select class="inputAccEx" name="exSelect" style="width: 100%" hidden="hidden">
                     <%
                         if (allExchangeList != null) {
                             for (Exchange ex : allExchangeList) {
@@ -715,7 +715,7 @@
                             }
                         }
                     %>
-                </select>
+                </select>--%>
             </td>
             <td class ="isNeedNewFondDec">
                 <%

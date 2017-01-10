@@ -31,18 +31,16 @@
         }
         #logTable{
             width: 15%;
-            font-weight: bolder;
             font-size: x-large;
         }
         button{
             font: inherit;
             color: darkblue;
-
+            font-weight: bolder;
             width: 100%;
         }
         input{
             font-size: x-large;
-            font-weight: bolder;
             width:100%;
         }
     </style>

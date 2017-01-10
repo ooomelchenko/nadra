@@ -186,7 +186,7 @@
 </div>
 
 <div id="assetList" class="view" style="width: 100%">
-    <table id="findTab" class="table" border="2" hidden="hidden" bgcolor="#ffffe0">
+    <table id="findTab" class="table" border="2" hidden="hidden" bgcolor="#0000cd">
         <tr align="center" bgcolor="#ffefd5">
             <th>ID_BARS</th>
             <th>Інвентарний №</th>
@@ -199,7 +199,7 @@
         </tr>
     </table>
     <table id="lotTab" class="table" border="3" hidden="hidden" bgcolor="lightcyan">
-        <tr align="center" bgcolor="cyan">
+        <tr align="center" bgcolor="#00ffff">
             <th>ID_BARS</th>
             <th>Інвентарний №</th>
             <th>Боржник</th>

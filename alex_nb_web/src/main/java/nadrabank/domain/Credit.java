@@ -93,12 +93,12 @@ public class Credit implements Serializable {
     private Boolean nbuPladge;
     @Column(name = "IS_IT_SOLD")
     private Boolean isSold;
-    @Column(name = "FOND_DEC_DATE")
+    /*@Column(name = "FOND_DEC_DATE")
     private Date fondDecisionDate;
     @Column(name = "FOND_DECISION")
     private String fondDecision;
     @Column(name = "FOND_DECISION_NUM")
-    private String decisionNumber;
+    private String decisionNumber;*/
     @Column(name = "ACCEPTED_PRICE")
     private BigDecimal acceptPrice;
     @Column(name = "PAYMENTS_BID")
@@ -111,10 +111,10 @@ public class Credit implements Serializable {
     private Date customerPayDate;
     @Column(name = "PLAN_SALE_DATE")
     private Date planSaleDate;
-    @Column(name = "ACCEPTED_EXCHANGE")
+    /*@Column(name = "ACCEPTED_EXCHANGE")
     private String acceptExchange;
     @Column(name = "NEED_NEW_FD")
-    private boolean neadNewFondDec;
+    private boolean neadNewFondDec;*/
 
     @Column(name = "LOT_ID")
     private Long lot;
@@ -385,7 +385,7 @@ public class Credit implements Serializable {
         this.rv = rv;
     }
 
-    public Date getFondDecisionDate() {
+    /*public Date getFondDecisionDate() {
         return fondDecisionDate;
     }
     public void setFondDecisionDate(Date fondDecisionDate) {
@@ -404,7 +404,7 @@ public class Credit implements Serializable {
     }
     public void setDecisionNumber(String decisionNumber) {
         this.decisionNumber = decisionNumber;
-    }
+    }*/
 
     public BigDecimal getAcceptPrice() {
         return acceptPrice;
@@ -462,7 +462,7 @@ public class Credit implements Serializable {
         this.firstStartPrice = firstStartPrice;
     }
 
-    public String getAcceptExchange() {
+    /*public String getAcceptExchange() {
         return acceptExchange;
     }
     public void setAcceptExchange(String acceptExchange) {
@@ -474,7 +474,7 @@ public class Credit implements Serializable {
     }
     public void setNeadNewFondDec(boolean neadNewFondDec) {
         this.neadNewFondDec = neadNewFondDec;
-    }
+    }*/
 
     public Credit() {
     }
@@ -520,17 +520,12 @@ public class Credit implements Serializable {
                 ", factPrice=" + factPrice +
                 ", nbuPladge=" + nbuPladge +
                 ", isSold=" + isSold +
-                ", fondDecisionDate=" + fondDecisionDate +
-                ", fondDecision='" + fondDecision + '\'' +
-                ", decisionNumber='" + decisionNumber + '\'' +
                 ", acceptPrice=" + acceptPrice +
                 ", paysBid=" + paysBid +
                 ", paysCustomer=" + paysCustomer +
                 ", bidPayDate=" + bidPayDate +
                 ", customerPayDate=" + customerPayDate +
                 ", planSaleDate=" + planSaleDate +
-                ", acceptExchange='" + acceptExchange + '\'' +
-                ", neadNewFondDec=" + neadNewFondDec +
                 ", lot=" + lot +
                 '}';
     }

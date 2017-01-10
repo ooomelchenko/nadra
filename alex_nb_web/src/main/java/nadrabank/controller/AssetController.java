@@ -184,8 +184,8 @@ public class AssetController {
 
             row.getCell(0).setCellValue(i);
             row.getCell(1).setCellValue(380764);
-            if (credit.getFondDecisionDate() != null) {
-                row.getCell(2).setCellValue(credit.getFondDecisionDate());
+            if (lot.getFondDecisionDate() != null) {
+                row.getCell(2).setCellValue(lot.getFondDecisionDate());
                 row.getCell(2).setCellStyle(cellStyle);
             }
             if (credit.getLot() != null) {
@@ -1697,7 +1697,7 @@ public class AssetController {
             String[] idMass = (String[]) session.getAttribute("creditsListToLot");
             for (String id : idMass) {
                 Credit cr = creditService.getCredit(Long.parseLong(id));
-                if(cr.getLot()==null&&cr.getFondDecisionDate()!=null)
+                /*if(cr.getLot()==null&&cr.getFondDecisionDate()!=null)*/
                 creditList.add(cr);
             }
 
@@ -1910,10 +1910,12 @@ public class AssetController {
             String customerName = "";
             String workStage = "";
             String fondDecisionDate = "";
-            String acceptedPrice="";
+            String fondDecision = "";
+            String fondDecisionNumber = "";
 
-            if (cr.getFondDecisionDate() != null)
-                fondDecisionDate = String.valueOf(sdfpoints.format(cr.getFondDecisionDate()));
+            String acceptedPrice="";
+            String acceptedExchange="";
+
             if(cr.getAcceptPrice()!=null)
                 acceptedPrice=String.valueOf(cr.getAcceptPrice());
             String actSignedDate = "";
@@ -1938,6 +1940,12 @@ public class AssetController {
                 }
                 customerName = lot.getCustomerName();
                 workStage = lot.getWorkStage();
+                if (lot.getFondDecisionDate() != null)
+                    fondDecisionDate = String.valueOf(sdfpoints.format(lot.getFondDecisionDate()));
+                fondDecision=lot.getFondDecision();
+                fondDecisionNumber=lot.getDecisionNumber();
+                acceptedExchange=lot.getAcceptExchange();
+
                 if (lot.getActSignedDate() != null)
                 actSignedDate = sdfpoints.format(lot.getActSignedDate());
             }
@@ -1969,10 +1977,10 @@ public class AssetController {
                     + "||" + customerName
                     + "||" + workStage
                     + "||" + fondDecisionDate
-                    + "||" + cr.getFondDecision()
-                    + "||" + cr.getDecisionNumber()
+                    + "||" + fondDecision
+                    + "||" + fondDecisionNumber
                     + "||" + acceptedPrice
-                    + "||" + cr.getAcceptExchange()
+                    + "||" + acceptedExchange
                     + "||" + actSignedDate
                     + "||" + planSaleDate
             );
