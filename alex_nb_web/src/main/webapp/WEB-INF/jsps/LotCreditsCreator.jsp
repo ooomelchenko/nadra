@@ -12,28 +12,32 @@
 
             calculate();
 
-            $('#findCrdt').on('click', function () {
+            $('#findObjBut').on('click', function () {
                 ltab.hide();
                 $('#findTab').find('.ftr').remove();
                 ftab.show();
                 $.ajax({
                     url: "creditsByClient",
                     method: "POST",
-                    data: {inn: $('#inn').val(),
-                        idBars: $('#idBars').val() },
-                    success(crdt){
-                        for (var i = 0; i < crdt.length; i++) {
-                            var approveNBU = crdt[i].nbuPladge ? "Так" : "Ні";
+                    data: {
+                        inn: $('#inn').val(),
+                        idBars: $('#idBars').val()
+                    },
+                    success(obj){
+
+                        for (var i = 0; i < obj.length; i++) {
+                            var approveNBU = obj[i].nbuPladge ? "Так" : "Ні";
                             var tr = $('<tr class="ftr" align="center">' +
-                                    '<td class="idAsset">' + crdt[i].id + '</td>' +
-                                    '<td>' + crdt[i].inn + '</td>' +
-                                    '<td>' + crdt[i].fio + '</td>' +
-                                    '<td>' + crdt[i].product + '</td>' +
-                                    '<td>' + crdt[i].region + '</td>' +
-                                    '<td>' + crdt[i].zb + '</td>' +
-                                    '<td>' + crdt[i].rv + '</td>' +
-                                    '<td>' + approveNBU + '</td>' +
-                                    '</tr>');
+                                '<td class="idCredit">' + obj[i].id + '</td>' +
+                                '<td>' + obj[i].inn + '</td>' +
+                                '<td>' + obj[i].fio + '</td>' +
+                                '<td>' + obj[i].product + '</td>' +
+                                '<td>' + obj[i].region + '</td>' +
+                                '<td>' + obj[i].zb + '</td>' +
+                                '<td>' + obj[i].rv + '</td>' +
+                                '<td>' + approveNBU + '</td>' +
+                                '</tr>');
+
                             var addButton = $('<button id="addButton">Додати в лот</button>');
                             addButton.on('click', function () {
                                 var thisTr = $(this).parent();
@@ -54,9 +58,9 @@
                             tr.append(addButton);
 
                             var idF = tr.children().first().text();
-                            var lids = ltab.find('.idAsset');
+                            var lids = ltab.find('.idCredit');
                             for (var j = 0; j < lids.length; j++) {
-                                if (lids[j].innerHTML == idF) {
+                                if (lids[j].text() == idF) {
                                     addButton.remove();
                                     tr.append(messageTd);
                                 }
@@ -70,7 +74,7 @@
                 ltab.show();
             });
             function calculate() {
-                var tdId = ltab.find('.idAsset');
+                var tdId = ltab.find('.idCredit');
 
                 var idl = "";
                 for (var i = 0; i < tdId.length; i++) {
@@ -89,7 +93,7 @@
             }
 
             $('#createLot').on('click', function createLot() {
-                var tdId = ltab.find('.idAsset');
+                var tdId = ltab.find('.idCredit');
                 var idl = "";
                 for (var i = 0; i < tdId.length; i++) {
                     idl = idl + ',' + tdId[i].innerHTML;
@@ -104,7 +108,7 @@
                     success(ok){
                         if (ok == '1') {
                             alert("Лот створено!");
-                            location.href="lotRedactor";
+                            location.href = "lotRedactor";
                         }
                         else
                             alert("Лот не створено!");
@@ -126,19 +130,19 @@
                     <tr>
                         <td colspan="2">ІНН</td>
                         <td colspan="3">
-                            <input input id="inn" type="text" style="background-color: aliceblue; width: 100%">
+                            <input id="inn" type="text" style="background-color: aliceblue; width: 100%">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">ID_BARS</td>
                         <td colspan="3">
-                            <input input id="idBars" type="text" style="background-color: aliceblue; width: 100%">
+                            <input id="idBars" type="text" style="background-color: aliceblue; width: 100%">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="3">
-                            <button id="findCrdt" class="button" style="width: 100%">Знайти</button>
+                            <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
                         </td>
                     </tr>
                 </table>
@@ -211,21 +215,31 @@
         </tr>
         <%
             List<Credit> creditList = (List<Credit>) request.getAttribute("creditList");
-            for(Credit crdt: creditList){
-               // if(crdt.getLot()==null && !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("") ){
+            for (Credit crdt : creditList) {
+                // if(crdt.getLot()==null && !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("") ){
         %>
         <tr align="center">
-            <td class="idAsset"><%=crdt.getId()%></td>
-            <td><%=crdt.getInn()%></td>
-            <td><%=crdt.getFio()%></td>
-            <td><%=crdt.getProduct()%></td>
-            <td><%=crdt.getRegion()%></td>
-            <td><%=crdt.getZb()%></td>
-            <td><%=crdt.getRv()%></td>
-            <td><%if(crdt.getNbuPladge())out.print("Так");else out.print("Ні");%></td>
+            <td class="idCredit"><%=crdt.getId()%>
+            </td>
+            <td><%=crdt.getInn()%>
+            </td>
+            <td><%=crdt.getFio()%>
+            </td>
+            <td><%=crdt.getProduct()%>
+            </td>
+            <td><%=crdt.getRegion()%>
+            </td>
+            <td><%=crdt.getZb()%>
+            </td>
+            <td><%=crdt.getRv()%>
+            </td>
+            <td><%
+                if (crdt.getNbuPladge()) out.print("Так");
+                else out.print("Ні");
+            %></td>
         </tr>
         <%
-            //    }
+                //    }
             }
         %>
     </table>

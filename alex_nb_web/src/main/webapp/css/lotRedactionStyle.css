@@ -116,9 +116,6 @@
     background-color: lawngreen;
     color: black;
 }
-#addPay{
-    font-weight: bold;
-}
 #fdTab{
     cursor: pointer;
     background-color: whitesmoke;
@@ -183,4 +180,16 @@ select, option{
     height: 20px;
     cursor: pointer;
     border: solid red;
+}
+#bar{
+    display: table;
+}
+#bar div{
+    display: table-cell;
+}
+#financeBlock{
+    width: 80%;
+}
+#payBlock{
+    width: 20%;
 }

@@ -872,7 +872,7 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/addPayToLot", method = RequestMethod.POST)
-    private @ResponseBody String addPayToLot(@RequestParam("lotId") String idLot,
+    private @ResponseBody String addPayToLot(@RequestParam("lotId") Long idLot,
                                              @RequestParam("payDate") String payDate,
                                              @RequestParam("pay") BigDecimal pay,
                                              @RequestParam("paySource") String paySource) {
@@ -882,9 +882,9 @@ public class AssetController {
         } catch (ParseException e) {
             return "0";
         }
-        Lot lot = lotService.getLot(Long.parseLong(idLot));
+        Lot lot = lotService.getLot(idLot);
         if(lot.getLotType()==1) {
-            List<Asset> assetsByLot = lotService.getAssetsByLot(Long.parseLong(idLot));
+            List<Asset> assetsByLot = lotService.getAssetsByLot(idLot);
             BigDecimal lotFactPrice = lot.getFactPrice();
 
             BigDecimal assetsTotalPays = new BigDecimal(0.00);
@@ -993,12 +993,51 @@ public class AssetController {
                 currentMinus = currentMinus.add(minusByAsset);
                 assetService.updateAsset(asset);
             }
-
-            if (payService.delete(payId))
+            pay.setHistoryLotId(pay.getLotId());
+            pay.setLotId(null);
+            if (payService.updatePay(pay))
                 return "1";
             else return "0";
         }
-        return "1";
+        else if (lot.getLotType() == 0) {
+            List<Credit> creditsByLot = lotService.getCRDTSByLot(lot);
+            BigDecimal lotFactPrice = lot.getFactPrice();
+
+            BigDecimal totalToMinus = pay.getPaySum();
+            BigDecimal currentMinus = new BigDecimal(0.00);
+
+            for (int i = 0; i < creditsByLot.size(); i++) {
+
+                Credit credit = creditsByLot.get(i);
+
+                BigDecimal coeff = getCoefficient(credit.getFactPrice(), lotFactPrice);
+
+                BigDecimal minusByAsset;
+
+                if (i == creditsByLot.size() - 1) {
+                    minusByAsset = totalToMinus.subtract(currentMinus);
+                } else
+                    minusByAsset = totalToMinus.multiply(coeff).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                if (pay.getPaySource().equals("Біржа")) {
+                    credit.setPaysBid(credit.getPaysBid().subtract(minusByAsset));
+                    //    asset.setBidPayDate(date); //С этого места
+                } else {
+                    credit.setPaysCustomer(credit.getPaysCustomer().subtract(minusByAsset));
+                    //    asset.setCustomerPayDate(date);
+                }
+                currentMinus = currentMinus.add(minusByAsset);
+                creditService.updateCredit(credit);
+            }
+
+            pay.setHistoryLotId(pay.getLotId());
+            pay.setLotId(null);
+            if (payService.updatePay(pay))
+                return "1";
+            else return "0";
+        }
+        else
+        return "0";
     }
 
     @RequestMapping(value = "/setLotToPrint", method = RequestMethod.GET)
@@ -1658,6 +1697,7 @@ public class AssetController {
         } else {
             List<Asset> assetList = new ArrayList<>();
             m.addAttribute("assetList", assetList);
+            m.addAttribute("lotType", 1);
             return "LotCreator";
         }
     }
@@ -1673,6 +1713,7 @@ public class AssetController {
                 assetList.add(assetService.getAsset(Long.parseLong(id)));
             }
             m.addAttribute("assetList", assetList);
+            m.addAttribute("lotType", 1);
             return "LotCreator";
         }
     }
@@ -1684,7 +1725,9 @@ public class AssetController {
         } else {
             List<Credit> creditList = new ArrayList<>();
             m.addAttribute("creditList", creditList);
-            return "LotCreditsCreator";
+            m.addAttribute("lotType", 0);
+            //return "LotCreditsCreator";
+            return "LotCreator";
         }
     }
 
@@ -1702,7 +1745,9 @@ public class AssetController {
             }
 
             m.addAttribute("creditList", creditList);
-            return "LotCreditsCreator";
+            m.addAttribute("lotType", 0);
+            //return "LotCreditsCreator";
+            return "LotCreator";
         }
     }
 

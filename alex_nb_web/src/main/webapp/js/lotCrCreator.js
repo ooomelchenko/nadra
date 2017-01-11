@@ -1,31 +1,30 @@
 $(document).ready(function () {
-    var ftab = $('.findTab');//ok
-    var ltab = $('.lotTab');//ok
+    var ftab = $('.findTab');
+    var ltab = $('.lotTab');
 
     calculate();
 
-    $('#showLCrdts').on('click', function () {
-        ftab.hide();
-        ltab.show();
-    });
     $('#findObjBut').on('click', function () {
         ltab.hide();
         $('.findTab').find('.ftr').remove();
         ftab.show();
 
         $.ajax({
-            url: "objectsByInNum",
+            url: "creditsByClient",
             method: "POST",
-            data: {inn: $('#inn').val()},
+            data: {
+                inn: $('#inn').val(),
+                idBars: $('#idBars').val()
+            },
             success(obj){
 
                 for (var i = 0; i < obj.length; i++) {
-                    var approveNBU = obj[i].approveNBU ? "Так" : "Ні";
+                    var approveNBU = obj[i].nbuPladge ? "Так" : "Ні";
                     var tr = $('<tr class="ftr" align="center">' +
                         '<td class="idObj">' + obj[i].id + '</td>' +
                         '<td>' + obj[i].inn + '</td>' +
-                        '<td>' + obj[i].asset_name + '</td>' +
-                        '<td>' + obj[i].asset_descr + '</td>' +
+                        '<td>' + obj[i].fio + '</td>' +
+                        '<td>' + obj[i].product + '</td>' +
                         '<td>' + obj[i].region + '</td>' +
                         '<td>' + obj[i].zb + '</td>' +
                         '<td>' + obj[i].rv + '</td>' +
@@ -50,6 +49,7 @@ $(document).ready(function () {
 
                     ftab.append(tr);
                     tr.append(addButton);
+
                     var idF = tr.children().first().text();
                     var lids = ltab.find('.idObj');
                     for (var j = 0; j < lids.length; j++) {
@@ -62,6 +62,10 @@ $(document).ready(function () {
             }
         });
     });
+    $('#showLCrdts').on('click', function () {
+        ftab.hide();
+        ltab.show();
+    });
 
     function calculate() {
         var tdId = ltab.find('.idObj');
@@ -71,7 +75,7 @@ $(document).ready(function () {
             idl = idl + ',' + tdId[i].innerHTML;
         }
         $.ajax({
-            url: "sumByInvs",
+            url: "sumByIDBars",
             method: "POST",
             data: {idMass: idl},
             success(summ){
@@ -89,7 +93,7 @@ $(document).ready(function () {
             idl = idl + ',' + tdId[i].innerHTML;
         }
         $.ajax({
-            url: "createSLot",
+            url: "createCreditLot",
             method: "POST",
             data: {
                 idMass: idl,
@@ -104,7 +108,5 @@ $(document).ready(function () {
                     alert("Лот не створено!");
             }
         });
-        //createCreditLot
     });
-
 });

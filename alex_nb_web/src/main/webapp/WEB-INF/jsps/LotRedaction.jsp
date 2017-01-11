@@ -7,7 +7,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.TreeSet" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"  %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%request.setCharacterEncoding("UTF-8");%>
 <%response.setCharacterEncoding("UTF-8");%>
 <%
@@ -16,8 +16,8 @@
     List<String> bidStatusList = (List<String>) request.getAttribute("bidStatusList");
     List<String> statusList = (List<String>) request.getAttribute("statusList");
     List<String> bidResultList = (List<String>) request.getAttribute("bidResultList");
-    List<Bid> allBidsList = (List<Bid>)request.getAttribute("allBidsList");
-    Set<Bid> bidsHistoryList = (TreeSet<Bid>)request.getAttribute("bidsHistoryList");
+    List<Bid> allBidsList = (List<Bid>) request.getAttribute("allBidsList");
+    Set<Bid> bidsHistoryList = (TreeSet<Bid>) request.getAttribute("bidsHistoryList");
     String userName = (String) request.getAttribute("user");
     List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");
     List<Exchange> allExchangeList = (List<Exchange>) request.getAttribute("allExchangeList");
@@ -35,21 +35,25 @@
     <script>
 
         $(document).ready(function () {
-            var payTab= $('#paysTab');
+            var payTab = $('#paysTab');
             var dp = $('.datepicker');
-            var lotID=$('#lotId');
+            var lotID = $('#lotId');
             var addPayButt = $('#addPay');
-            dp.datepicker({dateFormat: "yy-mm-dd", dayNamesMin: ["Нд","Пн","Вт","Ср","Чт","Пт","Сб"],
-                monthNames: ["січень","лютий","березень", "квітень", "травень","червень", "липень","серпень","вересень","жовтень","листопад","грудень"] });
-            $('#inputFondDecDate').datepicker({dateFormat: "yy-mm-dd", dayNamesMin: ["Нд","Пн","Вт","Ср","Чт","Пт","Сб"],
-                monthNames: ["січень","лютий","березень", "квітень", "травень","червень", "липень","серпень","вересень","жовтень","листопад","грудень"] });
+            dp.datepicker({
+                dateFormat: "yy-mm-dd", dayNamesMin: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                monthNames: ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"]
+            });
+            $('#inputFondDecDate').datepicker({
+                dateFormat: "yy-mm-dd", dayNamesMin: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                monthNames: ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"]
+            });
             function getCountSum() {
-                payTab.empty();
+                $('.payLine').remove();
                 $.ajax({
                     url: "countSumByLot",
                     method: "POST",
-                    data: {lotId: lotID.text() },
-                    success: function(countSum){
+                    data: {lotId: lotID.text()},
+                    success: function (countSum) {
                         $('#count').text(countSum[0]);
                         $('#sum').text(countSum[1]);
                     }
@@ -61,7 +65,7 @@
                     success: function (paymentsSum) {
                         $('#paymentsSum').text(paymentsSum);
 
-                        var residualToPay = parseFloat($('#factPrice').val()) - parseFloat(paymentsSum) ;
+                        var residualToPay = parseFloat($('#factPrice').val()) - parseFloat(paymentsSum);
 
                         if (isNaN(Number(residualToPay))) {
                             $('#residualToPay').text($('#factPrice').val());
@@ -74,27 +78,27 @@
                 $.ajax({
                     url: "paymentsByLot",
                     method: "POST",
-                    data: {lotId: lotID.text() },
-                    success: function(payments){
-                        var paysTab = $('#paysTab');
-                        for(var i=0; i<payments.length; i++){
-                            var d = new Date(payments[i].date );
-                            d.setDate(d.getDate()+1);
-                            paysTab.append($('<tr>'+
-                                '<td class="payId" hidden="hidden">'+ payments[i].id +'</td>'+
-                                '<td>'+ d.toISOString().substring(0, 10) +'</td>'+
-                                '<td>'+ payments[i].paySum +'</td>'+
-                                '<td>'+ payments[i].paySource +'</td>'+
-                                '<td><img class="delPayButt" src="images/delete.png" title="натисніть для видалення платежу"/></td>'+
-                                +'</tr>'));
+                    data: {lotId: lotID.text()},
+                    success: function (payments) {
+
+                        for (var i = 0; i < payments.length; i++) {
+                            var d = new Date(payments[i].date);
+                            d.setDate(d.getDate() + 1);
+                            payTab.append($('<tr class="payLine" hidden="hidden">' +
+                                '<td class="payId" hidden="hidden">' + payments[i].id + '</td>' +
+                                '<td>' + d.toISOString().substring(0, 10) + '</td>' +
+                                '<td>' + payments[i].paySum + '</td>' +
+                                '<td>' + payments[i].paySource + '</td>' +
+                                '<td><img class="delPayButt" src="images/delete.png" title="натисніть для видалення платежу"/></td>' +
+                                '</tr>'));
                         }
-                        $('.delPayButt').click(function(){
+                        $('.delPayButt').click(function () {
                             $.ajax({
                                 url: "delPay",
                                 method: "GET",
                                 data: {payId: $(this).parent().parent().find('.payId').text()},
-                                success: function(res){
-                                    if(res=="1"){
+                                success: function (res) {
+                                    if (res == "1") {
                                         alert("Платіж видалено!");
                                         getCountSum();
                                     }
@@ -106,25 +110,27 @@
                     }
                 });
             }
+
             getFileNames(lotID.text(), $("#objType").val());
             getCountSum();
 
-            $('.reBidButton').click(function(){
+            $('.reBidButton').click(function () {
                 $.ajax({
                     url: "reBidByLot",
                     type: "GET",
-                    data:{lotId: lotID.text(),
+                    data: {
+                        lotId: lotID.text(),
                         reqType: $(this).val()
                     },
-                    success: function(res){
-                        if(res==1)
+                    success: function (res) {
+                        if (res == 1)
                             location.reload(true);
                         else alert("Якась халепа!");
                     }
                 })
             });
             $('#delLotButton').click(function () {
-                if($(this).val()==='1'){
+                if ($(this).val() === '1') {
                     $('#delImg').hide();
                     $(this).val('0');
                     //$('#lotTh').css('backgroundColor', "sandybrown");
@@ -143,7 +149,7 @@
                 }
             });
             $('#setSoldButton').click(function () {
-                if($(this).val()==='1'){
+                if ($(this).val() === '1') {
                     $('#soldImg').hide();
                     $(this).val('0');
                     // $('#lotTh').css('backgroundColor', "sandybrown");
@@ -151,13 +157,13 @@
                     $('#sum').css('backgroundColor', "#f0ffff");
                 }
                 else {
-                    if($('#ws').val()!="Угода укладена"){
+                    if ($('#ws').val() != "Угода укладена") {
                         alert("Змініть стадію на 'Угода укладена!'");
                     }
-                    else if($('#factPrice').val()==''){
+                    else if ($('#factPrice').val() == '') {
                         alert('Введіть ціну фактичного продажу!');
                     }
-                    else{
+                    else {
                         $('#delImg').hide();
                         $('#soldImg').show();
                         $('#delLotButton').val('0');
@@ -178,10 +184,10 @@
                 %>
                 tab = $('#crdtsTab');
                 <% } %>
-                if(tab.is(':visible')) {
+                if (tab.is(':visible')) {
                     tab.hide();
                 }
-                else{
+                else {
                     $('.tR').remove();
                     tab.show();
                     <%if (lot.getLotType()==1){%>
@@ -192,7 +198,7 @@
                             lotId: $('#lotId').text()
                         },
                         success: function (objList) {
-                            for(var i=0; i<objList.length; i++) {
+                            for (var i = 0; i < objList.length; i++) {
                                 var approveNBU = objList[i].approveNBU ? "Так" : "Ні";
                                 var neadNewFondDec = objList[i].neadNewFondDec ? "Так" : "Ні";
                                 var trR = $('<tr align="center" class="tR">' +
@@ -210,10 +216,10 @@
                                     '</tr>');
                                 //var factPriceTd = trR.find('.factPriceTd');
 
-                                if(objList[i].sold){
+                                if (objList[i].sold) {
                                     trR.css('background-color', "lightgreen");
                                 }
-                                else{
+                                else {
                                     var delCrButt = $('<button class="delCrdButt" value="0" title="Видалити обєкт">' +
                                         '<img height="22px" width="22px" src="css/images/red-del.png">' +
                                         '</button>').click(function () {
@@ -243,7 +249,7 @@
                             lotId: $('#lotId').text()
                         },
                         success: function (objList) {
-                            for(var i=0; i<objList.length; i++) {
+                            for (var i = 0; i < objList.length; i++) {
                                 var approveNBU = objList[i].nbuPladge ? "Так" : "Ні";
                                 var neadNewFondDec = objList[i].neadNewFondDec ? "Так" : "Ні";
                                 var trR = $('<tr align="center" class="tR">' +
@@ -261,10 +267,10 @@
                                     '</tr>');
                                 //var factPriceTd = trR.find('.factPriceTd');
 
-                                if(objList[i].isSold){
+                                if (objList[i].isSold) {
                                     trR.css('background-color', "lightgreen");
                                 }
-                                else{
+                                else {
                                     var delCrButt = $('<button class="delCrdButt" value="0" title="Видалити обєкт">' +
                                         '<img height="22px" width="22px" src="css/images/red-del.png">' +
                                         '</button>').click(function () {
@@ -290,8 +296,8 @@
                 }
 
             });
-            $('#bidTd').dblclick(function(){
-                if($(this).val()==0) {
+            $('#bidTd').dblclick(function () {
+                if ($(this).val() == 0) {
                     $('#bidName').hide();
                     $('#bidSelector').show();
                     $(this).val(1);
@@ -302,17 +308,19 @@
                     $(this).val(0);
                 }
             });
-            $('#butAccept').click( function () {
+            $('#butAccept').click(function () {
                 if ($('#delLotButton').val() === '0') {
 
-                    $('.delCrdButt').each(function(){
-                        if($(this).val()==='1'){
+                    $('.delCrdButt').each(function () {
+                        if ($(this).val() === '1') {
                             var idL = $(this).parent().children().first().text();
                             $.ajax({
                                 url: "delObjectFromLot",
                                 type: 'POST',
-                                data: {objId: idL,
-                                    lotId: $('#lotId').text()},
+                                data: {
+                                    objId: idL,
+                                    lotId: $('#lotId').text()
+                                },
                                 success(res){
                                     if (res == "0")
                                         alert("Об'єкт не видалено!");
@@ -338,7 +346,7 @@
                             selectedBidId: $('#bidSelector').val(),
                             countOfParticipants: $('#countOfPart').val()
                         },
-                        success: function(rez){
+                        success: function (rez) {
                             if (rez === "1") {
                                 alert("Лот змінено!");
                                 location.reload(true);
@@ -362,45 +370,52 @@
                     });
                 }
             });
-            $('#showAddDoc').click(function(){
+            $('#showAddDoc').click(function () {
                 var addDocForm = $("#addDocForm");
-                if(addDocForm.is(':visible')) {
+                if (addDocForm.is(':visible')) {
                     $(this).text("+Додати+");
                     addDocForm.hide();
                 }
-                else{
+                else {
                     $(this).text("Приховати");
                     addDocForm.show();
                 }
             });
-            $('#doc1').click(function(){
+            $('#doc1').click(function () {
                 $.ajax({
                     url: "setLotToPrint",
                     type: "GET",
                     data: {objId: $('#lotId').text()},
-                    success: function(res){
-                        if(res=='1') {
+                    success: function (res) {
+                        if (res == '1') {
                             window.open("download");
                         }
                     }
                 });
             });
-            $('#paymentsSum').click(function(){
-                if(payTab.is(':hidden')){
+            $('#paymentsSum').click(function () {
+                if ($('.payLine').is(':hidden')){
+                    $('.payLine').show();
+                }
+
+                else
+                    $('.payLine').hide();
+
+                /*if (payTab.is(':hidden')) {
                     payTab.show();
                 }
-                else payTab.hide();
+                else payTab.hide();*/
             });
-            addPayButt.click(function adder(){
-                var payTd= $('.payTd');
-                var payDate =$('#payDate');
+            addPayButt.click(function adder() {
+                var payTd = $('.payTd');
+                var payDate = $('#payDate');
                 var pay = $('#pay');
                 var paySource = $('#paySource');
-                if($(this).val()=='1'){
-                    if(isNaN(parseFloat(pay.val()))){
+                if ($(this).val() == '1') {
+                    if (isNaN(parseFloat(pay.val()))) {
                         alert("Введіть будь-ласка суму платежу у коректному форматі!")
                     }
-                    else{
+                    else {
                         $.ajax({
                             url: "addPayToLot",
                             method: "POST",
@@ -511,9 +526,6 @@
             <%}%>
         })
     </script>
-    <style type="text/css">
-
-    </style>
 </head>
 <body id="bod" style="background-color: lightcyan">
 
@@ -664,7 +676,7 @@
                 </th>
             </tr>
             <tr id="accExCurrent" title="клікніть двічі для зміни погодженої фондом біржі">
-                <td colspan="3" class="acceptEx" >
+                <td colspan="3" class="acceptEx">
                     <%out.print(lot.getAcceptExchange());%>
                 </td>
             </tr>
@@ -718,11 +730,15 @@
             </tr>
             <tr>
                 <td title="Необхідне перепогодження ФГВФО">
-                    <button class="reBidButton" value="2" style="color: darkred" title="Необхідне перепогодження ФГВФО">Необхідне перепогодження</button>
+                    <button class="reBidButton" value="2" style="color: darkred" title="Необхідне перепогодження ФГВФО">
+                        Необхідне перепогодження
+                    </button>
                 </td>
                 <td style="background-color: transparent"></td>
                 <td>
-                    <button id="redactButton" value="0" style="color: darkblue" title="Додати актуальне рішення ФГВФО">Додати рішення</button>
+                    <button id="redactButton" value="0" style="color: darkblue" title="Додати актуальне рішення ФГВФО">
+                        Додати рішення
+                    </button>
                 </td>
             </tr>
         </table>
@@ -757,82 +773,84 @@
     </div>
 </div>
 
-<div id="bar" style="width: 100%">
-    <table width="100%">
-        <tr>
-            <td colspan="2">
-            <table id="controlTab" border="1" align="left">
-                <tr>
-                    <th bgcolor="#00ffff">К-ть об'єктів</th>
-                    <td id="count" align="center" bgcolor="#f0ffff"></td>
-                    <th bgcolor="#00ffff">№ лоту в публікації</th>
-                    <th bgcolor="#00ffff">К-ть учасників</th>
-                    <th bgcolor="#00ffff">Покупець</th>
-                    <th bgcolor="#00ffff">Дисконт</th>
-                    <th bgcolor="#00ffff">Стартова ціна лоту, грн.</th>
-                    <th bgcolor="#00ffff">Ціна продажу, грн.</th>
-                    <th bgcolor="#00ffff">Залишок до сплати, грн.</th>
-                    <th bgcolor="#00ffff">Фактично сплачено, грн.</th>
-                    <td class="payTd" hidden="hidden">
-                        <input id="payDate" class="datepicker" title="введіть дату платежу">
-                    </td>
-                    <td class="payTd" hidden="hidden">
-                        <input id="pay" type="number" step="0.01" title="введіть суму платежу">
-                    </td>
-                    <td class="payTd" hidden="hidden">
-                        <select id="paySource">
-                            <option value="Біржа">
-                                Біржа
-                            </option>
-                            <option value="Покупець">
-                                Покупець
-                            </option>
-                        </select>
-                    </td>
-                    <td>
-                        <button id="addPay">Додати платіж</button>
-                    </td>
-                    <td rowspan="2" id="soldImg" hidden="hidden">
-                        <img height="50px" width="50px" src="css/images/green-round-tick-sign.jpg">
-                    </td>
-                    <td rowspan="2" id="delImg" hidden="hidden">
-                        <img height="50px" width="50px" src="css/images/red-del.png">
-                    </td>
-                </tr>
-                <tr id="finInfoTr">
-                    <th bgcolor="#00ffff">Оціночна вартість, грн</th>
-                    <td id="sum" align="center" bgcolor="#f0ffff"></td>
-                    <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>"></td>
-                    <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
-                    <td><input id="customerName" type="text" placeholder="ФІО"
-                               value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'></td>
-                    <td id="discount" align="center" title="Дисконт відносно початкової ціни на перших торгах">
-                        <%
-                            if (lot.getStartPrice() != null && lot.getFirstStartPrice() != null)
-                                out.print((new BigDecimal(1).subtract(lot.getStartPrice().divide(lot.getFirstStartPrice(), 4, BigDecimal.ROUND_HALF_UP))).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
-                        %>
-                    </td>
-                    <td id="startPriceTd" align="center">
-                        <input id="startPrice" type="number" step="0.01" title="Ціна лоту з якої стартував аукціон"
-                               value="<%out.print(lot.getStartPrice());%>">
-                    </td>
-                    <td id="factPriceTd" align="center">
-                        <input id="factPrice" type="number" step="0.01" title="Ціна за яку фактично продано лот"
-                               value=<%out.print(lot.getFactPrice());%>>
-                    </td>
-                    <td id="residualToPay" align="center" title="Залишок до сплати (ціна продажу-сплчено)">
-                    </td>
-                    <td id="paymentsSum" datatype="number" align="center" title="Клікніть для розгорнутого перегляду платежів">
-                    </td>
-                    <td colspan="3">
-                        <table id="paysTab" bgcolor="#f0f8ff" border="1" hidden="hidden" width="100%">
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            </td>
-        </tr>
-    </table>
+<div id="bar">
+    <div id="financeBlock">
+        <table id="controlTab" border="1" align="left" style="width: 100%">
+            <tr>
+                <th bgcolor="#00ffff">К-ть об'єктів</th>
+                <td id="count" align="center" bgcolor="#f0ffff"></td>
+                <th bgcolor="#00ffff">№ лоту в публікації</th>
+                <th bgcolor="#00ffff">К-ть учасників</th>
+                <th bgcolor="#00ffff">Покупець</th>
+                <th bgcolor="#00ffff">Дисконт</th>
+                <th bgcolor="#00ffff">Стартова ціна лоту, грн.</th>
+                <th bgcolor="#00ffff">Ціна продажу, грн.</th>
+                <th bgcolor="#00ffff">Залишок до сплати, грн.</th>
+                <th bgcolor="#00ffff">Фактично сплачено, грн.</th>
+                <td rowspan="2" id="soldImg" hidden="hidden">
+                    <img height="50px" width="50px" src="css/images/green-round-tick-sign.jpg">
+                </td>
+                <td rowspan="2" id="delImg" hidden="hidden">
+                    <img height="50px" width="50px" src="css/images/red-del.png">
+                </td>
+            </tr>
+            <tr id="finInfoTr">
+                <th bgcolor="#00ffff">Оціночна вартість, грн</th>
+                <td id="sum" align="center" bgcolor="#f0ffff"></td>
+                <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>">
+                </td>
+                <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
+                <td><input id="customerName" type="text" placeholder="ФІО"
+                           value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'></td>
+                <td id="discount" align="center" title="Дисконт відносно початкової ціни на перших торгах">
+                    <%
+                        if (lot.getStartPrice() != null && lot.getFirstStartPrice() != null)
+                            out.print((new BigDecimal(1).subtract(lot.getStartPrice().divide(lot.getFirstStartPrice(), 4, BigDecimal.ROUND_HALF_UP))).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
+                    %>
+                </td>
+                <td id="startPriceTd" align="center">
+                    <input id="startPrice" type="number" step="0.01" title="Ціна лоту з якої стартував аукціон"
+                           value="<%out.print(lot.getStartPrice());%>">
+                </td>
+                <td id="factPriceTd" align="center">
+                    <input id="factPrice" type="number" step="0.01" title="Ціна за яку фактично продано лот"
+                           value=<%out.print(lot.getFactPrice());%>>
+                </td>
+                <td id="residualToPay" align="center" title="Залишок до сплати (ціна продажу-сплчено)">
+                </td>
+                <td id="paymentsSum" datatype="number" align="center"
+                    title="Клікніть для розгорнутого перегляду платежів">
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    <div id="payBlock">
+        <table id="paysTab" border="1">
+            <tr>
+                <th class="payTd" hidden="hidden">
+                    <input id="payDate" class="datepicker" placeholder="дата платежу" title="введіть дату платежу">
+                </th>
+                <th class="payTd" hidden="hidden">
+                    <input id="pay" type="number" step="0.01" placeholder="сума, грн" title="введіть суму платежу">
+                </th>
+                <th class="payTd" hidden="hidden">
+                    <select id="paySource">
+                        <option value="Біржа">
+                            Біржа
+                        </option>
+                        <option value="Покупець">
+                            Покупець
+                        </option>
+                    </select>
+                </th>
+                <th>
+                    <button id="addPay">Додати платіж</button>
+                </th>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 <div id="mainButBlock">
@@ -840,13 +858,14 @@
         <table style="width: 100%">
             <tr>
                 <td width="100%">
-                    <input id="comm" value="<%if(lot.getComment()!=null)out.print(lot.getComment());%>" placeholder="Коментар" title="Введіть коментарі стосовно особливостей лоту">
+                    <input id="comm" value="<%if(lot.getComment()!=null)out.print(lot.getComment());%>"
+                           placeholder="Коментар" title="Введіть коментарі стосовно особливостей лоту">
                 </td>
             </tr>
         </table>
     </div>
     <div id="actDelButBlock">
-        <table align="left" >
+        <table align="left">
             <tr>
                 <td id="delLotTd">
                     <button id="delLotButton" value="0">
@@ -868,7 +887,7 @@
     </div>
 </div>
 
-<div id="objBlock" class="view" style="width: 100%" align="center">
+<div id="objBlock" class="view" align="center">
     <table align="center">
         <tr>
             <td align="center">
