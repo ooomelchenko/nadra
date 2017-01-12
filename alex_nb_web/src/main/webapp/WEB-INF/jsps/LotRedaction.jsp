@@ -84,7 +84,7 @@
                         for (var i = 0; i < payments.length; i++) {
                             var d = new Date(payments[i].date);
                             d.setDate(d.getDate() + 1);
-                            payTab.append($('<tr class="payLine" hidden="hidden">' +
+                            payTab.append($('<tr class="payLine" style="border: solid black">' +
                                 '<td class="payId" hidden="hidden">' + payments[i].id + '</td>' +
                                 '<td>' + d.toISOString().substring(0, 10) + '</td>' +
                                 '<td>' + payments[i].paySum + '</td>' +
@@ -393,19 +393,12 @@
                     }
                 });
             });
-            $('#paymentsSum').click(function () {
-                if ($('.payLine').is(':hidden')){
-                    $('.payLine').show();
-                }
-
-                else
-                    $('.payLine').hide();
-
-                /*if (payTab.is(':hidden')) {
+            /*$('#paymentsSum').click(function () {
+                if (payTab.is(':hidden')) {
                     payTab.show();
                 }
-                else payTab.hide();*/
-            });
+                else payTab.hide();
+            });*/
             addPayButt.click(function adder() {
                 var payTd = $('.payTd');
                 var payDate = $('#payDate');
@@ -669,12 +662,8 @@
         </table>
     </div>
     <div id="fdBlock">
+        <h2>Погодження продажу ФГВФО</h2>
         <table id="fdTab">
-            <tr>
-                <th colspan="3" style="font-size: large; font-weight: bolder">
-                    Погодження продажу ФГВФО
-                </th>
-            </tr>
             <tr id="accExCurrent" title="клікніть двічі для зміни погодженої фондом біржі">
                 <td colspan="3" class="acceptEx">
                     <%out.print(lot.getAcceptExchange());%>
@@ -682,7 +671,7 @@
             </tr>
             <tr id="accExChoose" hidden="hidden">
                 <td colspan="2">
-                    <select id="inputAccEx" name="exSelect" style="width: 100%">
+                    <select id="inputAccEx" name="exSelect">
                         <%
                             if (allExchangeList != null) {
                                 for (Exchange ex : allExchangeList) {
@@ -730,16 +719,47 @@
             </tr>
             <tr>
                 <td title="Необхідне перепогодження ФГВФО">
-                    <button class="reBidButton" value="2" style="color: darkred" title="Необхідне перепогодження ФГВФО">
+                    <button class="reBidButton" value="2" style="width: 100%; color: darkred" title="Необхідне перепогодження ФГВФО">
                         Необхідне перепогодження
                     </button>
                 </td>
                 <td style="background-color: transparent"></td>
                 <td>
-                    <button id="redactButton" value="0" style="color: darkblue" title="Додати актуальне рішення ФГВФО">
+                    <button id="redactButton" value="0" style="width: 100%; color: darkblue" title="Додати актуальне рішення ФГВФО">
                         Додати рішення
                     </button>
                 </td>
+            </tr>
+        </table>
+    </div>
+    <div id="payBlock">
+        <h2>Платежі по лоту</h2>
+        <table id="paysTab" ><%--заповнюється скриптом--%>
+
+        </table>
+        <table width="100%">
+            <tr>
+                <th class="payTd" hidden="hidden">
+                    <input id="payDate" class="datepicker" placeholder="дата платежу" title="введіть дату платежу">
+                </th>
+                <th class="payTd" hidden="hidden">
+                    <input id="pay" type="number" step="0.01" placeholder="сума, грн" title="введіть суму платежу">
+                </th>
+                <th class="payTd" hidden="hidden">
+                    <select id="paySource" style="width: 100px" title="оберіть джерело надходження коштів">
+                        <option value="Біржа">
+                            Біржа
+                        </option>
+                        <option value="Покупець">
+                            Покупець
+                        </option>
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="3">
+                    <button id="addPay" style="width:100%">Додати платіж</button>
+                </th>
             </tr>
         </table>
     </div>
@@ -775,7 +795,7 @@
 
 <div id="bar">
     <div id="financeBlock">
-        <table id="controlTab" border="1" align="left" style="width: 100%">
+        <table id="controlTab" border="1">
             <tr>
                 <th bgcolor="#00ffff">К-ть об'єктів</th>
                 <td id="count" align="center" bgcolor="#f0ffff"></td>
@@ -822,31 +842,6 @@
                     title="Клікніть для розгорнутого перегляду платежів">
                 </td>
 
-            </tr>
-        </table>
-    </div>
-    <div id="payBlock">
-        <table id="paysTab" border="1">
-            <tr>
-                <th class="payTd" hidden="hidden">
-                    <input id="payDate" class="datepicker" placeholder="дата платежу" title="введіть дату платежу">
-                </th>
-                <th class="payTd" hidden="hidden">
-                    <input id="pay" type="number" step="0.01" placeholder="сума, грн" title="введіть суму платежу">
-                </th>
-                <th class="payTd" hidden="hidden">
-                    <select id="paySource">
-                        <option value="Біржа">
-                            Біржа
-                        </option>
-                        <option value="Покупець">
-                            Покупець
-                        </option>
-                    </select>
-                </th>
-                <th>
-                    <button id="addPay">Додати платіж</button>
-                </th>
             </tr>
         </table>
     </div>
