@@ -14,9 +14,7 @@ h2{
     width: 35%;
     height: 100%;
     text-align: center;
-    /* border: 3px solid sandybrown;*/
     font-style: inherit;
-    background-color: lightgoldenrodyellow;
     align-content: center;
 }
 #fdBlock{
@@ -40,8 +38,10 @@ h2{
 }
 #b1 div{
     border: double cyan;
+    background-color: ghostwhite;
 }
 #docBlock table{
+    border: solid darkgray;
     width: 100%;
 }
 #payBlock table{
@@ -49,10 +49,10 @@ h2{
 }
 #payBlock table{
     width: 100%;
-    border: double darkblue;
+    border: double;
 }
 #payBlock tr, #payBlock td{
-    border: solid darkblue;
+    border: solid ;
 }
 #payBlock tr:hover{
     cursor: pointer;

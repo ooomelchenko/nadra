@@ -764,7 +764,7 @@
         </table>
     </div>
     <div id="docBlock">
-        <table id="fileList" border="2">
+        <table id="fileList" border="1">
             <tr>
                 <th>
                     Документи по Лоту
@@ -850,9 +850,9 @@
 
 <div id="mainButBlock">
     <div id="commBlock">
-        <table style="width: 100%">
+        <table>
             <tr>
-                <td width="100%">
+                <td>
                     <input id="comm" value="<%if(lot.getComment()!=null)out.print(lot.getComment());%>"
                            placeholder="Коментар" title="Введіть коментарі стосовно особливостей лоту">
                 </td>

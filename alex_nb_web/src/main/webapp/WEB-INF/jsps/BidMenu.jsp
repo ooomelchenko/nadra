@@ -61,38 +61,38 @@
                                 var tabL = $('<table id="tabL" class="tabL"></table>');
 
                                 var trhL = $('<tr id="trh" class="trh" style="background-color: #00ffff">' +
-                                        '<th>ID</th>' +
-                                        '<th>№ Лоту</th>' +
-                                        '<th>Оціночна вартість, грн.</th>' +
-                                        '<th>Статус торгів</th>' +
-                                        '<th>Початкова ціна лоту, грн.</th>' +
-                                        '<th>Кіль-ть учасників</th>' +
-                                        '<th>Ціна реалізації, грн.</th>' +
-                                        '<th>Покупець</th>' +
-                                        '<th>Статус оплати</th>' +
-                                        '<th>Сплачено, грн.</th>' +
-                                        '<th>Залишок оплати, грн.</th>' +
-                                        '<th>Стадія роботи</th>' +
-                                        '<th>Коментар</th>' + '</tr>');
+                                    '<th>ID</th>' +
+                                    '<th>№ Лоту</th>' +
+                                    '<th>Оціночна вартість, грн.</th>' +
+                                    '<th>Статус торгів</th>' +
+                                    '<th>Початкова ціна лоту, грн.</th>' +
+                                    '<th>Кіль-ть учасників</th>' +
+                                    '<th>Ціна реалізації, грн.</th>' +
+                                    '<th>Покупець</th>' +
+                                    '<th>Статус оплати</th>' +
+                                    '<th>Сплачено, грн.</th>' +
+                                    '<th>Залишок оплати, грн.</th>' +
+                                    '<th>Стадія роботи</th>' +
+                                    '<th>Коментар</th>' + '</tr>');
 
                                 tabL.append(trhL);
 
                                 for (var i = 0; i < lots.length; i++) {
                                     var appendedTr = $('<tr bgcolor="lightcyan" class="trL" style="cursor: pointer">' +
-                                            '<td class="lotId">' + lots[i].id + '</td>' +
-                                            '<td align="center">' + lots[i].lotNum + '</td>' +
-                                            '<td align="center" class="sumOfCrd">' + '</td>' +
-                                            '<td align="center">' + lots[i].bidStage + '</td>' +
-                                            '<td align="center">' + lots[i].startPrice + '</td>' +
-                                            '<td align="center">' + lots[i].countOfParticipants + '</td>' +
-                                            '<td align="center" class="factPrice">' + lots[i].factPrice + '</td>' +
-                                            '<td align="center" class="customer">' + lots[i].customerName + '</td>' +
-                                            '<td align="center" class="payStatus">' + '</td>' +
-                                            '<td align="center" class="paymentsSum">' + '</td>' +
-                                            '<td align="center" class="residualToPay">' + '</td>' +
-                                            '<td align="right">' + lots[i].workStage + '</td>' +
-                                            '<td>' + lots[i].comment + '</td>' +
-                                            '</tr>');
+                                        '<td class="lotId">' + lots[i].id + '</td>' +
+                                        '<td align="center">' + lots[i].lotNum + '</td>' +
+                                        '<td align="center" class="sumOfCrd">' + '</td>' +
+                                        '<td align="center">' + lots[i].bidStage + '</td>' +
+                                        '<td align="center">' + lots[i].startPrice + '</td>' +
+                                        '<td align="center">' + lots[i].countOfParticipants + '</td>' +
+                                        '<td align="center" class="factPrice">' + lots[i].factPrice + '</td>' +
+                                        '<td align="center" class="customer">' + lots[i].customerName + '</td>' +
+                                        '<td align="center" class="payStatus">' + '</td>' +
+                                        '<td align="center" class="paymentsSum">' + '</td>' +
+                                        '<td align="center" class="residualToPay">' + '</td>' +
+                                        '<td align="right">' + lots[i].workStage + '</td>' +
+                                        '<td>' + lots[i].comment + '</td>' +
+                                        '</tr>');
                                     tabL.append(appendedTr);
                                 }
                                 td.append(tabL);
@@ -158,51 +158,52 @@
                 })
             });
             /*$('.delBidButton').click(function () {
-                $.ajax({
-                    url: "deleteBid",
-                    type: "POST",
-                    data: {idBid: $(this).parent().parent().find('.idBid').text()},
-                    success: function (res) {
-                        if (res === "1") {
-                            alert("Аукціон видалено!");
-                            location.href = 'bidMenu';
-                        }
-                        else
-                            alert("Аукціон НЕ видалено!")
-                    }
-                })
-            });*/
+             $.ajax({
+             url: "deleteBid",
+             type: "POST",
+             data: {idBid: $(this).parent().parent().find('.idBid').text()},
+             success: function (res) {
+             if (res === "1") {
+             alert("Аукціон видалено!");
+             location.href = 'bidMenu';
+             }
+             else
+             alert("Аукціон НЕ видалено!")
+             }
+             })
+             });*/
             $('.showDocs').click(function () {
                 $('#addDocForm').show();
-                $('#fileList').show();
+                $('.fileList').show();
                 $(".fileTr").remove();
                 $('#objId').val($(this).parent().parent().find('.idBid').text());
                 $('#bidN').text($(this).parent().parent().find('.idBid').text());
                 getFileNames($('#objId').val(), $('#objType').val());
             });
-            $('.getOgolosh').click(function(){
+            $('.getOgolosh').click(function () {
                 $.ajax({
                     url: "setDocToDownload",
                     type: "GET",
-                   //data: {objId: $(this).parent().parent().find('.idBid').text(),
-                        data: {objId: $('#objId').val(),
+                    //data: {objId: $(this).parent().parent().find('.idBid').text(),
+                    data: {
+                        objId: $('#objId').val(),
                         objType: "bid",
                         docName: null
                     },
-                    success: function(res){
-                        if(res=='1') {
+                    success: function (res) {
+                        if (res == '1') {
                             window.open("downloadOgolosh");
                         }
                     }
                 });
             });
-            $('.getObjTab').click(function(){
+            $('.getObjTab').click(function () {
                 $.ajax({
                     url: "setLotToPrint",
                     type: "GET",
                     data: {objId: $('#objId').val()},
-                    success: function(res){
-                        if(res=='1') {
+                    success: function (res) {
+                        if (res == '1') {
                             window.open("downloadT");
                         }
                     }
@@ -211,163 +212,193 @@
         })
     </script>
     <style type="text/css">
-        #docTd {
-            border: thin;
+        input{
+            width: 100%;
+        }
+        button{
+            font-weight: bold;
         }
         .bidTr {
             cursor: pointer;
             background-color: #ffffe0
         }
+
         .bidTr:hover {
             background-color: white;
             color: darkblue;
         }
-        #bidN{
+
+        #bidN {
             cursor: pointer;
             color: darkblue;
             font-size: larger;
             font-weight: bold;
-         }
-        #bidN:hover{
+        }
+
+        #bidN:hover {
             font-size: x-large;
         }
-        #dodatok2:hover, #objTab:hover{
+
+        #dodatok2:hover, #objTab:hover {
             color: darkblue;
             background-color: white;
             cursor: pointer;
             font-weight: bold;
         }
+        #block1{
+            display: table;
+        }
+        #bidBlock{
+            display: table-cell;
+            width: 85%;
+        }
+        #docBlock{
+            display: table-cell;
+            width: 15%;
+            background-color: white;
+        }
+        #docBlock table{
+            width: 100%;
+        }
+        .fileList, .fileList td {
+            border: solid darkgrey;
+        }
+        .showDocs{
+            width: 25px;
+            height: 25px;
+        }
+        .showDocs:hover {
+            border: solid yellowgreen;
+        }
     </style>
     <title>Торги</title>
+    <%
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        List<Bid> bidList = (List<Bid>) request.getAttribute("bidList");
+        List<Exchange> exchangeList = (List<Exchange>) request.getAttribute("exchangeList");
+    %>
 </head>
 <body style="background-color: mintcream">
-<button onclick="location.href='index'">Назад до меню</button>
-<%
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-    List<Bid> bidList = (List<Bid>) request.getAttribute("bidList");
-    List<Exchange> exchangeList = (List<Exchange>) request.getAttribute("exchangeList");
-%>
-<H1 align="center">Торги</H1>
-
-<div id="bidDiv" class="view">
-    <table align="top">
-        <tr align="top">
-            <td>
-                <button id="addBidButt" value="0">Додати торги</button>
-                <table id="bidtbl" border="light" style="background-color: sandybrown">
-                    <tr id="addBidTr" hidden="hidden">
-                        <td></td>
-                        <td><input id="newBidDate" class="datepicker" title="оберіть дату аукціону"></td>
-                        <td class="ex">
-                            <select id="exId">
-                                <%for (Exchange ex : exchangeList) {%>
-                                <option value="<%out.print(ex.getId());%>">
-                                    <%
-                                        out.print(ex.getCompanyName());
-                                    %>
-                                </option>
-                                <%
-                                    }
-                                %>
-                            </select>
-                        </td>
-                        <td><input type="text" id="newspaper" title="заповніть назву газети"></td>
-                        <td><input id="newsDate1" class="datepicker" title="оберіть дату публікації 1"></td>
-                        <td><input id="newsDate2" class="datepicker" title="оберіть дату публікації 2"></td>
-                        <td><input id="registrEnd" class="datepicker" title="введіть дату кінця реєстрації"></td>
-                        <td>
-                            <button id="buttAddBid">Підтвердити</button>
-                        </td>
-                    </tr>
-
-                    <tr id="addTr">
-                        <th>ID</th>
-                        <th>Дата торгів</th>
-                        <th>Біржа</th>
-                        <th>Газета</th>
-                        <th>Дата публікації 1</th>
-                        <th>Дата публікації 2</th>
-                        <th>Кінець реєстрації</th>
-                    </tr>
-                    <%for (Bid bid : bidList) {%>
-                    <tr class="bidTr" align="center">
-                        <td class="idBid"><%=bid.getId()%></td>
-                        <td class="bidData"><input class="newBD" datatype="date" hidden="hidden" value="<%if(bid.getBidDate()!=null)out.print(sdf.format(bid.getBidDate()));%>">
-                            <b><%if (bid.getBidDate() != null) out.print(sdf.format(bid.getBidDate()));%></b></td>
-                        <td class="bidData">
-                            <select class="ex" hidden="hidden">
-                                <% for (Exchange ex : exchangeList) {%>
-                                <option value="<%=ex.getId()%>" <%
-                                    if (ex.getCompanyName().equals(bid.getExchange().getCompanyName()))
-                                        out.print("selected=selected");
-                                %>>
-                                    <%out.print(ex.getCompanyName());%>
-                                </option>
-                                <%}%>
-                            </select>
-                            <b><%=bid.getExchange().getCompanyName()%>
-                            </b>
-                        </td>
-                        <td class="bidData"><input class="newNP" type="text" hidden="hidden"
-                                                   value="<%if(bid.getNewspaper()!=null)out.print(bid.getNewspaper());%>"><b><%=bid.getNewspaper()%>
-                        </b></td>
-                        <td class="bidData"><input class="newND1" datatype="date" hidden="hidden"
-                                                   value="<%if(bid.getNews1Date()!=null)out.print(sdf.format(bid.getNews1Date()));%>">
-                            <b><%if (bid.getNews1Date() != null) out.print(sdf.format(bid.getNews1Date()));%></b></td>
-                        <td class="bidData"><input class="newND2" datatype="date" hidden="hidden"
-                                                   value="<%if(bid.getNews2Date()!=null)out.print(sdf.format(bid.getNews2Date()));%>">
-                            <b><%if (bid.getNews2Date()!= null) out.print(sdf.format(bid.getNews2Date()));%></b></td>
-                        <td class="bidData"><input class="newRED" datatype="date" hidden="hidden"
-                                                   value="<%if(bid.getRegistrEndDate()!=null)out.print(sdf.format(bid.getRegistrEndDate()));%>">
-                            <b><%if(bid.getRegistrEndDate()!= null) out.print(sdf.format(bid.getRegistrEndDate()));%>
-                            </b></td>
-                        <td>
-                            <button class="changeButton">Редагувати</button>
-                        </td>
-                        <%--<td ><button class="delBidButton">Видалити торги</button></td>--%>
-                        <td>
-                            <button class="showDocs">Документи</button>
-                        </td>
-
-                    </tr>
-                    <%}%>
-                </table>
-
-            </td>
-
-            <td id="docTd" valign="top" align="center">
-                <table id="fileList" border="2" hidden="hidden">
-                    <tr>
-                        <th style="background-color: lightgoldenrodyellow">
-                            Документи по Аукціону N <b id="bidN"></b>
-                        </th>
-                        <td id="dodatok2" title="Клікніть двічі для завантаженн Додатку 2">
-                            <a class="getOgolosh">Оголошення</a>
-                        </td>
-                        <td id="objTab" title="Клікніть двічі для завантаженн таблиці об'єктів">
-                            <a class="getObjTab">Завантажити таблицю об'єктів</a>
-                        </td>
-                    </tr>
-
-                </table>
-                <table>
-                    <tr id="addDocForm" hidden="hidden" align="top">
-                        <td align="top">
-                            <form method="POST" action="uploadFile" enctype="multipart/form-data" lang="utf8">
-                                <input type="text" id="objType" name="objType" value="bid" hidden="hidden">
-                                <input type="text" id="objId" name="objId" value="" hidden="hidden">
-                                Обрати документ для збереження:
-                                <br/>
-                                <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
-                                <input align="center" type="submit" value="Зберегти" title="натисніть щоб зберегти файл">
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-
+<div id="headBlock">
+    <button onclick="location.href='index'">Назад до меню</button>
+    <H1 align="center">Торги</H1>
 </div>
+
+<div id="block1">
+    <div id="bidBlock">
+        <table id="bidtbl" border="light" style="width: 100%">
+            <tr id="addBidTr" hidden="hidden">
+                <td></td>
+                <td><input id="newBidDate" class="datepicker" title="оберіть дату аукціону" placeholder="дата торгів"></td>
+                <td class="ex">
+                    <select id="exId">
+                        <%for (Exchange ex : exchangeList) {%>
+                        <option value="<%out.print(ex.getId());%>">
+                            <%
+                                out.print(ex.getCompanyName());
+                            %>
+                        </option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </td>
+                <td><input type="text" id="newspaper" title="заповніть назву газети"></td>
+                <td><input id="newsDate1" class="datepicker" title="оберіть дату публікації 1"></td>
+                <td><input id="newsDate2" class="datepicker" title="оберіть дату публікації 2"></td>
+                <td><input id="registrEnd" class="datepicker" title="введіть дату кінця реєстрації"></td>
+                <td>
+                    <button id="buttAddBid">Підтвердити</button>
+                </td>
+            </tr>
+            <tr id="addTr" style="background-color: #ffad62; font-size: large" >
+                <th>ID</th>
+                <th>Дата торгів</th>
+                <th>Біржа</th>
+                <th>Газета</th>
+                <th>Дата публікації 1</th>
+                <th>Дата публікації 2</th>
+                <th>Кінець реєстрації</th>
+                <td colspan="2"><button id="addBidButt" value="0" style="width: 100%; height: 100%">Додати торги</button></td>
+            </tr>
+            <%for (Bid bid : bidList) {%>
+            <tr class="bidTr" align="center">
+                <td class="idBid"><%=bid.getId()%></td>
+                <td class="bidData"><input class="newBD" datatype="date" hidden="hidden"
+                                           value="<%if(bid.getBidDate()!=null)out.print(sdf.format(bid.getBidDate()));%>">
+                    <b><%if (bid.getBidDate() != null) out.print(sdf.format(bid.getBidDate()));%></b></td>
+                <td class="bidData">
+                    <select class="ex" hidden="hidden">
+                        <% for (Exchange ex : exchangeList) {%>
+                        <option value="<%=ex.getId()%>" <%
+                            if (ex.getCompanyName().equals(bid.getExchange().getCompanyName()))
+                                out.print("selected=selected");
+                        %>>
+                            <%out.print(ex.getCompanyName());%>
+                        </option>
+                        <%}%>
+                    </select>
+                    <b><%=bid.getExchange().getCompanyName()%>
+                    </b>
+                </td>
+                <td class="bidData"><input class="newNP" type="text" hidden="hidden"
+                                           value="<%if(bid.getNewspaper()!=null)out.print(bid.getNewspaper());%>"><b><%=bid.getNewspaper()%>
+                </b></td>
+                <td class="bidData"><input class="newND1" datatype="date" hidden="hidden"
+                                           value="<%if(bid.getNews1Date()!=null)out.print(sdf.format(bid.getNews1Date()));%>">
+                    <b><%if (bid.getNews1Date() != null) out.print(sdf.format(bid.getNews1Date()));%></b></td>
+                <td class="bidData"><input class="newND2" datatype="date" hidden="hidden"
+                                           value="<%if(bid.getNews2Date()!=null)out.print(sdf.format(bid.getNews2Date()));%>">
+                    <b><%if (bid.getNews2Date() != null) out.print(sdf.format(bid.getNews2Date()));%></b></td>
+                <td class="bidData"><input class="newRED" datatype="date" hidden="hidden"
+                                           value="<%if(bid.getRegistrEndDate()!=null)out.print(sdf.format(bid.getRegistrEndDate()));%>">
+                    <b><%if (bid.getRegistrEndDate() != null) out.print(sdf.format(bid.getRegistrEndDate()));%>
+                    </b></td>
+                <td>
+                    <button class="changeButton">Редагувати</button>
+                </td>
+                <%--<td ><button class="delBidButton">Видалити торги</button></td>--%>
+                <td>
+                    <img class="showDocs" src="images/docs.png" title="Клікніть для відображення документів по аукціону">
+                </td>
+            </tr>
+            <%}%>
+        </table>
+    </div>
+    <div id="docBlock">
+        <table class="fileList" hidden="hidden">
+            <tr>
+                <td id="dodatok2" title="Клікніть двічі для завантаженн Додатку 2">
+                    <a class="getOgolosh">Оголошення (.xls)</a>
+                </td>
+                <td id="objTab" title="Клікніть двічі для завантаження таблиці об'єктів">
+                    <a class="getObjTab">Таблицю об'єктів (.xls)</a>
+                </td>
+            </tr>
+        </table>
+        <table class="fileList" id="fileList" hidden="hidden">
+            <tr>
+                <th style="background-color: lightgoldenrodyellow">
+                    Збережені документи Аукціон N <b id="bidN"></b>
+                </th>
+            </tr>
+        </table>
+        <table style="background-color: whitesmoke">
+            <tr id="addDocForm" hidden="hidden" align="top">
+                <td align="top">
+                    <form method="POST" action="uploadFile" enctype="multipart/form-data" lang="utf8">
+                        <input type="text" id="objType" name="objType" value="bid" hidden="hidden">
+                        <input type="text" id="objId" name="objId" value="" hidden="hidden">
+                        Обрати документ для збереження:
+                        <br/>
+                        <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+                        <input align="center" type="submit" value="Зберегти" title="натисніть щоб зберегти файл">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>

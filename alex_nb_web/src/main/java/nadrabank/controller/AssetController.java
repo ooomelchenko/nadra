@@ -280,6 +280,7 @@ public class AssetController {
         List<Lot> lotsByBidList = lotService.getLotsByBid(bid);
         Set<String> decisionsSet = new TreeSet<>();
         for (Lot lot : lotsByBidList) {
+            if(lot.getFondDecisionDate()!=null)
             decisionsSet.add(lot.getDecisionNumber() + " від " + sdfpoints.format(lot.getFondDecisionDate()));
         }
 
