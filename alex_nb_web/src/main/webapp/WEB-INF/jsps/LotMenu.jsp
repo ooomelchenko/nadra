@@ -5,6 +5,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        List<Lot> lotList = (List<Lot>) request.getAttribute("lotList");
+
+        TreeSet <Date> dateSet = new TreeSet<Date>();
+        for(Lot lot: lotList){
+            if(lot.getBid()!=null&&lot.getBid().getBidDate()!=null)
+                dateSet.add(lot.getBid().getBidDate());
+        }
+        TreeSet <String> exchangeSet = new TreeSet<String>();
+        for(Lot lot: lotList){
+            if(lot.getBid()!=null&&lot.getBid().getExchange()!=null)
+                exchangeSet.add(lot.getBid().getExchange().getCompanyName());
+        }
+    %>
     <title>Меню лотів</title>
     <link rel="stylesheet" media="screen" type="text/css" href="css/lotMenuStyle.css"/>
     <script src="js/jquery-1.11.1.js"></script>
@@ -103,22 +118,6 @@
     </script>
 </head>
 <body id="bd" style="background-color: mintcream">
-<%
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-    List<Lot> lotList = (List<Lot>) request.getAttribute("lotList");
-
-    TreeSet <Date> dateSet = new TreeSet<Date>();
-    for(Lot lot: lotList){
-        if(lot.getBid()!=null&&lot.getBid().getBidDate()!=null)
-        dateSet.add(lot.getBid().getBidDate());
-    }
-    TreeSet <String> exchangeSet = new TreeSet<String>();
-    for(Lot lot: lotList){
-        if(lot.getBid()!=null&&lot.getBid().getExchange()!=null)
-        exchangeSet.add(lot.getBid().getExchange().getCompanyName());
-    }
-%>
-
 <div id="blockHead">
     <div id="backBlock">
         <button onclick="location.href='index'">Назад до меню</button>
@@ -150,11 +149,10 @@
             </tr>
         </table>
     </div>
-
 </div>
 
 <div id="lotsDiv" class="view">
-    <table id="lTable" border="light" class="table" style="background-color: lightcyan">
+    <table id="lTable" <%--border="1"--%> class="table">
         <tr class="trh" style="background-color: #00ffff">
             <th>ID</th>
             <th title="Натисніть для відображення фільтру">

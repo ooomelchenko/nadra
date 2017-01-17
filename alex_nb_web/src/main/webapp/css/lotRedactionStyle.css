@@ -1,5 +1,11 @@
+body{
+    background-color: lightcyan;
+}
 input, select{
     width: 100%;
+}
+table{
+    border-collapse: collapse;
 }
 h2{
     text-align: center;
@@ -22,7 +28,6 @@ h2{
     width: 25%;
     height: 100%;
     text-align: left;
-    /*border: double;*/
 }
 #payBlock{
     display: table-cell;
@@ -36,6 +41,10 @@ h2{
     align-content: center;
     /*text-align: right;*/
 }
+#b2{
+    display: table;
+}
+
 #b1 div{
     border: double cyan;
     background-color: ghostwhite;
@@ -47,12 +56,8 @@ h2{
 #payBlock table{
     width: 100%;
 }
-#payBlock table{
-    width: 100%;
-    border: double;
-}
 #payBlock tr, #payBlock td{
-    border: solid ;
+    border: solid darkgray;
 }
 #payBlock tr:hover{
     cursor: pointer;
@@ -71,12 +76,11 @@ h2{
 #bidTab {
     width: 100%;
 }
-/*border="3" style="font-size: 100% ; font-style: inherit"*/
 #bidTab th {
     background-color: sandybrown;
 }
-#bidTab td {
-    border: 3px solid sandybrown;
+#bidTab tr {
+    border: 3px solid darkgray;
     font-weight: bold;
     text-align: center;
 }
@@ -86,15 +90,14 @@ h2{
 #butAccept{
     color: white;
     background-color: darkgreen;
-    border-radius: 10% ;
-    width: 180px ;
+    width: 200px;
     height: 50px;
-    font-size: 20px;
-    font-weight: bold
+    font-size: 22px;
 }
 #butAccept:hover{
     background-color: lightgreen;
     color: black;
+    font-size: 25px;
 }
 #doc1:hover{
     border: double gold;
@@ -120,27 +123,26 @@ h2{
     background-color: white;
 }
 #delLotButton{
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    font-size: 14px;
+    width: 100px;
     height: 50px;
-    width: 120px;
-}
-#delLotButton:hover{
     background-color: darkred;
     color: white;
 }
+#delLotButton:hover{
+    background-color: red;
+    color: black;
+    font-style: italic;
+}
 #setSoldButton{
+    width: 100px;
+    height: 50px;
     background-color: darkgreen;
     color: white;
-    font-weight: bold;
-    font-size: 15px;
-    height: 50px;
 }
 #setSoldButton:hover{
     background-color: lawngreen;
     color: black;
+    font-style: italic;
 }
 #fdTab{
     cursor: pointer;
@@ -169,27 +171,27 @@ select, option{
     font-weight: bold;
 }
 #mainButBlock{
-    display: table;
-    width: 100%;
-}
-#commBlock{
-    display: table-cell;
-    width: 70%;
-}
-#actDelButBlock{
     display: table-cell;
     width: 15%;
+}
+#butBlock{
+    display: table-cell;
+    text-align: left;
+    width: 100%;
 }
 #acceptButBlock {
     display: table-cell;
-    width: 15%;
+    width: 100%;
     text-align: right;
 }
 #commBlock input{
-    width: 60%;
     font-size: large;
     height: 35px;
     background-color: whitesmoke;
+}
+#butBlock div{
+    display: table-cell;
+    width: 50%;
 }
 
 #showCredits{
@@ -209,11 +211,18 @@ select, option{
     border: solid red;
 }
 #bar{
-    display: table;
+    width: 85%;
+    display: table-cell;
+    border: solid 3px darkgray;
 }
 #bar div{
     display: table-cell;
 }
 #financeBlock{
-    width: 100%;
+    display: table-cell;
+    width: 85%;
+}
+#commBlock{
+    display: table-cell;
+    width: 15%;
 }

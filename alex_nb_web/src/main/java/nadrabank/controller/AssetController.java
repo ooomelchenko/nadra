@@ -1310,7 +1310,7 @@ public class AssetController {
     public void downloadOgoloshennya(HttpServletResponse response, HttpSession session) throws IOException {
         String objId = (String) session.getAttribute("objIdToDownload");
 
-        File file = null;
+        File file ;
         String docName = makeOgoloshennya(Long.parseLong(objId));
         file = new File(docName);
 
@@ -1331,6 +1331,27 @@ public class AssetController {
         file.delete();
     }
 
+    @RequestMapping(value = "/downLotIdListForm", method = RequestMethod.GET)
+    public void downLotIdListForm(HttpServletResponse response) throws IOException {
+
+        File file = new File("C:\\projectFiles\\LOT_ID_LIST.xlsx");
+
+        InputStream is = new FileInputStream(file);
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+
+        OutputStream os = response.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = is.read(buffer)) != -1) {
+            os.write(buffer, 0, len);
+        }
+        os.flush();
+        is.close();
+        os.close();
+    }
+    //LOT_ID_LIST.xlsx
 
     public void setFactPriceFromLotToCredits(Lot lot, BigDecimal factLotPrice, String login){
         List <Credit> credits = lotService.getCRDTSByLot(lot);

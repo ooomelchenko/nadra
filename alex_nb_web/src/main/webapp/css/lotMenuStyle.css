@@ -1,11 +1,21 @@
+button {
+    cursor: pointer;
+    font-weight: bold;
+}
+#lTable{
+    background-color: lightcyan;
+    border-collapse: collapse;
+    border-style: solid;
+}
+#lTable td, #lTable th{
+    border: solid darkgrey;
+}
 .lotId, .bidDate, .bidStatus, .bidStage, .workstage {
      font-weight: bold;
  }
-
 .dateSelector, .exSelector, .bidStatusSelector :hover {
     background-color: #00ffff;
 }
-
 .spoiler_body {
     display: none;
     cursor: pointer;
@@ -16,7 +26,6 @@
     position: absolute;
     z-index: 99;
 }
-
 .spoiler_body a {
     padding: 0px 10px;
 }
@@ -37,11 +46,6 @@
 .trL:hover {
     background-color: white;
 }
-
-button {
-    cursor: pointer;
-}
-
 #blockHead {
     width: 100%;
     display: table;

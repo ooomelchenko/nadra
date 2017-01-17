@@ -1,24 +1,27 @@
+button {
+    font-weight: bolder;
+}
+input {
+    font-size: large;
+}
 #credSort {
     width: 50%;
     display: table;
 }
-
 #credSort div {
     width: 30%;
     display: table-cell;
 }
-
-button {
-    font-weight: bolder;
-}
-
 #createLot {
     width: 120px;
     height: 55px;
     color: #005700;
     font-size: large;
 }
-
-input {
-    font-size: large;
+#mainBlock{
+    display: table;
+    width: 100%;
+}
+#mainBlock div{
+    display: table-cell;
 }

@@ -15,12 +15,13 @@
 </head>
 
 <body style="background-color: mintcream">
-<div>
+<div id="b0">
     <button onclick="location.href='lotMenu'">Назад</button>
     <H1 align="center">Створення нового лоту</H1>
 </div>
 
-<div id="credSort" class="choice-box">
+<div id="mainBlock">
+<div id="credSort" class="choice-box" style="width: 60%">
 
     <div>
         <table border="1" class="table" style="background-color: lightcyan; width: 100%" id="tblParam">
@@ -70,6 +71,11 @@
             </tr>
         </table>
     </div>
+
+</div>
+<div style="width: 40%">
+    <button id="formDownld">скачать форму</button>
+</div>
 
 </div>
 <br/>

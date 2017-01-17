@@ -510,8 +510,8 @@
             });
 
             <%if (lot.getItSold()){%>
-            $('#delLotTd').hide();
-            $('#setSoldTd').hide();
+            $('#delLotButton').hide();
+            $('#setSoldButton').hide();
             $('#startPrice').hide();
             $('#startPriceTd').append(<%out.print(lot.getStartPrice());%>);
             $('#factPrice').hide();
@@ -520,7 +520,7 @@
         })
     </script>
 </head>
-<body id="bod" style="background-color: lightcyan">
+<body>
 
 <div id="b0">
     <table id="lotAboutTab">
@@ -735,7 +735,6 @@
     <div id="payBlock">
         <h2>Платежі по лоту</h2>
         <table id="paysTab" ><%--заповнюється скриптом--%>
-
         </table>
         <table width="100%">
             <tr>
@@ -793,92 +792,87 @@
     </div>
 </div>
 
-<div id="bar">
-    <div id="financeBlock">
-        <table id="controlTab" border="1">
-            <tr>
-                <th bgcolor="#00ffff">К-ть об'єктів</th>
-                <td id="count" align="center" bgcolor="#f0ffff"></td>
-                <th bgcolor="#00ffff">№ лоту в публікації</th>
-                <th bgcolor="#00ffff">К-ть учасників</th>
-                <th bgcolor="#00ffff">Покупець</th>
-                <th bgcolor="#00ffff">Дисконт</th>
-                <th bgcolor="#00ffff">Стартова ціна лоту, грн.</th>
-                <th bgcolor="#00ffff">Ціна продажу, грн.</th>
-                <th bgcolor="#00ffff">Залишок до сплати, грн.</th>
-                <th bgcolor="#00ffff">Фактично сплачено, грн.</th>
-                <td rowspan="2" id="soldImg" hidden="hidden">
-                    <img height="50px" width="50px" src="css/images/green-round-tick-sign.jpg">
-                </td>
-                <td rowspan="2" id="delImg" hidden="hidden">
-                    <img height="50px" width="50px" src="css/images/red-del.png">
-                </td>
-            </tr>
-            <tr id="finInfoTr">
-                <th bgcolor="#00ffff">Оціночна вартість, грн</th>
-                <td id="sum" align="center" bgcolor="#f0ffff"></td>
-                <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>">
-                </td>
-                <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
-                <td><input id="customerName" type="text" placeholder="ФІО"
-                           value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'></td>
-                <td id="discount" align="center" title="Дисконт відносно початкової ціни на перших торгах">
-                    <%
-                        if (lot.getStartPrice() != null && lot.getFirstStartPrice() != null)
-                            out.print((new BigDecimal(1).subtract(lot.getStartPrice().divide(lot.getFirstStartPrice(), 4, BigDecimal.ROUND_HALF_UP))).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
-                    %>
-                </td>
-                <td id="startPriceTd" align="center">
-                    <input id="startPrice" type="number" step="0.01" title="Ціна лоту з якої стартував аукціон"
-                           value="<%out.print(lot.getStartPrice());%>">
-                </td>
-                <td id="factPriceTd" align="center">
-                    <input id="factPrice" type="number" step="0.01" title="Ціна за яку фактично продано лот"
-                           value=<%out.print(lot.getFactPrice());%>>
-                </td>
-                <td id="residualToPay" align="center" title="Залишок до сплати (ціна продажу-сплчено)">
-                </td>
-                <td id="paymentsSum" datatype="number" align="center"
-                    title="Клікніть для розгорнутого перегляду платежів">
-                </td>
+<div id="b2">
+    <div id="bar">
+        <div id="financeBlock">
+            <table id="controlTab" border="1">
+                <tr>
+                    <th bgcolor="#00ffff">К-ть об'єктів</th>
+                    <td id="count" align="center" bgcolor="#f0ffff"></td>
+                    <th bgcolor="#00ffff">№ лоту в публікації</th>
+                    <th bgcolor="#00ffff">К-ть учасників</th>
+                    <th bgcolor="#00ffff">Покупець</th>
+                    <th bgcolor="#00ffff">Дисконт</th>
+                    <th bgcolor="#00ffff">Стартова ціна лоту, грн.</th>
+                    <th bgcolor="#00ffff">Ціна продажу, грн.</th>
+                    <th bgcolor="#00ffff">Залишок до сплати, грн.</th>
+                    <th bgcolor="#00ffff">Фактично сплачено, грн.</th>
+                    <td rowspan="2" id="soldImg" hidden="hidden">
+                        <img height="50px" width="50px" src="css/images/green-round-tick-sign.jpg">
+                    </td>
+                    <td rowspan="2" id="delImg" hidden="hidden">
+                        <img height="50px" width="50px" src="css/images/red-del.png">
+                    </td>
+                </tr>
+                <tr id="finInfoTr">
+                    <th bgcolor="#00ffff">Оціночна вартість, грн</th>
+                    <td id="sum" align="center" bgcolor="#f0ffff"></td>
+                    <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>">
+                    </td>
+                    <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
+                    <td><input id="customerName" type="text" placeholder="ФІО"
+                               value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'></td>
+                    <td id="discount" align="center" title="Дисконт відносно початкової ціни на перших торгах">
+                        <%
+                            if (lot.getStartPrice() != null && lot.getFirstStartPrice() != null)
+                                out.print((new BigDecimal(1).subtract(lot.getStartPrice().divide(lot.getFirstStartPrice(), 4, BigDecimal.ROUND_HALF_UP))).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
+                        %>
+                    </td>
+                    <td id="startPriceTd" align="center">
+                        <input id="startPrice" type="number" step="0.01" title="Ціна лоту з якої стартував аукціон"
+                               value="<%out.print(lot.getStartPrice());%>">
+                    </td>
+                    <td id="factPriceTd" align="center">
+                        <input id="factPrice" type="number" step="0.01" title="Ціна за яку фактично продано лот"
+                               value=<%out.print(lot.getFactPrice());%>>
+                    </td>
+                    <td id="residualToPay" align="center" title="Залишок до сплати (ціна продажу-сплчено)">
+                    </td>
+                    <td id="paymentsSum" datatype="number" align="center"
+                        title="Клікніть для розгорнутого перегляду платежів">
+                    </td>
 
-            </tr>
-        </table>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div id="commBlock">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <input id="comm" value="<%if(lot.getComment()!=null)out.print(lot.getComment());%>"
+                               placeholder="Коментар" title="Введіть коментарі стосовно особливостей лоту">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
-</div>
-
-<div id="mainButBlock">
-    <div id="commBlock">
-        <table>
-            <tr>
-                <td>
-                    <input id="comm" value="<%if(lot.getComment()!=null)out.print(lot.getComment());%>"
-                           placeholder="Коментар" title="Введіть коментарі стосовно особливостей лоту">
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="actDelButBlock">
-        <table align="left">
-            <tr>
-                <td id="delLotTd">
-                    <button id="delLotButton" value="0">
-                        Розформувати лот
-                    </button>
-                </td>
-                <td id="setSoldTd">
-                    <button id="setSoldButton" value="0">
-                        Акт підписано
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="acceptButBlock">
-        <button id="butAccept" title="натисніть для збереження змін">
-            ПІДТВЕРДИТИ
-        </button>
+    <div id="mainButBlock">
+        <div id="butBlock">
+            <div>
+                <%--<img id="delLotButton" value="0" src="images/del.png"/>--%>
+                <button id="delLotButton" value="0">Видалити лот</button>
+            </div>
+            <div>
+                <button id="setSoldButton" value="0">Акт підписано</button>
+            </div>
+        </div>
+        <br/>
+        <div id="acceptButBlock">
+            <button id="butAccept" title="натисніть для збереження змін">
+                ПІДТВЕРДИТИ
+            </button>
+        </div>
     </div>
 </div>
 

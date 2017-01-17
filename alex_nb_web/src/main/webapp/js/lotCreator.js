@@ -82,7 +82,7 @@ $(document).ready(function () {
         });
     }
 
-    $('#createLot').on('click', function createLot() {
+    $('#createLot').click( function createLot() {
         var tdId = ltab.find('.idObj');
         var idl = "";
         for (var i = 0; i < tdId.length; i++) {
@@ -106,5 +106,9 @@ $(document).ready(function () {
         });
         //createCreditLot
     });
+
+    $('#formDownld').click(function(){
+        window.open("downLotIdListForm");
+    })
 
 });
