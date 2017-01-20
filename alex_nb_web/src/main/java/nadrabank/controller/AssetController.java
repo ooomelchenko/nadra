@@ -2,10 +2,13 @@ package nadrabank.controller;
 
 import nadrabank.domain.*;
 import nadrabank.service.*;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -19,14 +22,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -126,7 +128,9 @@ public class AssetController {
             row.getCell(11).setCellValue(asset.getZb().doubleValue());
             row.getCell(12).setCellValue(asset.getRv().doubleValue());
             if (lot.getFirstStartPrice() != null)
-                row.getCell(13).setCellValue(lot.getFirstStartPrice().multiply(coeffRV).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
+               // row.getCell(13).setCellValue(lot.getFirstStartPrice().multiply(coeffRV).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
+                row.getCell(13).setCellValue(asset.getAcceptPrice().doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
+
             row.getCell(43).setCellValue(bid.getExchange().getCompanyName());
             row.getCell(44).setCellValue(bid.getExchange().getInn());
             row.getCell(45).setCellValue(bid.getBidDate());
@@ -733,6 +737,24 @@ public class AssetController {
         return fileName;
     }
 
+    public File getTempFile(MultipartFile multipartFile) throws IOException {
+
+        CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile) multipartFile;
+        FileItem fileItem = commonsMultipartFile.getFileItem();
+        DiskFileItem diskFileItem = (DiskFileItem) fileItem;
+        String absPath = diskFileItem.getStoreLocation().getAbsolutePath();
+        File file = new File(absPath);
+
+//trick to implicitly save on disk small files (<10240 bytes by default)
+
+        if (!file.exists()) {
+            file.createNewFile();
+            multipartFile.transferTo(file);
+        }
+
+        return file;
+    }
+
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
     private String main(HttpSession session) {
         Locale.setDefault(Locale.ENGLISH);
@@ -856,7 +878,9 @@ public class AssetController {
         Lot lot = lotService.getLot(id);
         Long count = lotService.lotCount(lot);
         BigDecimal sum = lotService.lotSum(lot);
+        if(count!=null)
         countSumList.add(count.toString());
+        if(sum!=null)
         countSumList.add(sum.toString());
         return countSumList;
     }
@@ -1158,12 +1182,6 @@ public class AssetController {
                 byte[] bytes = file.getBytes();
 
                 name = file.getOriginalFilename();
-                System.out.println(name);
-
-                String arg = URLEncoder.encode(name, "UTF-8");
-                String fineOne = URLDecoder.decode(arg, "UTF-8");
-                System.out.println(arg);
-                System.out.println(fineOne);
 
                 String rootPath = null;
                 if (objType.equals("lot"))
@@ -1190,6 +1208,60 @@ public class AssetController {
         } else {
             return "Error. File not choosen.";
         }
+    }
+
+    @RequestMapping(value = "/uploadIdFile", method = RequestMethod.POST)
+    private @ResponseBody
+    List uploadIdFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
+
+        File file = getTempFile(multipartFile);
+        if (idType == 1) {
+            List<Asset> assetList = new ArrayList<>();
+
+            if (!multipartFile.isEmpty()) {
+
+                XSSFWorkbook wb;
+
+                try {
+                    wb = new XSSFWorkbook(file);
+                    XSSFSheet sheet = wb.getSheetAt(0);
+                    Iterator rows = sheet.rowIterator();
+                    while (rows.hasNext()) {
+                        XSSFRow row = (XSSFRow) rows.next();
+                        String inn = row.getCell(0).getStringCellValue();
+                        assetList.addAll(assetService.getAssetsByInNum(inn));
+                    }
+                    return assetList;
+                } catch (Exception e) {
+                    return null;
+                }
+            } else return null;
+        }
+        if (idType == 0) {
+            List<Credit> creditList = new ArrayList<>();
+            if (!multipartFile.isEmpty()) {
+
+                XSSFWorkbook wb = null;
+
+                try {
+                    wb = new XSSFWorkbook(file);
+                } catch (InvalidFormatException e) {
+                    System.out.println("invalid Format");
+                }
+                XSSFSheet sheet = wb.getSheetAt(0);
+
+                Iterator rows = sheet.rowIterator();
+                while (rows.hasNext()) {
+                    XSSFRow row = (XSSFRow) rows.next();
+                    Double idBars = row.getCell(0).getNumericCellValue();
+                    creditList.addAll(creditService.getCreditsByIdBars(idBars.longValue()));
+
+                }
+                return creditList;
+            } else
+                return null;
+        } else
+            return null;
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)

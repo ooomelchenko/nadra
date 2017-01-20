@@ -41,5 +41,7 @@ public interface CreditDao {
 
     List getCreditsByLot(Long lotId);
 
+    List getCreditsByIdBars(Long id);
+
     List getCredits_SuccessBids(Date startBids, Date endBids);
 }

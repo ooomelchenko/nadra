@@ -43,6 +43,8 @@ public interface CreditService {
 
     List getCreditsByClient(String inn, Long id);
 
+    List getCreditsByIdBars(Long id);
+
     boolean updateCredit(String userLogin, Credit crdt);
 
     @Transactional(readOnly = true)

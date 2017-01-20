@@ -122,6 +122,10 @@ public class CreditServiceImpl implements CreditService {
         return creditDao.getCreditsByClient(inn, id);
     }
     @Override
+    public List getCreditsByIdBars(Long id){
+        return creditDao.getCreditsByIdBars(id);
+    }
+    @Override
     public boolean updateCredit(String userLogin, Credit credit) {
         return  creditDao.update(credit);
     }
@@ -135,4 +139,5 @@ public class CreditServiceImpl implements CreditService {
     public List getCredits_SuccessBids(Date startBids, Date endBids) {
         return creditDao.getCredits_SuccessBids(startBids, endBids);
     }
+
 }

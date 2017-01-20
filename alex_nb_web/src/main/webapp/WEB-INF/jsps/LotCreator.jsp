@@ -10,8 +10,12 @@
     <title>Створення лоту</title>
     <link rel="stylesheet" media="screen" type="text/css" href="css/lotCreatorStyle.css"/>
     <script src="js/jquery-1.11.1.js"></script>
-    <%if(lotType==0){%> <script src="js/lotCrCreator.js"></script> <%}%>
-    <%if(lotType==1){%> <script src="js/lotCreator.js"></script> <%}%>
+    <%if (lotType == 0) {%>
+    <script src="js/lotCrCreator.js"></script>
+    <%}%>
+    <%if (lotType == 1) {%>
+    <script src="js/lotCreator.js"></script>
+    <%}%>
 </head>
 
 <body style="background-color: mintcream">
@@ -21,68 +25,86 @@
 </div>
 
 <div id="mainBlock">
-<div id="credSort" class="choice-box" style="width: 60%">
 
-    <div>
-        <table border="1" class="table" style="background-color: lightcyan; width: 100%" id="tblParam">
-            <tr>
-                <td colspan="2"><input id="commIn" type="text" style="width: 100%" placeholder="Коментар"></td>
-            </tr>
-            <tr>
-                <th>Ціна лоту, грн.</th>
-                <th>К-ть об'єктів</th>
-            </tr>
-            <tr>
-                <td id="priceId" align="center">0</td>
-                <td id="kolId" align="center">0</td>
-            </tr>
-            <tr>
-                <td style="border: none" colspan="2">
-                    <button id="showLCrdts" class="button"
-                            style="background-color: cyan; width: 100%"> Показати список лоту
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div align="center">
-        <button id="createLot" class="button" title="Натисніть для створення лоту з обраних об'єктів">
-            СТВОРИТИ ЛОТ
-        </button>
-    </div>
-    <div>
-        <table style="width: 100%">
-            <tr>
-                <td>
-                    <input id="inn" type="text" placeholder="Введіть ІНН для пошуку" style="width: 100%">
-                </td>
-            </tr>
-            <%if(lotType==0){%>
-            <tr>
-                <td>
-                    <input id="idBars" type="text" placeholder="Введіть ID_BARS" style="background-color: aliceblue; width: 100%">
-                </td>
-            </tr>
-            <%}%>
-            <tr>
-                <td>
-                    <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <div id="searchBlock" class="choice-box">
 
-</div>
-<div style="width: 40%">
-    <button id="formDownld">скачать форму</button>
-</div>
+        <div>
+            <table border="1" class="table" style="background-color: lightcyan; width: 100%" id="tblParam">
+                <tr>
+                    <td colspan="2"><input id="commIn" type="text" style="width: 100%" placeholder="Коментар"></td>
+                </tr>
+                <tr>
+                    <th>Ціна лоту, грн.</th>
+                    <th>К-ть об'єктів</th>
+                </tr>
+                <tr>
+                    <td id="priceId" align="center">0</td>
+                    <td id="kolId" align="center">0</td>
+                </tr>
+                <tr>
+                    <td style="border: none" colspan="2">
+                        <button id="showLCrdts" class="button"
+                                style="background-color: cyan; width: 100%"> Показати список лоту
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center">
+            <button id="createLot" class="button" title="Натисніть для створення лоту з обраних об'єктів">
+                СТВОРИТИ ЛОТ
+            </button>
+        </div>
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <input id="inn" type="text" placeholder="Введіть ІНН для пошуку" style="width: 100%">
+                    </td>
+                </tr>
+                <%if (lotType == 0) {%>
+                <tr>
+                    <td>
+                        <input id="idBars" type="text" placeholder="Введіть ID_BARS"
+                               style="background-color: aliceblue; width: 100%">
+                    </td>
+                </tr>
+                <%}%>
+                <tr>
+                    <td>
+                        <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
+    </div>
+    <div id="listSearchBlock">
+        <%if (lotType == 0) {%>
+        <form method="POST" action="" enctype="multipart/form-data" lang="utf8">
+            <h3>Обрати файл зі списком ID_Bars:</h3>
+            <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+            <input name="idType" value="0" type="number" hidden="hidden">
+        </form>
+        <%}%>
+        <%if (lotType == 1) {%>
+        <form method="POST" action="" enctype="multipart/form-data" lang="utf8">
+            <h3>Обрати файл з Інвентарними номерами:</h3>
+            <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+            <input name="idType" value="1" type="number" hidden="hidden">
+        </form>
+        <%}%>
+        <button id="sendBut">Знайти по списку з файлу</button>
+    </div>
+    <div style="width: 10%">
+        <button id="formDownld" title="Завантажити зразок файлу зі списком ID для пошуку">форма(.xls)</button>
+    </div>
 </div>
 <br/>
 <%if (lotType == 0) {%>
 <div class="view">
     <table class="findTab" border="2" hidden="hidden">
-        <tr align="center" style="background-color: #003eff">
+        <tr align="center" style="background-color: darkblue; color: white">
             <th>ID_BARS</th>
             <th>ІНН</th>
             <th>Боржник</th>
@@ -93,7 +115,7 @@
             <th>В заставі НБУ</th>
         </tr>
     </table>
-    <table class="lotTab" border="2" hidden="hidden" >
+    <table class="lotTab" border="2" hidden="hidden">
         <tr align="center" style="background-color: cyan">
             <th>ID_BARS</th>
             <th>ІНН</th>
@@ -108,14 +130,24 @@
             if (crdt.getLot() == null /*&& !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idObj"><%=crdt.getId()%></td>
-            <td><%=crdt.getInn()%></td>
-            <td><%=crdt.getFio()%></td>
-            <td><%=crdt.getProduct()%></td>
-            <td><%=crdt.getRegion()%></td>
-            <td><%=crdt.getZb()%></td>
-            <td><%=crdt.getRv()%></td>
-            <td><%if (crdt.getNbuPladge()) out.print("Так");else out.print("Ні");%></td>
+            <td class="idObj"><%=crdt.getId()%>
+            </td>
+            <td><%=crdt.getInn()%>
+            </td>
+            <td><%=crdt.getFio()%>
+            </td>
+            <td><%=crdt.getProduct()%>
+            </td>
+            <td><%=crdt.getRegion()%>
+            </td>
+            <td><%=crdt.getZb()%>
+            </td>
+            <td><%=crdt.getRv()%>
+            </td>
+            <td><%
+                if (crdt.getNbuPladge()) out.print("Так");
+                else out.print("Ні");
+            %></td>
         </tr>
         <%
                 }
@@ -154,13 +186,20 @@
             if (asset.getLot() == null /*&& !asset.getLot().getFondDecision().equals("Відправлено до ФГВФО") && !asset.getLot().getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idObj"><%=asset.getId()%></td>
-            <td><%=asset.getInn()%></td>
-            <td><%=asset.getAsset_name()%></td>
-            <td><%=asset.getAsset_descr()%></td>
-            <td><%=asset.getRegion()%></td>
-            <td><%=asset.getZb()%></td>
-            <td><%=asset.getRv()%></td>
+            <td class="idObj"><%=asset.getId()%>
+            </td>
+            <td><%=asset.getInn()%>
+            </td>
+            <td><%=asset.getAsset_name()%>
+            </td>
+            <td><%=asset.getAsset_descr()%>
+            </td>
+            <td><%=asset.getRegion()%>
+            </td>
+            <td><%=asset.getZb()%>
+            </td>
+            <td><%=asset.getRv()%>
+            </td>
             <td><%
                 if (asset.isApproveNBU()) out.print("Так");
                 else out.print("Ні");

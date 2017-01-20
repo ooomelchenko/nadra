@@ -33,7 +33,6 @@
     <script type="text/javascript" src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/docUploads.js"></script>
     <script>
-
         $(document).ready(function () {
             var payTab = $('#paysTab');
             var dp = $('.datepicker');

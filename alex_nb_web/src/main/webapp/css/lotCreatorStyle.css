@@ -4,14 +4,6 @@ button {
 input {
     font-size: large;
 }
-#credSort {
-    width: 50%;
-    display: table;
-}
-#credSort div {
-    width: 30%;
-    display: table-cell;
-}
 #createLot {
     width: 120px;
     height: 55px;
@@ -24,4 +16,21 @@ input {
 }
 #mainBlock div{
     display: table-cell;
+}
+#searchBlock {
+    width: 70%;
+    display: table;
+}
+#searchBlock div {
+    width: 350px;
+}
+#listSearchBlock{
+    width: 20%;
+    background-color: whitesmoke;
+}
+.view{
+    width: 100%;
+}
+.view table{
+    width: 80%;
 }

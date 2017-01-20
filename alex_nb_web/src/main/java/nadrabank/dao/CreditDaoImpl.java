@@ -306,6 +306,12 @@ public class CreditDaoImpl implements CreditDao {
         return query.list();
     }
     @Override
+    public List getCreditsByIdBars(Long id){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.id=:id");
+        query.setParameter("id", id);
+        return query.list();
+    }
+    @Override
     public List getCredits_SuccessBids(Date startBids, Date endBids) {
         Query query = factory.getCurrentSession().createQuery("SELECT credit FROM nadrabank.domain.Credit credit, nadrabank.domain.Lot l WHERE credit.lot=l.id and l.status!='Торги не відбулись' and l.bid.bidDate>=:startBid AND l.bid.bidDate<=:endBid");
         query.setParameter("startBid", startBids);

@@ -4,63 +4,67 @@ $(document).ready(function () {
 
     calculate();
 
-    $('#showLCrdts').on('click', function () {
-        ftab.hide();
-        ltab.show();
-    });
-    $('#findObjBut').on('click', function () {
+    function addToFindTab(obj) {
         ltab.hide();
         $('.findTab').find('.ftr').remove();
         ftab.show();
+
+        for (var i = 0; i < obj.length; i++) {
+            var approveNBU = obj[i].approveNBU ? "Так" : "Ні";
+            var tr = $('<tr class="ftr" align="center">' +
+                '<td class="idObj">' + obj[i].id + '</td>' +
+                '<td>' + obj[i].inn + '</td>' +
+                '<td>' + obj[i].asset_name + '</td>' +
+                '<td>' + obj[i].asset_descr + '</td>' +
+                '<td>' + obj[i].region + '</td>' +
+                '<td>' + obj[i].zb + '</td>' +
+                '<td>' + obj[i].rv + '</td>' +
+                '<td>' + approveNBU + '</td>' +
+                '</tr>');
+
+            var addButton = $('<button id="addButton">Додати в лот</button>');
+            addButton.click(function () {
+                var thisTr = $(this).parent();
+                ltab.append(thisTr);
+                $(this).remove();
+
+                var delButton = $('<button id="delButton">Видалити</button>');
+                thisTr.append(delButton);
+                delButton.click(function () {
+                    $(this).parent().remove();
+                    calculate();
+                });
+                calculate();
+            });
+            var messageTd = $('<td bgcolor="#00ffff">Вже додано до лоту</td>');
+
+            ftab.append(tr);
+            tr.append(addButton);
+            var idF = tr.children().first().text();
+            var lids = ltab.find('.idObj');
+            for (var j = 0; j < lids.length; j++) {
+                if (lids[j].innerHTML == idF) {
+                    addButton.remove();
+                    tr.append(messageTd);
+                }
+            }
+        }
+    }
+
+    $('#findObjBut').on('click', function () {
 
         $.ajax({
             url: "objectsByInNum",
             method: "POST",
             data: {inn: $('#inn').val()},
             success(obj){
-
-                for (var i = 0; i < obj.length; i++) {
-                    var approveNBU = obj[i].approveNBU ? "Так" : "Ні";
-                    var tr = $('<tr class="ftr" align="center">' +
-                        '<td class="idObj">' + obj[i].id + '</td>' +
-                        '<td>' + obj[i].inn + '</td>' +
-                        '<td>' + obj[i].asset_name + '</td>' +
-                        '<td>' + obj[i].asset_descr + '</td>' +
-                        '<td>' + obj[i].region + '</td>' +
-                        '<td>' + obj[i].zb + '</td>' +
-                        '<td>' + obj[i].rv + '</td>' +
-                        '<td>' + approveNBU + '</td>' +
-                        '</tr>');
-
-                    var addButton = $('<button id="addButton">Додати в лот</button>');
-                    addButton.on('click', function () {
-                        var thisTr = $(this).parent();
-                        ltab.append(thisTr);
-                        $(this).remove();
-
-                        var delButton = $('<button id="delButton">Видалити</button>');
-                        thisTr.append(delButton);
-                        delButton.on('click', function () {
-                            $(this).parent().remove();
-                            calculate();
-                        });
-                        calculate();
-                    });
-                    var messageTd = $('<td bgcolor="#00ffff">Вже додано до лоту</td>');
-
-                    ftab.append(tr);
-                    tr.append(addButton);
-                    var idF = tr.children().first().text();
-                    var lids = ltab.find('.idObj');
-                    for (var j = 0; j < lids.length; j++) {
-                        if (lids[j].innerHTML == idF) {
-                            addButton.remove();
-                            tr.append(messageTd);
-                        }
-                    }
-                }
+                addToFindTab(obj);
             }
         });
+    });
+    $('#showLCrdts').on('click', function () {
+        ftab.hide();
+        ltab.show();
     });
 
     function calculate() {
@@ -82,7 +86,7 @@ $(document).ready(function () {
         });
     }
 
-    $('#createLot').click( function createLot() {
+    $('#createLot').click(function createLot() {
         var tdId = ltab.find('.idObj');
         var idl = "";
         for (var i = 0; i < tdId.length; i++) {
@@ -109,6 +113,23 @@ $(document).ready(function () {
 
     $('#formDownld').click(function(){
         window.open("downLotIdListForm");
-    })
+    });
+
+    $('#sendBut').click(function(){
+        sendFile();
+    });
+    function sendFile(){
+        var formData = new FormData($('form')[0]);
+        $.ajax({
+            type: "POST",
+            processData: false,
+            contentType: false,
+            url: "uploadIdFile",
+            data:  formData,
+            success: function (obj) {
+                addToFindTab(obj);
+            }
+        })
+    }
 
 });
