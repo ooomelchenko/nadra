@@ -339,6 +339,7 @@
                             lotNum: $('#lotNum').val(),
                             resultStatus: $('#bidResultSt').val(),
                             customer: $('#customerName').val(),
+                            firstPrice: $('#firstPrice').val(),
                             startPrice: $('#startPrice').val(),
                             factPrice: $('#factPrice').val(),
                             isSold: $('#setSoldButton').val(),
@@ -507,12 +508,16 @@
                     accExCurrent.show();
                 }
             });
+            $('#firstPriceTd').dblclick(function(){
+                $(this).find('div').remove();
+                $(this).find('input').show();
+            });
 
             <%if (lot.getItSold()){%>
             $('#delLotButton').hide();
             $('#setSoldButton').hide();
-            $('#startPrice').hide();
-            $('#startPriceTd').append(<%out.print(lot.getStartPrice());%>);
+            $('#firstPrice').hide();
+            $('#firstPriceTd').append(<%=lot.getFirstStartPrice()%>);
             $('#factPrice').hide();
             $('#factPriceTd').append(<%out.print(lot.getFactPrice());%>);
             <%}%>
@@ -801,8 +806,9 @@
                     <th bgcolor="#00ffff">№ лоту в публікації</th>
                     <th bgcolor="#00ffff">К-ть учасників</th>
                     <th bgcolor="#00ffff">Покупець</th>
+                    <th bgcolor="#00ffff">Початкова ціна</th>
                     <th bgcolor="#00ffff">Дисконт</th>
-                    <th bgcolor="#00ffff">Стартова ціна лоту, грн.</th>
+                    <th bgcolor="#00ffff">Стартова ціна аукціону</th>
                     <th bgcolor="#00ffff">Ціна продажу, грн.</th>
                     <th bgcolor="#00ffff">Залишок до сплати, грн.</th>
                     <th bgcolor="#00ffff">Фактично сплачено, грн.</th>
@@ -820,7 +826,13 @@
                     </td>
                     <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
                     <td><input id="customerName" type="text" placeholder="ФІО"
-                               value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'></td>
+                               value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'>
+                    </td>
+                    <td id="firstPriceTd" align="center">
+                        <div><%=lot.getFirstStartPrice()%></div>
+                        <input id="firstPrice" type="number" hidden="hidden" step="0.01" title="Початкова ціна лоту без дисконту"
+                               value="<%out.print(lot.getFirstStartPrice());%>">
+                    </td>
                     <td id="discount" align="center" title="Дисконт відносно початкової ціни на перших торгах">
                         <%
                             if (lot.getStartPrice() != null && lot.getFirstStartPrice() != null)
@@ -828,7 +840,7 @@
                         %>
                     </td>
                     <td id="startPriceTd" align="center">
-                        <input id="startPrice" type="number" step="0.01" title="Ціна лоту з якої стартував аукціон"
+                        <input id="startPrice" type="number" step="0.01" title="Ціна лоту на актуальному аукціоні"
                                value="<%out.print(lot.getStartPrice());%>">
                     </td>
                     <td id="factPriceTd" align="center">

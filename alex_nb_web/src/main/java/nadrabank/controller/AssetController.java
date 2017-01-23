@@ -68,7 +68,12 @@ public class AssetController {
     }
 
     private BigDecimal getCoefficient(BigDecimal divident, BigDecimal divisor) {
-        return divident.divide(divisor, 10, BigDecimal.ROUND_HALF_UP);
+        try{
+            return divident.divide(divisor, 10, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (NullPointerException e){
+            return BigDecimal.valueOf(0);
+        }
     }
 
     private String makeDodatok(List<Asset> assetList, List<Credit> creditList, String startDate, String endDate) throws IOException {
@@ -1552,6 +1557,7 @@ public class AssetController {
                                                   @RequestParam("bidStage") String bidStage,
                                                   @RequestParam("resultStatus") String resultStatus,
                                                   @RequestParam("customer") String customer,
+                                                  @RequestParam("firstPrice") BigDecimal firstPrice,
                                                   @RequestParam("startPrice") BigDecimal startPrice,
                                                   @RequestParam("factPrice") BigDecimal factLotPrice,
                                                   @RequestParam("isSold") String isSold,
@@ -1566,6 +1572,7 @@ public class AssetController {
         lot.setStatus(resultStatus);
         lot.setCustomerName(customer);
         lot.setCountOfParticipants(countOfParticipants);
+        lot.setFirstStartPrice(firstPrice);
         if (selectedBidId == 0L) {
             lot.setBid(null);
         }
@@ -1575,6 +1582,7 @@ public class AssetController {
             setFactPriceFromLotToAssets(lot, factLotPrice, login);
         }
         if(lot.getLotType()==0) {
+            setFirstStartPriceFromLotToCredits(lot, firstPrice, login);
             setStartPriceFromLotToCredits(lot, startPrice, login);
             setFactPriceFromLotToCredits(lot, factLotPrice, login);
         }
@@ -1978,8 +1986,20 @@ public class AssetController {
         } else {
             Lot lot = asset.getLot();
             BigDecimal coeff = getCoefficient(asset.getFactPrice(), lot.getFactPrice());// asset.getFactPrice().divide(lot.getFactPrice(), 10, BigDecimal.ROUND_HALF_UP);
-            BigDecimal paySumByAsset = lotService.paymentsSumByLot(lot).multiply(coeff).setScale(2, BigDecimal.ROUND_HALF_UP);
-            BigDecimal residualToPay = asset.getFactPrice().subtract(paySumByAsset);
+            BigDecimal paySumByAsset ;
+            try {
+                paySumByAsset = lotService.paymentsSumByLot(lot).multiply(coeff).setScale(2, BigDecimal.ROUND_HALF_UP);
+            }
+            catch(NullPointerException npe){
+                paySumByAsset = BigDecimal.valueOf(0);
+            }
+            BigDecimal residualToPay;
+            try {
+                residualToPay  = asset.getFactPrice().subtract(paySumByAsset);
+            }
+            catch (NullPointerException npe){
+                residualToPay = null;
+            }
             list.add(paySumByAsset);
             list.add(residualToPay);
             return list;

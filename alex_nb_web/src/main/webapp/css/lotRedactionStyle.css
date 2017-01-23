@@ -220,9 +220,9 @@ select, option{
 }
 #financeBlock{
     display: table-cell;
-    width: 85%;
+    width: 90%;
 }
 #commBlock{
     display: table-cell;
-    width: 15%;
+    width: 10%;
 }
