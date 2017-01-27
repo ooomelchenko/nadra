@@ -58,13 +58,23 @@
         }
         #crdButt:hover{
             border: double blue;
-            color: blue ;
+            color: blue;
+        }
+        #infoBlock{
+            position: absolute;
+            bottom: 0;
+            width: 500px;
+            height: 200px;
+            font-size: large;
+            font-weight: bold;
+            font-style: italic;
+            color: darkblue;
         }
     </style>
 </head>
 
 <body id="bd">
-<div>
+<div id="b0">
     <h2>Вітаємо, ${userId} !</h2>
     <h1 align="center"> ГОЛОВНЕ МЕНЮ </h1>
 </div>
@@ -82,7 +92,14 @@
         <img id="reportsButton" src="images/reports.png" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів"/>
     </div>
 </div>
-
+<div id="infoBlock">
+<h3>
+    Останні оновлення
+</h3>
+    <ul>
+        <li>Додано можливість редагування Початкової ціни лоту(від якої розраховується дисконт)</li>
+    </ul>
+</div>
 
 
 </body>

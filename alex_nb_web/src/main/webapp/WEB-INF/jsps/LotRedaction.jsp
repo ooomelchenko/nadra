@@ -208,7 +208,7 @@
                                     '<td>' + objList[i].region + '</td>' +
                                     '<td>' + objList[i].zb + '</td>' +
                                     '<td>' + objList[i].rv + '</td>' +
-                                    '<td>' + objList[i].acceptPrice + '</td>' +
+                                    '<td ><div class="accPrice">' + objList[i].acceptPrice + '</div></td>' +
                                     '<td>' + objList[i].factPrice + '</td>' +
                                     '<td>' + neadNewFondDec + '</td>' +
                                     '<td>' + approveNBU + '</td>' +
@@ -237,6 +237,13 @@
                                 }
                                 tab.append(trR);
                             }
+                            $('.accPrice').dblclick(function(){
+                             var accPrice =$(this).text();
+                             var inAccPrice = $('<input class="inAccPrice" type="number" step="0.01">');
+                             inAccPrice.val(accPrice);
+                             $(this).hide();
+                             $(this).parent().append(inAccPrice);
+                             });
                         }
                     });
                     <% } %>
@@ -259,7 +266,7 @@
                                     '<td>' + objList[i].region + '</td>' +
                                     '<td>' + objList[i].zb + '</td>' +
                                     '<td>' + objList[i].rv + '</td>' +
-                                    '<td>' + objList[i].acceptPrice + '</td>' +
+                                    '<td ><div class="accPrice">' + objList[i].acceptPrice + '</div></td>' +
                                     '<td>' + objList[i].factPrice + '</td>' +
                                     '<td>' + neadNewFondDec + '</td>' +
                                     '<td>' + approveNBU + '</td>' +
@@ -288,6 +295,13 @@
                                 }
                                 tab.append(trR);
                             }
+                            $('.accPrice').dblclick(function(){
+                                var accPrice =$(this).text();
+                                var inAccPrice = $('<input class="inAccPrice" type="number" step="0.01">');
+                                inAccPrice.val(accPrice);
+                                $(this).hide();
+                                $(this).parent().append(inAccPrice);
+                            });
                         }
                     });
                     <% } %>
@@ -326,6 +340,21 @@
                                 }
                             })
                         }
+                    });
+                    $('.inAccPrice').each(function(){
+                       $.ajax({
+                           url: "changeObjAccPrice",
+                           type: 'POST',
+                           data:{
+                               objId: $(this).parent().parent().children().first().text(),
+                               objAccPrice: $(this).val(),
+                               lotId: $('#lotId').text()
+                           },
+                           success(res){
+                               if (res == "0")
+                                   alert("Прийняту ФГВФО ціну не змінено!!");
+                           }
+                       })
                     });
 
                     $.ajax({
@@ -393,12 +422,7 @@
                     }
                 });
             });
-            /*$('#paymentsSum').click(function () {
-                if (payTab.is(':hidden')) {
-                    payTab.show();
-                }
-                else payTab.hide();
-            });*/
+
             addPayButt.click(function adder() {
                 var payTd = $('.payTd');
                 var payDate = $('#payDate');
@@ -516,8 +540,6 @@
             <%if (lot.getItSold()){%>
             $('#delLotButton').hide();
             $('#setSoldButton').hide();
-            $('#firstPrice').hide();
-            $('#firstPriceTd').append(<%=lot.getFirstStartPrice()%>);
             $('#factPrice').hide();
             $('#factPriceTd').append(<%out.print(lot.getFactPrice());%>);
             <%}%>
@@ -828,7 +850,7 @@
                     <td><input id="customerName" type="text" placeholder="ФІО"
                                value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'>
                     </td>
-                    <td id="firstPriceTd" align="center">
+                    <td id="firstPriceTd" align="center" title="Клікніть двічі для редагування">
                         <div><%=lot.getFirstStartPrice()%></div>
                         <input id="firstPrice" type="number" hidden="hidden" step="0.01" title="Початкова ціна лоту без дисконту"
                                value="<%out.print(lot.getFirstStartPrice());%>">
@@ -849,8 +871,7 @@
                     </td>
                     <td id="residualToPay" align="center" title="Залишок до сплати (ціна продажу-сплчено)">
                     </td>
-                    <td id="paymentsSum" datatype="number" align="center"
-                        title="Клікніть для розгорнутого перегляду платежів">
+                    <td id="paymentsSum" datatype="number" align="center">
                     </td>
 
                 </tr>

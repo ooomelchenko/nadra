@@ -1159,12 +1159,14 @@ public class AssetController {
             F = new File(documentsPath + objId);
         if (objType.equals("bid"))
             F = new File(bidDocumentsPath + objId);
-
+        try {
         fList = F.listFiles();
-
-        for (File aFList : fList) {
-            if (aFList.isFile())
-                fileList.add(aFList.getName());
+            for (File aFList : fList) {
+                if (aFList.isFile())
+                    fileList.add(aFList.getName());
+            }
+        } catch (NullPointerException e) {
+            return fileList;
         }
         return fileList;
     }
@@ -2229,6 +2231,29 @@ public class AssetController {
         } else if (lot.getLotType() == 1) {
             Asset asset = assetService.getAsset(objId);
             asset.setLot(null);
+            isitUpdated = assetService.updateAsset(login, asset);
+        }
+        if (isitUpdated)
+            return "1";
+        else
+            return "0";
+    }
+    //changeObjAccPrice
+    @RequestMapping(value = "/changeObjAccPrice", method = RequestMethod.POST)
+    private @ResponseBody String changeObjAccPrice(HttpSession session,
+                                                  @RequestParam("objId") Long objId,
+                                                   @RequestParam("objAccPrice") BigDecimal accPrice,
+                                                  @RequestParam("lotId") Long lotId) {
+        Lot lot = lotService.getLot(lotId);
+        String login = (String) session.getAttribute("userId");
+        boolean isitUpdated = false;
+        if (lot.getLotType() == 0) {
+            Credit credit = creditService.getCredit(objId);
+            credit.setAcceptPrice(accPrice);
+            isitUpdated = creditService.updateCredit(login, credit);
+        } else if (lot.getLotType() == 1) {
+            Asset asset = assetService.getAsset(objId);
+            asset.setAcceptPrice(accPrice);
             isitUpdated = assetService.updateAsset(login, asset);
         }
         if (isitUpdated)

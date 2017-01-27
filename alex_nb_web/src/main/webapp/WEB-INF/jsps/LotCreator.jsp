@@ -113,6 +113,9 @@
             <th>Загальний борг</th>
             <th>Оціночна вартість, грн.</th>
             <th>В заставі НБУ</th>
+            <th>
+                <button class="addAllBut">Додати всі</button>
+            </th>
         </tr>
     </table>
     <table class="lotTab" border="2" hidden="hidden">
@@ -168,6 +171,9 @@
             <th>Балансова вартість</th>
             <th>Оціночна вартість, грн.</th>
             <th>В заставі НБУ</th>
+            <th>
+                <button class="addAllBut">Додати всі</button>
+            </th>
         </tr>
     </table>
     <table class="lotTab" border="2" hidden="hidden">

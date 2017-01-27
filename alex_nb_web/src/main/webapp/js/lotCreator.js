@@ -22,13 +22,13 @@ $(document).ready(function () {
                 '<td>' + approveNBU + '</td>' +
                 '</tr>');
 
-            var addButton = $('<button id="addButton">Додати в лот</button>');
+            var addButton = $('<button class="addButton">Додати в лот</button>');
             addButton.click(function () {
                 var thisTr = $(this).parent();
                 ltab.append(thisTr);
                 $(this).remove();
 
-                var delButton = $('<button id="delButton">Видалити</button>');
+                var delButton = $('<button class="delButton">Видалити</button>');
                 thisTr.append(delButton);
                 delButton.click(function () {
                     $(this).parent().remove();
@@ -131,5 +131,15 @@ $(document).ready(function () {
             }
         })
     }
+
+    $('.addAllBut').click(function () {
+        ftab.find('.ftr').each(function () {
+                var ftr = $('.ftr');
+                ltab.append(ftr);
+            }
+        );
+        $('.addButton').remove();
+        calculate();
+    });
 
 });

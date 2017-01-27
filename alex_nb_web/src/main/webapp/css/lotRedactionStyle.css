@@ -10,6 +10,11 @@ table{
 h2{
     text-align: center;
 }
+.tR:hover{
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: darkblue;
+}
 #b1{
     display: table;
     width: 100%;
@@ -107,7 +112,7 @@ h2{
     background-color: white;
     color: black;
 }
-#fileList, #delLotButton, #setSoldButton, #butAccept, #paymentsSum, #bidDate, .bidHistoryTr, #bidTd
+#fileList, #firstPriceTd, #bidDate, .bidHistoryTr, #bidTd
 {
     cursor:pointer;
 }
@@ -164,6 +169,7 @@ h2{
 }
 button{
     font-weight: bolder;
+    cursor:pointer;
 }
 select, option{
     width: 100%;
@@ -172,7 +178,7 @@ select, option{
 }
 #mainButBlock{
     display: table-cell;
-    width: 15%;
+    width: 10%;
 }
 #butBlock{
     display: table-cell;
@@ -211,7 +217,7 @@ select, option{
     border: solid red;
 }
 #bar{
-    width: 85%;
+    width: 90%;
     display: table-cell;
     border: solid 3px darkgray;
 }
@@ -219,10 +225,8 @@ select, option{
     display: table-cell;
 }
 #financeBlock{
-    display: table-cell;
     width: 90%;
 }
 #commBlock{
-    display: table-cell;
     width: 10%;
 }
