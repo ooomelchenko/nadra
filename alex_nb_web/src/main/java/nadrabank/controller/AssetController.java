@@ -1271,6 +1271,63 @@ public class AssetController {
             return null;
     }
 
+    @RequestMapping(value = "/setAccPriceByFile", method = RequestMethod.POST)
+    private @ResponseBody
+    String setAccPriceByFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
+
+        File file = getTempFile(multipartFile);
+        if (idType == 1) {
+
+            if (!multipartFile.isEmpty()) {
+
+                XSSFWorkbook wb;
+
+                try {
+                    wb = new XSSFWorkbook(file);
+                    XSSFSheet sheet = wb.getSheetAt(0);
+                    Iterator rows = sheet.rowIterator();
+                    while (rows.hasNext()) {
+                        XSSFRow row = (XSSFRow) rows.next();
+                        String inn = row.getCell(0).getStringCellValue();
+                        Double accPrice = row.getCell(1).getNumericCellValue();
+                        List<Asset> assetList=assetService.getAssetsByInNum(inn);
+                        assetList.forEach(asset -> asset.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
+                        assetList.forEach(asset -> assetService.updateAsset(asset) );
+                    }
+                    return "1";
+                } catch (Exception e) {
+                    return "0";
+                }
+            } else return "0";
+        }
+        if (idType == 0) {
+            if (!multipartFile.isEmpty()) {
+
+                XSSFWorkbook wb;
+
+                try {
+                    wb = new XSSFWorkbook(file);
+                    XSSFSheet sheet = wb.getSheetAt(0);
+                    Iterator rows = sheet.rowIterator();
+                    while (rows.hasNext()) {
+                        XSSFRow row = (XSSFRow) rows.next();
+                        String inn = row.getCell(0).getStringCellValue();
+                        Double accPrice = row.getCell(1).getNumericCellValue();
+                       List<Credit> creditList = creditService.getCreditsByIdBars(Long.parseLong(inn));
+                        creditList.forEach(credit -> credit.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
+                        creditList.forEach(credit -> creditService.updateCredit(credit));
+                    }
+                    return "1";
+                } catch (Exception e) {
+                    return "0";
+                }
+            } else return "0";
+        }
+
+        else
+            return "0";
+    }
+
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(HttpServletResponse response, HttpSession session) throws IOException {
         String objIdToDownload = (String) session.getAttribute("objIdToDownload");

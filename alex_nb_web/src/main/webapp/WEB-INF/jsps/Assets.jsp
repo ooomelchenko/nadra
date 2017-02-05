@@ -8,6 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%
+        int assetPortion = (Integer) request.getAttribute("assetPortion");
+        List<Asset> assetList = (List<Asset>) request.getAttribute("assetList");
+    /*List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");*/
+        List<Date> allBidDates = (List<Date>) request.getAttribute("allBidDates");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy", Locale.ENGLISH);
+        List<String> bidResultList = (List<String>) request.getAttribute("bidResultList");
+        List<String> workStages = (List<String>) request.getAttribute("workStages");
+        List<String> exchangeList = (List<String>) request.getAttribute("exchangeList");
+        List<String> decisionNumbers = (List<String>) request.getAttribute("decisionNumbers");
+        List<Long> allLotId = (List<Long>) request.getAttribute("allLotId");
+        List<Exchange> allExchangeList = (List<Exchange>) request.getAttribute("allExchangeList");
+    %>
     <title>Список об'єктів</title>
     <script src="js/jquery-1.11.1.js"></script>
     <script src="js/Monthpicker.js"></script>
@@ -58,7 +72,7 @@
                             obj.parent().find('.paysSum').text(paySum_Residual[0]);
                             obj.parent().find('.residualToPay').text(paySum_Residual[1]);
 
-                            if(paySum_Residual[1]<=0){
+                            if(paySum_Residual[1]!=null && paySum_Residual[1]<=0){
                                 obj.parent().find('.payStatus').text("100% сплата");
                             }
                             else{
@@ -94,42 +108,6 @@
                 }
             });
 
-            /*var redactButton = $('#redactButton');
-
-            redactButton.click(function () {
-                if (redactButton.val() === "0") {
-                    redactButton.val(1);
-                    redactButton.text("Прийняти");
-                    $('#inputFondDecDate').show();
-                    $('#inputFondDec').show();
-                    $('#inputFondDecNum').show();
-                    //$('#acceptedPrice').show();
-                }
-                else {
-                    redactButton.val(0);
-                    redactButton.text("Додати рішення");
-                    var idList="";
-                    $(".check-asset:checked").each(function () {
-                        idList=idList+','+$(this).parent().parent().find('.objId').text();
-                    });
-                    $.ajax({
-                        url: "changeFondDec",
-                        type: "POST",
-                        data: {
-                            idList: idList.substring(1),
-                            fondDecDate: $('#inputFondDecDate').val(),
-                            fondDec: $('#inputFondDec').val(),
-                            decNum: $('#inputFondDecNum').val()
-                        },
-                        success: function (res) {
-                            if (res == 1) {
-                                alert("Зміни прийнято!");
-                                location.href = "assets";
-                            }
-                        }
-                    });
-                }
-            });*/
             $('#createLot').click(function(){
                 var idList="";
                 $(".check-asset:checked").each(function(){
@@ -342,11 +320,11 @@
                             })
                     );
                 }
-                else {
-                    $(this).find("input").hide();
+                /* else {
+                   $(this).find("input").hide();
                     $(this).find(".okButton").remove();
                     $(this).find("div").show();
-                }
+                }*/
             });
             /*$('.acceptEx').dblclick(function () {
                 if ($(this).find(".inputAccEx").is(":hidden")) {
@@ -451,10 +429,54 @@
                         }
                     }
                 });
-            })
+            });
+
+            function loadFile(){
+                var formData = new FormData($('form')[0]);
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    url: "setAccPriceByFile",
+                    data:  formData,
+                    success: function (res) {
+                        if ((res)==1){
+                            alert("затверджені ціни додано!");
+                        }
+                        else if ((res)==0){
+                            alert("затверджені ціни не додано!");
+                        }
+                    }
+                })
+            }
+            $('#addPriceByFileBut').click(function(){
+                if($(this).val()==0) {
+                    $('form').show();
+                    $(this).val(1);
+                    $(this).text("OK");
+                }
+               else if($(this).val()==1) {
+                    loadFile();
+                    location.reload(true);
+                }
+            });
         })
     </script>
     <style type="text/css">
+        #headBlock, #viewBlock{
+            width: 100%;
+        }
+        #buttBlock div{
+            display: table;
+            width: 100%;
+        }
+        #buttBlock div{
+            display: table-cell;
+            width: 50%;
+        }
+        #fileLoadBlock{
+            text-align: right;
+        }
         .assetTr:hover{
             background-color: lightcyan;
         }
@@ -490,65 +512,42 @@
         }
     </style>
 </head>
-<body id="bd">
-<%
-    int assetPortion = (Integer) request.getAttribute("assetPortion");
-    List<Asset> assetList = (List<Asset>) request.getAttribute("assetList");
-    /*List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");*/
-    List<Date> allBidDates = (List<Date>) request.getAttribute("allBidDates");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-    SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy", Locale.ENGLISH);
-    List<String> bidResultList = (List<String>) request.getAttribute("bidResultList");
-    List<String> workStages = (List<String>) request.getAttribute("workStages");
-    List<String> exchangeList = (List<String>) request.getAttribute("exchangeList");
-    List<String> decisionNumbers = (List<String>) request.getAttribute("decisionNumbers");
-    List<Long> allLotId = (List<Long>) request.getAttribute("allLotId");
-    List<Exchange> allExchangeList = (List<Exchange>) request.getAttribute("allExchangeList");
-%>
-<div style="width: 100%">
-    <div style="width: 100%">
-        <table align="center">
-            <tr>
-                <td id="range" colspan="3" align="center">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="back">назад</button>
-                </td>
-                <td><input value="<%out.print(assetPortion);%>" type="number" id="portion"/></td>
-                <td>
-                    <button id="forward">вперед</button>
-                </td>
-            </tr>
-        </table>
+<body>
 
-        <table width="100%" align="center">
-            <tr>
-                <td align="left">
-                    <button id="createLot">СТВОРИТИ ЛОТ</button>
-                </td>
-                <%--<td align="right">
-                    <input id="inputFondDecDate" hidden="hidden" title="Дата прийняття рішення">
-                    <select id="inputFondDec" name="decisionSelect" hidden="hidden" title="Рівень прийняття рішення">
-                        <%
-                            if (fondDecisionsList != null) {
-                                for (String decision : fondDecisionsList) {
-                        %>
-                        <option value="<%=decision%>">
-                            <%out.print(decision);%>
-                        </option>
-                        <%
-                                }
-                            }
-                        %>
-                    </select>
-                    <input id="inputFondDecNum" hidden="hidden" type="text" title="Номер рішення">
-                    <button id="redactButton" value="0">Додати рішення фонду</button>
-                </td>--%>
-            </tr>
-        </table>
+<div style="width: 100%">
+    <div id="headBlock">
+        <div id="portionSelectorBlock">
+            <table align="center">
+                <tr>
+                    <td id="range" colspan="3" align="center">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="back">назад</button>
+                    </td>
+                    <td><input value="<%out.print(assetPortion);%>" type="number" id="portion"/></td>
+                    <td>
+                        <button id="forward">вперед</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="buttBlock">
+            <div>
+                <button id="createLot">СТВОРИТИ ЛОТ</button>
+            </div>
+            <div id="fileLoadBlock">
+                <form method="POST" action="" enctype="multipart/form-data" lang="utf8" hidden="hidden">
+                    <h3>Обрати файл зі списком Інвентарних номерів:</h3>
+                    <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+                    <input name="idType" value="1" type="number" hidden="hidden">
+                </form>
+                <button id="addPriceByFileBut" value="0">ДОДАТИ ЗАТВЕРДЖЕНУ ФГВФО ЦІНУ</button>
+            </div>
+        </div>
     </div>
+    <div id="viewBlock">
     <table id="crdsTab" border="light" class="table">
         <tr style="background-color: limegreen">
             <th></th>
@@ -730,7 +729,7 @@
         <%}%>
 
     </table>
-
+    </div>
 </div>
 
 </body>
