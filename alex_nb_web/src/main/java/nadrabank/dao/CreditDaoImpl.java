@@ -71,9 +71,9 @@ public class CreditDaoImpl implements CreditDao {
                 for (String idBars : idBarsMass) {
                     if (!idBars.equals("")) {
                         if (i == 0)
-                            queryText += a + "cr.id=" + idBars + " ";
+                            queryText += a + "cr.nd=" + idBars + " ";
                         else
-                            queryText += b + "cr.id=" + idBars + " ";
+                            queryText += b + "cr.nd=" + idBars + " ";
                         i++;
                     }
                 }
@@ -282,7 +282,7 @@ public class CreditDaoImpl implements CreditDao {
     @Override
     public List getCreditsByClient(String inn, Long idBars){
         if (!inn.equals("")&&idBars!=null){
-        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.inn=:inn and crdt.id=:idBars");
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.inn=:inn and crdt.nd=:idBars");
             query.setParameter("inn", inn);
             query.setParameter("idBars", idBars);
             return query.list();
@@ -293,7 +293,7 @@ public class CreditDaoImpl implements CreditDao {
             return query.list();
         }
         else if (inn.equals("")&&idBars!=null){
-            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.id=:idBars");
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.nd=:idBars");
             query.setParameter("idBars", idBars);
             return query.list();
         }
@@ -306,9 +306,9 @@ public class CreditDaoImpl implements CreditDao {
         return query.list();
     }
     @Override
-    public List getCreditsByIdBars(Long id){
-        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.id=:id");
-        query.setParameter("id", id);
+    public List getCreditsByIdBars(Long nd){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.nd=:nd");
+        query.setParameter("nd", nd);
         return query.list();
     }
     @Override

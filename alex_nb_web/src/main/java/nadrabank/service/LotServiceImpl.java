@@ -100,11 +100,15 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     public boolean delLot(Lot lot) {
-        List <Pay> paysByLot = payDao.getPaymentsByLot(lot);
-        for(Pay pay: paysByLot){
-            pay.setHistoryLotId(pay.getLotId());
-            pay.setLotId(null);
-            payDao.update(pay);
+        try {
+            List<Pay> paysByLot = payDao.getPaymentsByLot(lot);
+
+            for (Pay pay : paysByLot) {
+                pay.setHistoryLotId(pay.getLotId());
+                pay.setLotId(null);
+                payDao.update(pay);
+            }
+        } catch (NullPointerException e) {
         }
         assetDao.delAssetsFromLot(lot);
         creditDao.delCreditsFromLot(lot.getId());
@@ -112,12 +116,15 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     public boolean delLot(Long lotId) {
-        List <Pay> paysByLot = payDao.getPaymentsByLot(lotDao.read(lotId));
         Lot lot = getLot(lotId);
-        for(Pay pay: paysByLot){
-            pay.setHistoryLotId(lotId);
-            pay.setLotId(null);
-            payDao.update(pay);
+        try {
+            List<Pay> paysByLot = payDao.getPaymentsByLot(lot);
+            for (Pay pay : paysByLot) {
+                pay.setHistoryLotId(pay.getLotId());
+                pay.setLotId(null);
+                payDao.update(pay);
+            }
+        } catch (NullPointerException e) {
         }
         assetDao.delAssetsFromLot(lot);
         creditDao.delCreditsFromLot(lotId);

@@ -219,6 +219,36 @@
                 clone.children().first().val(null);
                 $(this).before(clone);
             });
+
+            function loadFile(){
+                var formData = new FormData($('form')[0]);
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    url: "setAccPriceByFile",
+                    data:  formData,
+                    success: function (res) {
+                        if ((res)==1){
+                            alert("затверджені ціни додано!");
+                            location.reload(true);
+                        }
+                        else if ((res)==0){
+                            alert("затверджені ціни не додано!");
+                        }
+                    }
+                })
+            }
+            $('#addPriceByFileBut').click(function(){
+                if($(this).val()==0) {
+                    $('form').show();
+                    $(this).val(1);
+                    $(this).text("OK");
+                }
+                else if($(this).val()==1) {
+                    loadFile();
+                }
+            });
         })
     </script>
     <style type="text/css">
@@ -247,121 +277,132 @@
         }
     </style>
 </head>
-<body id="bd">
-<div>
-    <table align="right">
-        <tr>
-            <td >
-                <button id="showFilters">Фільтри</button>
-            </td>
-        </tr>
-    </table>
-    <table id="filterTab" align="right" hidden="hidden">
-        <tr>
-            <td>Продані кредити</td>
-            <td>
-                <select id="isSold" title="Оберіть чи продані кредити">
-                    <option value="10" selected="selected">Всі</option>
-                    <option value="0">Ні</option>
-                    <option value="1">Так</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>В лотах</td>
-            <td>
-                <select id="isInLot" title="Оберіть чи кредити в лотах">
-                    <option value="10" selected="selected">Всі</option>
-                    <option value="0">Ні</option>
-                    <option value="1">Так</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Фіз.особи/Юр.особи</td>
-            <td>
-                <select id="fiz_ur_Type" title="Оберіть тип боржника">
-                    <option value="10" selected="selected">Всі</option>
-                    <option value="0">Фізичні особи</option>
-                    <option value="1">Юридичні особи</option>
-                    <option value="2">Списані</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>В заставі НБУ</td>
-            <td>
-                <select id="isNbu" title="Оберіть чи кредит в заставі НБУ">
-                    <option value="10" selected="selected">Всі</option>
-                    <option value="0">Ні</option>
-                    <option value="1">Так</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Чи є рішення ФГВФО</td>
-            <td>
-                <select id="isFondDec" title="Оберіть чи по кредиту є рішення фонду">
-                    <option value="10" selected="selected">Всі</option>
-                    <option value="0">Ні</option>
-                    <option value="1">Так</option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-            <td>ID_BARS</td>
-            <td>
-                <input class="inIDBars" type="text"/>
-            </td>
-            <td class="addIn">додати</td>
-        </tr>
-        <tr>
-            <td>INN</td>
-            <td>
-                <input class="inINN" type="text"/>
-            </td>
-            <td class="addIn">додати</td>
-        </tr>
-        <tr>
-            <td>ID лоту</td>
-            <td>
-                <input class="inIDLot" type="text"/>
-            </td>
-            <td class="addIn">додати</td>
-        </tr>
-
-        <tr>
-            <td rowspan="2" align="center">
-                <button id="filterButton">Застосувати фільтри</button>
-            </td>
-        </tr>
-    </table>
+<body>
+<div id="headBlock">
+    <div id="buttBlock">
+        <div>
+            <button id="createLot">СТВОРИТИ ЛОТ</button>
+        </div>
+        <div id="fileLoadBlock">
+            <form method="POST" action="" enctype="multipart/form-data" lang="utf8" hidden="hidden">
+                <h3>Обрати файл зі списком Інвентарних номерів:</h3>
+                <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+                <input name="idType" value="0" type="number" hidden="hidden">
+            </form>
+            <button id="addPriceByFileBut" value="0">ДОДАТИ ЗАТВЕРДЖЕНУ ФГВФО ЦІНУ</button>
+        </div>
+    </div>
 </div>
-<br>
 <div>
-    <table width="100%" align="left">
-        <tr>
-            <td>
-                <button id="createLot">СТВОРИТИ ЛОТ</button>
-            </td>
-        </tr>
-    </table>
-    <table align="center">
-        <tr>
-            <%
-                Long totalCountOfCredits = (Long)request.getAttribute("totalCountOfCredits");
-                long countOfPortions = (totalCountOfCredits / 5000+1);
-            %>
-            <td id="range" colspan="3"
-                align="center"><%out.print(countOfPortions+"стор." + " (по 5000 кредитів з " + totalCountOfCredits + ")");%></td>
-        </tr>
-        <tr>
-            <td><button id="back">назад</button></td>
-            <td><input value="1" type="number" id="portion" /></td>
-            <td><button id="forward">вперед</button></td>
-        </tr>
-    </table>
+    <div>
+        <table align="center">
+            <tr>
+                <%
+                    Long totalCountOfCredits = (Long)request.getAttribute("totalCountOfCredits");
+                    long countOfPortions = (totalCountOfCredits / 5000+1);
+                %>
+                <td id="range" colspan="3"
+                    align="center"><%out.print(countOfPortions+"стор." + " (по 5000 кредитів з " + totalCountOfCredits + ")");%></td>
+            </tr>
+            <tr>
+                <td><button id="back">назад</button></td>
+                <td><input value="1" type="number" id="portion" /></td>
+                <td><button id="forward">вперед</button></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <table align="right">
+            <tr>
+                <td >
+                    <button id="showFilters">Фільтри</button>
+                </td>
+            </tr>
+        </table>
+        <table id="filterTab" align="right" hidden="hidden">
+            <tr>
+                <td>Продані кредити</td>
+                <td>
+                    <select id="isSold" title="Оберіть чи продані кредити">
+                        <option value="10" selected="selected">Всі</option>
+                        <option value="0">Ні</option>
+                        <option value="1">Так</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>В лотах</td>
+                <td>
+                    <select id="isInLot" title="Оберіть чи кредити в лотах">
+                        <option value="10" selected="selected">Всі</option>
+                        <option value="0">Ні</option>
+                        <option value="1">Так</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Фіз.особи/Юр.особи</td>
+                <td>
+                    <select id="fiz_ur_Type" title="Оберіть тип боржника">
+                        <option value="10" selected="selected">Всі</option>
+                        <option value="0">Фізичні особи</option>
+                        <option value="1">Юридичні особи</option>
+                        <option value="2">Списані</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>В заставі НБУ</td>
+                <td>
+                    <select id="isNbu" title="Оберіть чи кредит в заставі НБУ">
+                        <option value="10" selected="selected">Всі</option>
+                        <option value="0">Ні</option>
+                        <option value="1">Так</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Чи є рішення ФГВФО</td>
+                <td>
+                    <select id="isFondDec" title="Оберіть чи по кредиту є рішення фонду">
+                        <option value="10" selected="selected">Всі</option>
+                        <option value="0">Ні</option>
+                        <option value="1">Так</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>ID_BARS</td>
+                <td>
+                    <input class="inIDBars" type="text"/>
+                </td>
+                <td class="addIn">додати</td>
+            </tr>
+            <tr>
+                <td>INN</td>
+                <td>
+                    <input class="inINN" type="text"/>
+                </td>
+                <td class="addIn">додати</td>
+            </tr>
+            <tr>
+                <td>ID лоту</td>
+                <td>
+                    <input class="inIDLot" type="text"/>
+                </td>
+                <td class="addIn">додати</td>
+            </tr>
+            <tr>
+                <td rowspan="2" align="center">
+                    <button id="filterButton">Застосувати фільтри</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br>
+<div id="viewBlock">
 
     <table id="crdsTab" border="light" class="table">
         <tr id="headTr">

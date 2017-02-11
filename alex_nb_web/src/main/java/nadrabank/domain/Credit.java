@@ -15,10 +15,10 @@ public class Credit implements Serializable {
     @Id
     @SequenceGenerator(name = "sequence", sequenceName = "Credit_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @Column(name = "ND_NLS")
-    private Long id;
     @Column(name = "KEY_N")
-    private Long n;
+    private Long id;
+    @Column(name = "ND_NLS")
+    private Long nd;
     @Column(name = "REGION")
     private String region;
     @Column(name = "MFO")
@@ -119,11 +119,11 @@ public class Credit implements Serializable {
     @Column(name = "LOT_ID")
     private Long lot;
 
-    public Long getN() {
-        return n;
+    public Long getNd() {
+        return nd;
     }
-    public void setN(Long n) {
-        this.n = n;
+    public void setNd(Long nd) {
+        this.nd = nd;
     }
 
     public Long getId() {
@@ -385,27 +385,6 @@ public class Credit implements Serializable {
         this.rv = rv;
     }
 
-    /*public Date getFondDecisionDate() {
-        return fondDecisionDate;
-    }
-    public void setFondDecisionDate(Date fondDecisionDate) {
-        this.fondDecisionDate = fondDecisionDate;
-    }
-
-    public String getFondDecision() {
-        return fondDecision;
-    }
-    public void setFondDecision(String fondDecision) {
-        this.fondDecision = fondDecision;
-    }
-
-    public String getDecisionNumber() {
-        return decisionNumber;
-    }
-    public void setDecisionNumber(String decisionNumber) {
-        this.decisionNumber = decisionNumber;
-    }*/
-
     public BigDecimal getAcceptPrice() {
         return acceptPrice;
     }
@@ -462,20 +441,6 @@ public class Credit implements Serializable {
         this.firstStartPrice = firstStartPrice;
     }
 
-    /*public String getAcceptExchange() {
-        return acceptExchange;
-    }
-    public void setAcceptExchange(String acceptExchange) {
-        this.acceptExchange = acceptExchange;
-    }
-
-    public boolean isNeadNewFondDec() {
-        return neadNewFondDec;
-    }
-    public void setNeadNewFondDec(boolean neadNewFondDec) {
-        this.neadNewFondDec = neadNewFondDec;
-    }*/
-
     public Credit() {
     }
 
@@ -483,7 +448,7 @@ public class Credit implements Serializable {
     public String toString() {
         return "Credit{" +
                 "id=" + id +
-                ", n=" + n +
+                ", n=" + nd +
                 ", region='" + region + '\'' +
                 ", mfo='" + mfo + '\'' +
                 ", assetTypeCode='" + assetTypeCode + '\'' +

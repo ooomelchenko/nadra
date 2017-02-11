@@ -105,6 +105,7 @@
 <div class="view">
     <table class="findTab" border="2" hidden="hidden">
         <tr align="center" style="background-color: darkblue; color: white">
+            <th hidden="hidden">Key_N</th>
             <th>ID_BARS</th>
             <th>ІНН</th>
             <th>Боржник</th>
@@ -120,6 +121,7 @@
     </table>
     <table class="lotTab" border="2" hidden="hidden">
         <tr align="center" style="background-color: cyan">
+            <th hidden="hidden">Key_N</th>
             <th>ID_BARS</th>
             <th>ІНН</th>
             <th>Боржник</th>
@@ -133,7 +135,9 @@
             if (crdt.getLot() == null /*&& !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idObj"><%=crdt.getId()%>
+            <td class="idObj" hidden="hidden"><%=crdt.getId()%>
+            </td>
+            <td class="ndObj"><%=crdt.getNd()%>
             </td>
             <td><%=crdt.getInn()%>
             </td>

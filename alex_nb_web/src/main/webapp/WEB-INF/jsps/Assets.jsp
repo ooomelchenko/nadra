@@ -442,6 +442,7 @@
                     success: function (res) {
                         if ((res)==1){
                             alert("затверджені ціни додано!");
+                            location.reload(true);
                         }
                         else if ((res)==0){
                             alert("затверджені ціни не додано!");
@@ -457,7 +458,6 @@
                 }
                else if($(this).val()==1) {
                     loadFile();
-                    location.reload(true);
                 }
             });
         })
@@ -466,7 +466,7 @@
         #headBlock, #viewBlock{
             width: 100%;
         }
-        #buttBlock div{
+        #buttBlock{
             display: table;
             width: 100%;
         }
@@ -508,6 +508,7 @@
             cursor: default;
         }
         button {
+            font-weight: bold;
             cursor: pointer;
         }
     </style>
@@ -516,6 +517,19 @@
 
 <div style="width: 100%">
     <div id="headBlock">
+        <div id="buttBlock">
+            <div>
+                <button id="createLot">СТВОРИТИ ЛОТ</button>
+            </div>
+            <div id="fileLoadBlock">
+                <form method="POST" action="" enctype="multipart/form-data" lang="utf8" hidden="hidden">
+                    <h3>Обрати файл зі списком Інвентарних номерів:</h3>
+                    <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
+                    <input name="idType" value="1" type="number" hidden="hidden">
+                </form>
+                <button id="addPriceByFileBut" value="0">ДОДАТИ ЗАТВЕРДЖЕНУ ФГВФО ЦІНУ</button>
+            </div>
+        </div>
         <div id="portionSelectorBlock">
             <table align="center">
                 <tr>
@@ -532,19 +546,6 @@
                     </td>
                 </tr>
             </table>
-        </div>
-        <div id="buttBlock">
-            <div>
-                <button id="createLot">СТВОРИТИ ЛОТ</button>
-            </div>
-            <div id="fileLoadBlock">
-                <form method="POST" action="" enctype="multipart/form-data" lang="utf8" hidden="hidden">
-                    <h3>Обрати файл зі списком Інвентарних номерів:</h3>
-                    <input align="center" type="file" name="file" title="натисніть для обрання файлу"><br/>
-                    <input name="idType" value="1" type="number" hidden="hidden">
-                </form>
-                <button id="addPriceByFileBut" value="0">ДОДАТИ ЗАТВЕРДЖЕНУ ФГВФО ЦІНУ</button>
-            </div>
         </div>
     </div>
     <div id="viewBlock">

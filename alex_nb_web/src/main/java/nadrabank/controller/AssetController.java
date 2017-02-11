@@ -418,8 +418,8 @@ public class AssetController {
         for(Credit credit : creditList){
             XSSFRow row = sheet.createRow(numRow);
             numRow++;
-            row.createCell(0).setCellValue(credit.getId());
-            row.createCell(1).setCellValue(credit.getN());
+            row.createCell(0).setCellValue(credit.getNd());
+            row.createCell(1).setCellValue(credit.getId());
             row.createCell(2).setCellValue(credit.getInn());
             row.createCell(3).setCellValue(credit.getRegion());
             row.createCell(4).setCellValue(credit.getMfo());
@@ -823,14 +823,13 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/lotDel", method = RequestMethod.POST)
-    private @ResponseBody String deleteLot(@RequestParam("lotID") String lotId) {
+    private @ResponseBody int deleteLot(@RequestParam("lotID") String lotId) {
 
         boolean isitDel = lotService.delLot(Long.parseLong(lotId));
-
         if (isitDel)
-            return "1";
+            return 1;
         else
-            return "0";
+            return 0;
     }
 
     @RequestMapping(value = "/setLotSold", method = RequestMethod.POST)
@@ -1274,7 +1273,7 @@ public class AssetController {
     @RequestMapping(value = "/setAccPriceByFile", method = RequestMethod.POST)
     private @ResponseBody
     String setAccPriceByFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
-
+        List<Asset> assetList;
         File file = getTempFile(multipartFile);
         if (idType == 1) {
 
@@ -1290,7 +1289,7 @@ public class AssetController {
                         XSSFRow row = (XSSFRow) rows.next();
                         String inn = row.getCell(0).getStringCellValue();
                         Double accPrice = row.getCell(1).getNumericCellValue();
-                        List<Asset> assetList=assetService.getAssetsByInNum(inn);
+                        assetList=assetService.getAssetsByInNum(inn);
                         assetList.forEach(asset -> asset.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
                         assetList.forEach(asset -> assetService.updateAsset(asset) );
                     }
@@ -2172,7 +2171,7 @@ public class AssetController {
                 planSaleDate=yearMonthFormat.format(cr.getPlanSaleDate());
 
             rezList.add(lotId
-                    + "||" + cr.getId()
+                    + "||" + cr.getNd()
                     + "||" + cr.getInn()
                     + "||" + cr.getContractNum()
                     + "||" + bidDate
@@ -2259,7 +2258,7 @@ public class AssetController {
                 + "Загальний борг, грн." + '|' + "dpd" + '|' + "Вартість об'єкту, грн.");
 
         for (Credit cr : crList) {
-            rezList.add(cr.getId() + cr.toShotString());
+            rezList.add(cr.getNd() + cr.toShotString());
         }
         return rezList;
     }

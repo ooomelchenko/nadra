@@ -259,7 +259,8 @@
                                 var approveNBU = objList[i].nbuPladge ? "Так" : "Ні";
                                 var neadNewFondDec = objList[i].neadNewFondDec ? "Так" : "Ні";
                                 var trR = $('<tr align="center" class="tR">' +
-                                    '<td class="idLot">' + objList[i].id + '</td>' +
+                                    '<td class="idLot" hidden="hidden">' + objList[i].id + '</td>' +
+                                    '<td class="nd">' + objList[i].nd + '</td>' +
                                     '<td>' + objList[i].inn + '</td>' +
                                     '<td>' + objList[i].fio + '</td>' +
                                     '<td>' + objList[i].product + '</td>' +
@@ -390,9 +391,9 @@
                         method: "POST",
                         data: {lotID: $('#lotId').text()},
                         success(rez){
-                            if (rez === "1") {
+                            if (rez == 1) {
                                 alert("Лот видалено!");
-                                window.close()
+                                window.close();
                             }
                             else alert("Лот не видалено!")
                         }
@@ -936,6 +937,7 @@
     </table>
     <table id="crdtsTab" border="light" class="table" hidden="hidden">
         <tr bgcolor="#00bfff">
+            <th hidden="hidden">ID</th>
             <th>ID_Bars</th>
             <th>ІНН</th>
             <th>Назва</th>

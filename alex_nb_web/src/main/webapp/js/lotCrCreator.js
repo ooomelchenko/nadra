@@ -12,7 +12,8 @@ $(document).ready(function () {
         for (var i = 0; i < obj.length; i++) {
             var approveNBU = obj[i].nbuPladge ? "Так" : "Ні";
             var tr = $('<tr class="ftr" align="center">' +
-                '<td class="idObj">' + obj[i].id + '</td>' +
+                '<td class="idObj" hidden="hidden">' + obj[i].id + '</td>' +
+                '<td class="ndObj">' + obj[i].nd + '</td>' +
                 '<td>' + obj[i].inn + '</td>' +
                 '<td>' + obj[i].fio + '</td>' +
                 '<td>' + obj[i].product + '</td>' +
