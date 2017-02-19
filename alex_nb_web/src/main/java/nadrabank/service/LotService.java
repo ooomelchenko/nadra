@@ -30,6 +30,10 @@ public interface LotService {
     List getLotsId();
 
     BigDecimal lotSum(Lot lot);
+
+    @Transactional(readOnly = true)
+    BigDecimal lotAcceptedSum(Lot lot);
+
     Long lotCount(Lot lot);
 
     boolean delLot(Lot lot);

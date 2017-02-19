@@ -121,7 +121,7 @@
                         if(result==1) {
                             window.open("lotCreator1");
                         }
-                        else alert("Халепа");
+                        else alert("Не обрано жодного об'єкта");
                     }
                 })
             });

@@ -84,6 +84,23 @@ public class LotDaoImpl implements LotDao {
         return (BigDecimal)queryS.list().get(0);
     }
     @Override
+    public BigDecimal lotAcceptedSum(Lot lot){
+        Query queryS;
+        if(lot.getLotType()==0) {
+            queryS = factory.getCurrentSession().createQuery("SELECT sum(cr.acceptPrice) FROM nadrabank.domain.Credit cr WHERE cr.lot=:lot");
+            queryS.setParameter("lot", lot.getId());
+        }
+        else if(lot.getLotType()==1) {
+            queryS = factory.getCurrentSession().createQuery("SELECT sum(asset.acceptPrice) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
+            queryS.setParameter("lot", lot);
+        }
+        else  {
+            queryS = factory.getCurrentSession().createQuery("SELECT sum(asset.acceptPrice) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
+            queryS.setParameter("lot", lot);
+        }
+        return (BigDecimal)queryS.list().get(0);
+    }
+    @Override
     public Long lotCount(Lot lot){
         Query query;
         if(lot.getLotType()==0) {

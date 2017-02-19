@@ -54,4 +54,8 @@ public interface AssetService {
 
     @Transactional(readOnly = true)
     List getDecisionNumbers();
+
+    BigDecimal getFirstAccPrice(Long assId);
+
+    BigDecimal getFirstAccPrice(Asset asset);
 }

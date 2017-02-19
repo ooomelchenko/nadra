@@ -1,9 +1,12 @@
 package nadrabank.dao;
 
 import nadrabank.domain.AssetHistory;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
 
 @Repository
 public class AssetHistoryDaoImpl implements AssetHistoryDao {
@@ -40,5 +43,16 @@ public class AssetHistoryDaoImpl implements AssetHistoryDao {
     public boolean delete(AssetHistory assetHistory) {
         factory.getCurrentSession().delete(assetHistory);
         return true;
+    }
+    @Override
+    public BigDecimal getFirstAccPrice(Long assId) {
+        Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.id=:assId and ah.acceptPrice is not null ORDER BY ah.changeDate DESC ");
+        query.setParameter("assId", assId);
+        try {
+            return (BigDecimal) query.list().get(0);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
     }
 }

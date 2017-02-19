@@ -95,6 +95,11 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     @Transactional(readOnly = true)
+    public BigDecimal lotAcceptedSum(Lot lot){
+        return lotDao.lotAcceptedSum(lot);
+    }
+    @Override
+    @Transactional(readOnly = true)
     public Long lotCount(Lot lot){
         return lotDao.lotCount(lot);
     }

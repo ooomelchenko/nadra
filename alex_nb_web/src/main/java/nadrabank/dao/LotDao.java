@@ -20,6 +20,9 @@ public interface LotDao {
     List<Long> findAllId();
 
     BigDecimal lotSum(Lot lot);
+
+    BigDecimal lotAcceptedSum(Lot lot);
+
     Long lotCount(Lot lot);
 
     List getAssetsByLot(Lot lot);

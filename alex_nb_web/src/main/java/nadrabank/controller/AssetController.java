@@ -108,7 +108,8 @@ public class AssetController {
             }
             Lot lot = asset.getLot();
             Bid bid = lot.getBid();
-            BigDecimal coeffRV = getCoefficient(asset.getRv(), lotService.lotSum(lot));// asset.getRv().divide(lotService.lotSum(lot), 10, BigDecimal.ROUND_HALF_UP);
+         //   BigDecimal coeffRV = getCoefficient(asset.getRv(), lotService.lotSum(lot));// asset.getRv().divide(lotService.lotSum(lot), 10, BigDecimal.ROUND_HALF_UP);
+            BigDecimal coeffAcc = getCoefficient(asset.getAcceptPrice(), lotService.lotAcceptedSum(lot));
             //
             row.getCell(0).setCellValue(i);
             row.getCell(1).setCellValue(380764);
@@ -134,7 +135,13 @@ public class AssetController {
             row.getCell(12).setCellValue(asset.getRv().doubleValue());
             if (lot.getFirstStartPrice() != null)
                // row.getCell(13).setCellValue(lot.getFirstStartPrice().multiply(coeffRV).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
-                row.getCell(13).setCellValue(asset.getAcceptPrice().doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
+              //  row.getCell(13).setCellValue(asset.getAcceptPrice().doubleValue());// Початкова ціна реалізації активу, з ПДВ, грн.
+            try {
+                row.getCell(13).setCellValue(assetService.getFirstAccPrice(asset.getId()).doubleValue());
+            }
+            catch (NullPointerException e){
+                System.out.println("firstAccPrice is null");
+            }
 
             row.getCell(43).setCellValue(bid.getExchange().getCompanyName());
             row.getCell(44).setCellValue(bid.getExchange().getInn());
@@ -143,10 +150,10 @@ public class AssetController {
             row.getCell(46).setCellValue(asset.getLot().getCountOfParticipants());
             row.getCell(48).setCellValue(asset.getLot().getBidStage());
 
-            BigDecimal lotStartPrice = lot.getStartPrice();
-            BigDecimal lotFirstStartPrice = lot.getFirstStartPrice();
+         //   BigDecimal lotStartPrice = lot.getStartPrice();
+         //   BigDecimal lotFirstStartPrice = lot.getFirstStartPrice();
 
-            if (lot.getFirstStartPrice() != null && lot.getStartPrice() != null)
+           /* if (lot.getFirstStartPrice() != null && lot.getStartPrice() != null)
                 row.getCell(49).setCellValue((1 - (lotStartPrice.divide(lotFirstStartPrice, 4, BigDecimal.ROUND_HALF_UP)).doubleValue()) * 100);//Зниження початкової ціни реалізації активу
 
             if (lot.getStartPrice() != null) {
@@ -156,6 +163,17 @@ public class AssetController {
             }
             if (lot.getStartPrice() != null)
                 row.getCell(51).setCellValue(lot.getStartPrice().multiply(coeffRV).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //Початкова ціна реалізації активу на актуальном аукціоні з ПДВ, грн.
+*/
+            row.getCell(49).setCellFormula("(1-AZ"+numRow+"/N"+numRow+ ")*100");//Зниження початкової ціни реалізації активу
+            row.getCell(49).setCellStyle(numStyle);
+            if (lot.getStartPrice() != null) {
+                BigDecimal assetStartPrive = lot.getStartPrice().multiply(coeffAcc).setScale(10, BigDecimal.ROUND_HALF_UP);
+                row.getCell(50).setCellValue(assetStartPrive.divide(new BigDecimal(6), 4).multiply(new BigDecimal(5)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //Початкова ціна реалізації активу на актуальном аукціоні без ПДВ, грн.
+                row.getCell(50).setCellStyle(numStyle);
+            }
+            if (lot.getStartPrice() != null)
+                row.getCell(51).setCellValue(lot.getStartPrice().multiply(coeffAcc).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //Початкова ціна реалізації активу на актуальном аукціоні з ПДВ, грн.
+
             if (lot.getActSignedDate() != null) {
                 row.getCell(52).setCellValue(lot.getActSignedDate());
                 row.getCell(52).setCellStyle(cellStyle);
@@ -1097,7 +1115,6 @@ public class AssetController {
         if(reportNum==4){
             try {
                 reportPath=fillAssTab(assetService.getAll());
-                System.out.println("done!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1108,7 +1125,6 @@ public class AssetController {
         if(reportNum==3){
             try {
                 reportPath=fillCrdTab(creditService.getCreditsByPortion(1));
-                System.out.println("done!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1180,7 +1196,6 @@ public class AssetController {
         try {
             request.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            System.out.println("oooooopppps");
         }
         String name = null;
         if (!file.isEmpty()) {
@@ -1499,8 +1514,8 @@ public class AssetController {
                 creditService.updateCredit(login, credit);
             }
         }
-        else if (!factLotPrice.equals(new BigDecimal(0.00))) {
-            BigDecimal lotSum = lotService.lotSum(lot);
+        else if (!factLotPrice.equals(BigDecimal.valueOf(0.00))) {
+            BigDecimal lotAcceptedSum = lotService.lotAcceptedSum(lot);
             BigDecimal creditsTotalFact = new BigDecimal(0.00);
 
             for (int i = 0; i < credits.size(); i++) {
@@ -1509,7 +1524,7 @@ public class AssetController {
                 if (i == credits.size() - 1) {
                     factPrice = factLotPrice.subtract(creditsTotalFact);
                 } else {
-                    factPrice = (credit.getRv().divide(lotSum, 10, BigDecimal.ROUND_HALF_UP)).multiply(factLotPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    factPrice = (credit.getAcceptPrice().divide(lotAcceptedSum, 10, BigDecimal.ROUND_HALF_UP)).multiply(factLotPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
                     creditsTotalFact = creditsTotalFact.add(factPrice);
                 }
                 credit.setFactPrice(factPrice);
@@ -1528,7 +1543,7 @@ public class AssetController {
             }
         }
         else if (!factLotPrice.equals(new BigDecimal(0.00))) {
-            BigDecimal lotSum = lotService.lotSum(lot);
+            BigDecimal lotAcceptedSum = lotService.lotAcceptedSum(lot);
             BigDecimal assetsTotalFact = new BigDecimal(0.00);
 
             for (int i = 0; i < assets.size(); i++) {
@@ -1537,7 +1552,7 @@ public class AssetController {
                 if (i == assets.size() - 1) {
                     factPrice = factLotPrice.subtract(assetsTotalFact);
                 } else {
-                    factPrice = (asset.getRv().divide(lotSum, 10, BigDecimal.ROUND_HALF_UP)).multiply(factLotPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    factPrice = (asset.getAcceptPrice().divide(lotAcceptedSum, 10, BigDecimal.ROUND_HALF_UP)).multiply(factLotPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
                     assetsTotalFact = assetsTotalFact.add(factPrice);
                 }
                 asset.setFactPrice(factPrice);
@@ -1913,6 +1928,9 @@ public class AssetController {
 
     @RequestMapping(value = "/createLotByCheckedAssets", method = RequestMethod.POST)
     private @ResponseBody String createLotByAssets(@RequestParam("idList") String idList, HttpSession session) {
+        if(idList.equals("")){
+            return "0";
+        }
         String[] idMass = idList.split(",");
             session.setAttribute("assetsListToLot", idMass);
             return "1";
@@ -1920,7 +1938,11 @@ public class AssetController {
 
     @RequestMapping(value = "/createLotByCheckedCredits", method = RequestMethod.POST)
     private @ResponseBody String createLotByCheckedCredits(@RequestParam("idList") String idList, HttpSession session) {
+        if(idList.equals("")){
+            return "0";
+        }
         String[] idMass = idList.split(",");
+
         session.setAttribute("creditsListToLot", idMass);
         return "1";
     }
@@ -2022,9 +2044,7 @@ public class AssetController {
             return "0";
         }
         for (String id : idm) {
-            System.out.println("id = "+id);
             sum = sum.add(creditService.getCredit(Long.parseLong(id)).getRv());
-            System.out.println("sum = "+sum);
         }
         return sum.toString();
     }
@@ -2103,7 +2123,6 @@ public class AssetController {
         String [] idBarsMass = inIDBarses.split(",");
         String [] innMass = inINNs.split(",");
         String [] idLotMass = inIDLots.split(",");
-        System.out.println("1)= "+idBarsMass.length+"  2)= "+innMass.length+" 3)= "+idLotMass.length);
 
         List<Credit> crList = creditService.getCreditsByPortion(portionNumber, isSold, isInLot, clientType, isNbu, isFondDec, idBarsMass , innMass, idLotMass);
         List<String> rezList = new ArrayList<>();
@@ -2294,7 +2313,7 @@ public class AssetController {
         else
             return "0";
     }
-    //changeObjAccPrice
+
     @RequestMapping(value = "/changeObjAccPrice", method = RequestMethod.POST)
     private @ResponseBody String changeObjAccPrice(HttpSession session,
                                                   @RequestParam("objId") Long objId,
@@ -2426,11 +2445,11 @@ public class AssetController {
     }*/
 
     @RequestMapping(value = "/updateCreditsInLot", method = RequestMethod.POST)
-    private
-    @ResponseBody
-    String updateCreditsInLot(@RequestParam("newPricesId") String newPricesId, @RequestParam("newPrice") String newPrices,
-                              @RequestParam("factPricesId") String factPricesId, @RequestParam("factPrice") String factPrices,
-                              @RequestParam("soldId") String soldId) {
+    private @ResponseBody String updateCreditsInLot(@RequestParam("newPricesId") String newPricesId,
+                                            @RequestParam("newPrice") String newPrices,
+                                            @RequestParam("factPricesId") String factPricesId,
+                                            @RequestParam("factPrice") String factPrices,
+                                            @RequestParam("soldId") String soldId) {
         if (!newPricesId.equals("")) {
             String[] newPricesIdMass = newPricesId.split(",");
             String[] newPricesMass = newPrices.split(",");
@@ -2462,7 +2481,6 @@ public class AssetController {
 
             }
         }
-
         return "1";
     }
 

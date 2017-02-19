@@ -156,7 +156,7 @@
                         if(result==1) {
                             window.open("lotCreditsCreator1");
                         }
-                        else alert("Халепа");
+                        else alert("Не обрано жодного об'єкта");
                     }
                 });
                 /*window.open("lotCreditsCreator")*/

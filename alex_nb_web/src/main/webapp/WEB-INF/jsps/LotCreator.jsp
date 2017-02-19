@@ -135,10 +135,8 @@
             if (crdt.getLot() == null /*&& !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idObj" hidden="hidden"><%=crdt.getId()%>
-            </td>
-            <td class="ndObj"><%=crdt.getNd()%>
-            </td>
+            <td class="idObj" hidden="hidden"><%=crdt.getId()%></td>
+            <td class="ndObj"><%=crdt.getNd()%></td>
             <td><%=crdt.getInn()%>
             </td>
             <td><%=crdt.getFio()%>
@@ -196,10 +194,8 @@
             if (asset.getLot() == null /*&& !asset.getLot().getFondDecision().equals("Відправлено до ФГВФО") && !asset.getLot().getFondDecision().equals("")*/) {
         %>
         <tr align="center">
-            <td class="idObj"><%=asset.getId()%>
-            </td>
-            <td><%=asset.getInn()%>
-            </td>
+            <td class="idObj"><%=asset.getId()%></td>
+            <td><%=asset.getInn()%></td>
             <td><%=asset.getAsset_name()%>
             </td>
             <td><%=asset.getAsset_descr()%>

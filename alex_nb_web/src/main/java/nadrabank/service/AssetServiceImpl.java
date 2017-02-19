@@ -130,4 +130,14 @@ public class AssetServiceImpl implements AssetService {
     public List getDecisionNumbers(){
         return assetDao.getDecisionNumbers();
     }
+
+    @Override
+    public BigDecimal getFirstAccPrice(Long assId) {
+
+        return assetHistoryDao.getFirstAccPrice(assId);
+    }
+    @Override
+    public BigDecimal getFirstAccPrice(Asset asset) {
+        return assetHistoryDao.getFirstAccPrice(asset.getId());
+    }
 }
