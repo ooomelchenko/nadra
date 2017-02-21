@@ -46,7 +46,7 @@ public class AssetHistoryDaoImpl implements AssetHistoryDao {
     }
     @Override
     public BigDecimal getFirstAccPrice(Long assId) {
-        Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.id=:assId and ah.acceptPrice is not null ORDER BY ah.changeDate DESC ");
+        Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.id=:assId and ah.acceptPrice is not null ORDER BY ah.changeDate ASC ");
         query.setParameter("assId", assId);
         try {
             return (BigDecimal) query.list().get(0);
