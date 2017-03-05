@@ -26,4 +26,7 @@ public interface PayService {
 
     @Transactional(readOnly = true)
     BigDecimal sumByLotFromCustomer(Long lotId);
+
+    @Transactional(readOnly = true)
+    List getPaysByDates(Date s, Date e);
 }

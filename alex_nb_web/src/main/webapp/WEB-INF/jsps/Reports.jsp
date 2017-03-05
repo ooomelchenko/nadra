@@ -59,6 +59,20 @@
                         }
                     }
                 });
+            });
+            $('#downloadPays').click(function(){
+                $.ajax({
+                    url: "setReportPath",
+                    type: "GET",
+                    data: {reportNum: $(this).val(),
+                        startDate: $('#startPayDate').val(),
+                        endDate: $('#endPayDate').val() },
+                    success: function(res){
+                        if(res=='1') {
+                            window.open("reportDownload");
+                        }
+                    }
+                });
             })
         })
     </script>
@@ -111,7 +125,7 @@
                 <button id="doAUreport1" value="1">завантажити</button>
             </td>
         </tr>
-        <tr class="reportTr">
+        <%--<tr class="reportTr">
             <td id="report2" class="reportName">
                 Додаток 2.14
             </td>
@@ -124,7 +138,7 @@
             <td hidden="hidden" class="dateTd">
                 <button id="doAUreport2" value="2">завантажити</button>
             </td>
-        </tr>
+        </tr>--%>
         <tr class="reportTr">
             <td id="report3" class="reportName">
                 Таблиця кредитів
@@ -139,6 +153,20 @@
             </td>
             <td hidden="hidden" class="dateTd">
                 <button id="downloadAss" value="4">завантажити</button>
+            </td>
+        </tr>
+        <tr class="reportTr">
+            <td id="report5" class="reportName">
+                Звіт по платежам
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <input id="startPayDate" class="datepicker" about="початкова дата платежів" title="оберіть початкову дату платежів">
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <input id="endPayDate" class="datepicker" about="кінцева дата платежів" title="оберіть кінцеву дату платежів">
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <button id="downloadPays" value="5">завантажити</button>
             </td>
         </tr>
     </table>

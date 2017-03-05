@@ -31,6 +31,10 @@
                 if($(this).text()=="Торги не відбулись")
                     $(this).parent().css('color', 'red');
             });
+            $('.neadNewFondDec').each(function() {
+                if($(this).text()=="Так")
+                    $(this).css('background-color', 'pink');
+            });
             }
             checkBids();
             var dateSelector = $('.dateSelector');
@@ -156,7 +160,7 @@
         <tr class="trh" style="background-color: #00ffff">
             <th>ID</th>
             <th title="Натисніть для відображення фільтру">
-                <div class="spoiler_links" style="width: 100%; height: 100%">Дата торгів^
+                <div class="spoiler_links">Дата торгів^
                     <div class="spoiler_body" >
                         <b class="dateSelector" >всі дати</b>
                         <br>
@@ -204,26 +208,28 @@
             <th>Акт підписано</th>
             <%--<th>Співробітник</th>--%>
             <th>Коментар</th>
+            <th>Потребує перепогодження ФГВФО</th>
         </tr>
         <%for(Lot lot: lotList){Bid bid = lot.getBid();%>
-        <tr class="trL">
-            <td align="center" class="lotId" <%if(lot.getLotType()==0) out.print("bgcolor='#add8e6'");%> ><%=lot.getId()%></td>
-            <td align="center" class="bidDate"><%if(bid!=null&&bid.getBidDate()!=null){out.print(sdf.format(bid.getBidDate()));}%></td>
-            <td align="center" class="company"><%if(bid!=null&&bid.getExchange()!=null)out.print(bid.getExchange().getCompanyName());%></td>
-            <td align="center" class="sumOfCrd"></td>
-            <td align="center" class="bidStage"><%out.print(lot.getBidStage());%></td>
-            <td align="center" class="bidStatus" ><%if(lot.getStatus()!=null)out.print(lot.getStatus());%></td>
-            <td align="center" class="lotNum"><%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%></td>
-            <td align="center" class="startPrice"><%if(lot.getStartPrice()!=null)out.print(lot.getStartPrice());%></td>
-            <td align="center" class="factPrice"><%if(lot.getFactPrice()!=null)out.print(lot.getFactPrice());%></td>
-            <td align="center" class="payStatus"></td>
-            <td align="center" class="paymentsSum"></td>
+        <tr class="trL" align="center">
+            <td class="lotId" <%if(lot.getLotType()==0) out.print("bgcolor='#add8e6'");%> ><%=lot.getId()%></td>
+            <td class="bidDate"><%if(bid!=null&&bid.getBidDate()!=null){out.print(sdf.format(bid.getBidDate()));}%></td>
+            <td class="company"><%if(bid!=null&&bid.getExchange()!=null)out.print(bid.getExchange().getCompanyName());%></td>
+            <td class="sumOfCrd"></td>
+            <td class="bidStage"><%out.print(lot.getBidStage());%></td>
+            <td class="bidStatus" ><%if(lot.getStatus()!=null)out.print(lot.getStatus());%></td>
+            <td class="lotNum"><%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%></td>
+            <td class="startPrice"><%if(lot.getStartPrice()!=null)out.print(lot.getStartPrice());%></td>
+            <td class="factPrice"><%if(lot.getFactPrice()!=null)out.print(lot.getFactPrice());%></td>
+            <td class="payStatus"></td>
+            <td class="paymentsSum"></td>
             <%--<td align="center" class="residualToPay"></td>--%>
-            <td align="center" class="workstage"><%=lot.getWorkStage()%></td>
-            <td align="center" class="customer"><%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%></td>
-            <td align="center" class="aktDate"><%if(lot.getActSignedDate()!=null)out.print(sdf.format(lot.getActSignedDate()));%></td>
+            <td class="workstage"><%=lot.getWorkStage()%></td>
+            <td class="customer"><%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%></td>
+            <td class="aktDate"><%if(lot.getActSignedDate()!=null)out.print(sdf.format(lot.getActSignedDate()));%></td>
             <%--<td align="center" class="user"><%=lot.getUser().getLogin()%></td>--%>
-            <td align="center" class="comment"><%if(lot.getComment()!=null)out.print(lot.getComment());%></td>
+            <td class="comment"><%if(lot.getComment()!=null)out.print(lot.getComment());%></td>
+            <td class="neadNewFondDec"><%if(lot.isNeedNewFondDec()){out.print("Так");} else out.print("Ні");%></td>
         </tr>
         <%}%>
     </table>

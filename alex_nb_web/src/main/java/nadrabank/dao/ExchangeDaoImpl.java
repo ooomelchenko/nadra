@@ -46,7 +46,7 @@ public class ExchangeDaoImpl implements ExchangeDao {
     @Override
     public List findAll() {
         List<Exchange>list;
-        list =factory.getCurrentSession().createQuery("from nadrabank.domain.Exchange").list();
+        list =factory.getCurrentSession().createQuery("from nadrabank.domain.Exchange ex order by ex.id").list();
         return list;
     }
 

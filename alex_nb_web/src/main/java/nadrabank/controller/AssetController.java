@@ -301,7 +301,7 @@ public class AssetController {
         return fileName;
     }
 
-    public String makeOgoloshennya(Long bidId) throws IOException {
+    private String makeOgoloshennya(Long bidId) throws IOException {
 
         Bid bid = bidService.getBid(bidId);
         List<Lot> lotsByBidList = lotService.getLotsByBid(bid);
@@ -760,7 +760,7 @@ public class AssetController {
         return fileName;
     }
 
-    public File getTempFile(MultipartFile multipartFile) throws IOException {
+    private File getTempFile(MultipartFile multipartFile) throws IOException {
 
         CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile) multipartFile;
         FileItem fileItem = commonsMultipartFile.getFileItem();
@@ -776,6 +776,52 @@ public class AssetController {
         }
 
         return file;
+    }
+
+    private String makePaymentsReport(List <Pay> payList, String start, String end){
+        InputStream ExcelFileToRead = null;
+        try {
+            ExcelFileToRead = new FileInputStream("C:\\projectFiles\\Pays.xlsx");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        XSSFWorkbook wb = null;
+        try {
+            wb = new XSSFWorkbook(ExcelFileToRead);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat(wb.createDataFormat().getFormat(excelFormatter));
+
+        for(int i=0; i<payList.size(); i++){
+            Pay pay = payList.get(i);
+            XSSFRow payRow = sheet.createRow(i+1);
+            payRow.createCell(0).setCellValue(pay.getDate());
+            payRow.getCell(0).setCellStyle(cellStyle);
+            payRow.createCell(1).setCellValue(pay.getPaySum().doubleValue());
+            payRow.createCell(2).setCellValue(pay.getPaySource());
+            payRow.createCell(3).setCellValue(pay.getLotId());
+            payRow.createCell(4).setCellValue(lotService.getLot(pay.getLotId()).getLotNum());
+        }
+        String fileName = "C:\\projectFiles\\Payments_"+start+"_"+end+".xlsx";
+        OutputStream fileOut = null;
+        try {
+            fileOut = new FileOutputStream(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            wb.write(fileOut);
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -1153,6 +1199,9 @@ public class AssetController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        if (reportNum==5) {
+                reportPath = makePaymentsReport(payService.getPaysByDates(startDate, endDate), start, end);
         }
         if (reportNum==2) {
             reportPath = "C:\\projectFiles\\Dodatok 2_14.xls";
@@ -2364,7 +2413,12 @@ public class AssetController {
                                              @RequestParam("acceptEx") Long exId) {
         String login = (String) session.getAttribute("userId");
         Lot lot = lotService.getLot(Long.parseLong(lotId));
-        lot.setAcceptExchange(exchangeService.getExchange(exId).getCompanyName());
+        try {
+            lot.setAcceptExchange(exchangeService.getExchange(exId).getCompanyName());
+        }
+        catch (NullPointerException e){
+            lot.setAcceptExchange(null);
+        }
         lotService.updateLot(login, lot);
         return "1";
     }

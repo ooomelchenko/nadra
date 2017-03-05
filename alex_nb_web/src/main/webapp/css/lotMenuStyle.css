@@ -2,20 +2,37 @@ button {
     cursor: pointer;
     font-weight: bold;
 }
+
 #lTable{
     background-color: lightcyan;
     border-collapse: collapse;
     border-style: solid;
 }
+
+#lTable tr:nth-child(even) {
+    background-color: white; /* Цвет фона */
+}
+#lTable tr:nth-child(odd) {
+    background-color: #eafffd; /* Цвет фона */
+}
+#lTable tr:hover  {
+    color: darkblue;
+    background-color: whitesmoke; /* Цвет фона */
+}
+
 #lTable td, #lTable th{
     border: solid darkgrey;
 }
+
 .lotId, .bidDate, .bidStatus, .bidStage, .workstage {
      font-weight: bold;
- }
-.dateSelector, .exSelector, .bidStatusSelector :hover {
-    background-color: #00ffff;
 }
+
+b:hover{
+    color: darkblue;
+    border: solid #766667;
+}
+
 .spoiler_body {
     display: none;
     cursor: pointer;
@@ -26,25 +43,19 @@ button {
     position: absolute;
     z-index: 99;
 }
-.spoiler_body a {
-    padding: 0px 10px;
-}
 
 .spoiler_links {
+    height: 100%;
+    width: 100%;
     cursor: pointer;
     float: left;
     margin: 0px 5px;
-    width: 220px;
     line-height: 1.5;
     text-align: center;
 }
 
 .trL {
     cursor: pointer;
-}
-
-.trL:hover {
-    background-color: white;
 }
 #blockHead {
     width: 100%;

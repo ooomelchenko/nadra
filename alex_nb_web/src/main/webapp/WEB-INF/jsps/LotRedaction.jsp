@@ -699,6 +699,9 @@
             <tr id="accExChoose" hidden="hidden">
                 <td colspan="2">
                     <select id="inputAccEx" name="exSelect">
+                        <option value="0">
+
+                        </option>
                         <%
                             if (allExchangeList != null) {
                                 for (Exchange ex : allExchangeList) {

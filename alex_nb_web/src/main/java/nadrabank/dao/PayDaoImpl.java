@@ -54,6 +54,13 @@ public class PayDaoImpl implements PayDao {
         return list;
     }
     @Override
+    public List getPaysByDates(Date startDate, Date endDate) {
+        Query query =factory.getCurrentSession().createQuery("FROM nadrabank.domain.Pay pay where pay.date<:endDate and pay.date>:startDate order by pay.date");
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+        return query.list();
+    }
+    @Override
     public BigDecimal sumByLot(Lot lot){
         Query query = factory.getCurrentSession().createQuery("SELECT sum(pay.paySum) FROM nadrabank.domain.Pay pay WHERE pay.lotId=:lotId");
         query.setParameter("lotId", lot.getId());

@@ -76,4 +76,9 @@ public class PayServiceImpl implements PayService {
     public BigDecimal sumByLotFromCustomer(Long lotId){
         return payDao.sumByLotFromCustomer(lotId);
     }
+    @Transactional(readOnly = true)
+    @Override
+    public List getPaysByDates(Date s, Date e){
+        return payDao.getPaysByDates(s, e);
+    }
 }

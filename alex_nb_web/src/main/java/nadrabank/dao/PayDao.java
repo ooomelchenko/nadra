@@ -14,6 +14,8 @@ public interface PayDao {
     boolean delete(Pay pay);
     List findAll();
 
+    List getPaysByDates(Date startDate, Date endDate);
+
     BigDecimal sumByLot(Lot lot);
 
     BigDecimal sumByLotFromBid(Long lotId);
