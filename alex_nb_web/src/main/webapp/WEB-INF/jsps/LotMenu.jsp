@@ -124,7 +124,7 @@
 <body id="bd" style="background-color: mintcream">
 <div id="blockHead">
     <div id="backBlock">
-        <button onclick="location.href='index'">Назад до меню</button>
+        <img class="beckImg" onclick="location.href='index'" src="images/back.png" title="назад">
     </div>
     <div id="headerBlock">
         <H1 align="center">Меню лотів</H1>

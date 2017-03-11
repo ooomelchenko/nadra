@@ -212,6 +212,26 @@
         })
     </script>
     <style type="text/css">
+        #b0{
+            display: table;
+            height: 80px;
+            width: 100%;
+            color: white;
+            background-color: #205081;
+        }
+        #b0 div{
+            width: 33%;
+            display: table-cell;
+        }
+        .beckImg {
+            width: 40px;
+            height: 40px;
+        }
+        .beckImg:hover {
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+        }
         input{
             width: 100%;
         }
@@ -279,10 +299,16 @@
     %>
 </head>
 <body style="background-color: mintcream">
-<div id="headBlock">
-    <button onclick="location.href='index'">Назад до меню</button>
-    <H1 align="center">Торги</H1>
-</div>
+<header id="b0">
+    <div>
+        <img class="beckImg" onclick="location.href='index'" src="images/back.png" title="назад">
+    </div>
+    <div>
+        <H1 align="center">Торги</H1>
+    </div>
+    <div>
+    </div>
+</header>
 
 <div id="block1">
     <div id="bidBlock">

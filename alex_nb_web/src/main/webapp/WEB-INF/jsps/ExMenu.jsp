@@ -45,17 +45,31 @@
         });
     </script>
     <style type="text/css">
+        #b0{
+            display: table;
+            height: 80px;
+            width: 100%;
+            color: white;
+            background-color: #205081;
+        }
+        #b0 div{
+            width: 33%;
+            display: table-cell;
+        }
+        .beckImg {
+            width: 40px;
+            height: 40px;
+        }
+        .beckImg:hover {
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+        }
         body {
             background-image: url(images/exchanges_font.jpg);
             background-size: 100%;
         }
-        #headBlock{
-            display: table;
-        }
-        #headBlock div{
-            display: table-cell;
-            width: 400px;
-        }
+
         .exTr {
             cursor: pointer;
         }
@@ -71,14 +85,16 @@
 %>
 
 <body>
-<div id="headBlock">
+<header id="b0">
     <div>
-        <button onclick="location.href='index'">Назад до меню</button>
+        <img class="beckImg" onclick="location.href='index'" src="images/back.png" title="назад">
     </div>
     <div>
-        <H1 align="center">Меню біржі</H1>
+        <H1 align="center">Біржі</H1>
     </div>
-</div>
+    <div>
+    </div>
+</header>
 
 <div id="exDiv" class="view">
     <table id="extbl" border="light" style="background-color: lightcyan; width: 90%; font-weight: bold">
