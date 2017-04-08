@@ -27,9 +27,10 @@ public class Excel implements Serializable {
         Set<Long> lotNumsSet = new TreeSet<>();
 
         for(Lot lot: lotList){
-            if(lot.getBid().getBidDate()!=null)
-            bidDateSet.add(lot.getBid().getBidDate());
-            exNamesSet.add(lot.getBid().getExchange().getCompanyName());
+            if(lot.getBid()!=null&&lot.getBid().getBidDate()!=null) {
+                bidDateSet.add(lot.getBid().getBidDate());
+                exNamesSet.add(lot.getBid().getExchange().getCompanyName());
+            }
             lotNumsSet.add(lot.getId());
         }
         String bidDates="";
@@ -68,10 +69,18 @@ public class Excel implements Serializable {
             row.getCell(2).setCellValue(asset.getAsset_name());
             row.getCell(3).setCellValue(asset.getInn());
             row.getCell(4).setCellValue(asset.getRv().doubleValue());
-            row.getCell(5).setCellValue(asset.getEksplDate());
+            try {
+                row.getCell(5).setCellValue(asset.getEksplDate());
+            }
+            catch (NullPointerException e){
+            }
             row.getCell(5).setCellStyle(cellStyle);
             row.getCell(6).setCellValue(asset.getOriginalPrice().doubleValue());
-            row.getCell(7).setCellValue(asset.getZb().doubleValue());
+            try {
+                row.getCell(7).setCellValue(asset.getZb().doubleValue());
+            }
+            catch(Exception e){
+            }
             if(asset.getLot().getBidStage()!=null){
                 int bidStage = 0;
                 switch (asset.getLot().getBidStage()) {
@@ -93,8 +102,14 @@ public class Excel implements Serializable {
                 }
                 row.getCell(8).setCellValue(bidStage);
             }
-            BigDecimal discount = (asset.getLot().getFirstStartPrice()).divide(asset.getLot().getStartPrice(), 2);
-            row.getCell(9).setCellValue(1-discount.doubleValue());
+            try{
+                BigDecimal discount = (asset.getLot().getFirstStartPrice()).divide(asset.getLot().getStartPrice(), 2);
+                row.getCell(9).setCellValue(1-discount.doubleValue());
+            }
+            catch (NullPointerException e){
+                row.getCell(9).setCellValue(0);
+            }
+
             if(asset.getAcceptPrice()!=null)
                 row.getCell(10).setCellFormula("L"+(numRow)+"/6*5" );
             if(asset.getAcceptPrice()!=null)

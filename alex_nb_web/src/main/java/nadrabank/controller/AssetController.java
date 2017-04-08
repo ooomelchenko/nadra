@@ -13,6 +13,9 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.util.DateFormatConverter;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -457,13 +460,14 @@ public class AssetController {
         return fileName;
     }
 
-    private String fillAssTab(List<Asset> assetList) throws IOException {
+    private String fillAssTab() throws IOException {
         List<Lot> lotList = lotService.getLotsByType(1);
 
         InputStream ExcelFileToRead = new FileInputStream("C:\\projectFiles\\Temp.xlsx");
-        XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
-        XSSFSheet sheet = wb.getSheetAt(0);
-        XSSFSheet lotSheet = wb.getSheetAt(1);
+        XSSFWorkbook xwb = new XSSFWorkbook(ExcelFileToRead);
+        SXSSFWorkbook wb = new SXSSFWorkbook(xwb);
+        SXSSFSheet sheet = wb.getSheetAt(0);
+        SXSSFSheet lotSheet = wb.getSheetAt(1);
 
         //задаем формат даты
         String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
@@ -477,7 +481,7 @@ public class AssetController {
         //end
 
         //Заполнение листа с лотами
-        XSSFRow lotTitleRow = lotSheet.createRow(0);
+        SXSSFRow lotTitleRow = lotSheet.createRow(0);
         lotTitleRow.createCell(0).setCellValue("ID");
         lotTitleRow.createCell(1).setCellValue("LotNum");
         lotTitleRow.createCell(2).setCellValue("Status");
@@ -495,7 +499,7 @@ public class AssetController {
         lotTitleRow.createCell(14).setCellValue("BID_DATE");
         lotTitleRow.createCell(15).setCellValue("EXCHANGE_NAME");
 
-        XSSFRow lotUKRTitleRow = lotSheet.createRow(1);
+        SXSSFRow lotUKRTitleRow = lotSheet.createRow(1);
         lotUKRTitleRow.createCell(0).setCellValue("ID");
         lotUKRTitleRow.createCell(1).setCellValue("Номер лоту");
         lotUKRTitleRow.createCell(2).setCellValue("Стадія роботи");
@@ -515,7 +519,7 @@ public class AssetController {
 
         int lotN=2;
         for(Lot lot: lotList){
-            XSSFRow lotDataRow = lotSheet.createRow(lotN);
+            SXSSFRow lotDataRow = lotSheet.createRow(lotN);
             lotN++;
             lotDataRow.createCell(0).setCellValue(lot.getId());
             lotDataRow.createCell(1).setCellValue(lot.getLotNum());
@@ -567,7 +571,7 @@ public class AssetController {
         }
 
         //Заполнение листа с активами
-        XSSFRow titleRow = sheet.createRow(0);
+        SXSSFRow titleRow = sheet.createRow(0);
         titleRow.createCell(0).setCellValue("MY_ID");
         titleRow.createCell(1).setCellValue("INVENT");
         titleRow.createCell(2).setCellValue("TYPE_CODE");
@@ -603,7 +607,7 @@ public class AssetController {
         titleRow.createCell(32).setCellValue("RESULT_STATUS");
         titleRow.createCell(33).setCellValue("BID_DATE");
         titleRow.createCell(34).setCellValue("EXCHANGE");
-        XSSFRow titleUKRRow = sheet.createRow(1);
+        SXSSFRow titleUKRRow = sheet.createRow(1);
         titleUKRRow.createCell(0).setCellValue("ID");
         titleUKRRow.createCell(1).setCellValue("Інвентарний N");
         titleUKRRow.createCell(2).setCellValue("Код типу активу");
@@ -640,9 +644,16 @@ public class AssetController {
         titleUKRRow.createCell(33).setCellValue("Дата торгів");
         titleUKRRow.createCell(34).setCellValue("Біржа");
 
+        List<Asset> assetList = assetService.getAll();
+
         int numRow = 2;
+
+        /*for(int i=0; i< assetList.size(); i++){
+            sheet.createRow(i+2);
+        }*/
+
         for (Asset asset : assetList) {
-            XSSFRow row = sheet.createRow(numRow);
+            SXSSFRow row = sheet.createRow(numRow);
             numRow++;
             row.createCell(0).setCellValue(asset.getId());
             row.createCell(1).setCellValue(asset.getInn());
@@ -756,6 +767,7 @@ public class AssetController {
         OutputStream fileOut = new FileOutputStream(fileName);
 
         wb.write(fileOut);
+        fileOut.flush();
         fileOut.close();
         return fileName;
     }
@@ -1160,7 +1172,7 @@ public class AssetController {
 
         if(reportNum==4){
             try {
-                reportPath=fillAssTab(assetService.getAll());
+                reportPath=fillAssTab();
             } catch (IOException e) {
                 e.printStackTrace();
             }

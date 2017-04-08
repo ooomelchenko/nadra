@@ -41,15 +41,17 @@
         body{
             /*background-image: url(images/menu.jpg);*/
             background-size: 100%;
+            background-color: lightblue;
         }
-        .menu-button button{
-            width: 160px;
-            height: 50px;
-            font-size: 30px;
+        .menuBlock button{
+            width: 200px;
+            height: 60px;
+            font-size: 35px;
             font-weight: bolder;
         }
-        .menu-button div{
-            height: 250px;
+        .menuBlock div{
+            height: 120px;
+            padding: 5% 0;
         }
         #lotBut:hover{
             border: double cyan;
@@ -82,13 +84,15 @@
             color: darkblue;
         }
         .menuImg{
-            width: 200px;
-            height: 150px;
+            padding-left: 5%;
+            padding-right: 5%;
+            width: 120px;
+            height: 90px;
         }
         .menuImg:hover{
             cursor: pointer;
-            width: 220px;
-            height: 160px;
+            width: 130px;
+            height: 100px;
         }
     </style>
 </head>
@@ -104,20 +108,20 @@
     <div></div>
 </header>
 
-<div class="menu-button" align="center">
+<div class="menuBlock" align="center">
     <div id="headButBlock">
-        <img class="menuImg" src="images/menu/lot.jpg" onclick="location.href = 'lotMenu'" title="ЛОТИ">
+        <%--<img class="menuImg" src="images/menu/lot.jpg" onclick="location.href = 'lotMenu'" title="ЛОТИ">
         <img class="menuImg" src="images/menu/bid.jpg" onclick="location.href = 'bidMenu'" title="ТОРГИ">
-        <img class="menuImg" src="images/menu/ex.jpg" onclick="location.href = 'exMenu'" title="БІРЖІ">
-        <%--<button id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
+        <img class="menuImg" src="images/menu/ex.jpg" onclick="location.href = 'exMenu'" title="БІРЖІ">--%>
+        <button id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
         <button id="bidBut" onclick="location.href = 'bidMenu'">Аукціони</button>
-        <button id="exBut" onclick="location.href = 'exMenu'">Біржі</button>--%>
+        <button id="exBut" onclick="location.href = 'exMenu'">Біржі</button>
     </div>
     <div id="objButBlock">
-        <img id="assButt" class="menuImg" src="images/menu/assets.jpg" title="Відкрити список матеріальних активів">
-        <img id="crdButt" class="menuImg" src="images/menu/credits.jpg" title="Відкрити список кредитів">
-        <%--<button id="assButt">Об'єкти</button>
-        <button id="crdButt">Кредити</button>--%>
+        <%--<img id="assButt" class="menuImg" src="images/menu/assets.jpg" title="Відкрити список матеріальних активів">
+        <img id="crdButt" class="menuImg" src="images/menu/credits.jpg" title="Відкрити список кредитів">--%>
+        <button id="assButt">Об'єкти</button>
+        <button id="crdButt">Кредити</button>
     </div>
     <div id="repButBlock">
         <img id="reportsButton" src="images/reports.png" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів"/>
