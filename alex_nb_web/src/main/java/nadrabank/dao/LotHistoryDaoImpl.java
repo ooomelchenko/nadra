@@ -1,5 +1,6 @@
 package nadrabank.dao;
 
+import nadrabank.domain.Bid;
 import nadrabank.domain.LotHistory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -48,6 +49,17 @@ public class LotHistoryDaoImpl implements LotHistoryDao {
     public List getAllBidsId(Long lotId){
         Query query = factory.getCurrentSession().createQuery("SELECT lotHistory.bidId FROM nadrabank.domain.LotHistory lotHistory Where lotHistory.id=:lotId and lotHistory.bidId is not null GROUP BY lotHistory.bidId ORDER BY max(lotHistory.idKey) DESC");
         query.setParameter("lotId", lotId);
+        return query.list();
+    }
+    @Override
+    public List getLotsFromHistoryByBid(Bid bid) {
+        return getLotsFromHistoryByBid(bid.getId());
+        }
+    @Override
+    public List getLotsFromHistoryByBid(long bidId) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.LotHistory lh " +
+                "Where lh.bidId=:bidId and lh.idKey = (SELECT max(idKey) FROM LotHistory WHERE id=lh.id and lh.bidId=bidId)");
+        query.setParameter("bidId", bidId);
         return query.list();
     }
 

@@ -190,5 +190,12 @@ public class LotServiceImpl implements LotService {
     public List getBidsIdByLot(Long lotId){
         return lotHistoryDao.getAllBidsId(lotId);
     }
-
+    @Override
+    public List getLotsFromHistoryByBid(Bid bid) {
+        return lotHistoryDao.getLotsFromHistoryByBid(bid);
+    }
+    @Override
+    public List getLotsFromHistoryByBid(long bidId) {
+        return lotHistoryDao.getLotsFromHistoryByBid(bidId);
+    }
 }

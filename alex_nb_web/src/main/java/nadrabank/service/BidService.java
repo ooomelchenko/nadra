@@ -5,6 +5,7 @@ import nadrabank.domain.Exchange;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface BidService {
@@ -26,4 +27,7 @@ public interface BidService {
 
     @Transactional(readOnly = true)
     List getBidsByExchange(Exchange exchange);
+
+    @Transactional(readOnly = true)
+    List getBidsByDates(Date minDate, Date maxDate);
 }

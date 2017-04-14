@@ -73,6 +73,20 @@
                         }
                     }
                 });
+            });
+            $('#downloadBidReport').click(function(){
+                $.ajax({
+                    url: "setReportPath",
+                    type: "GET",
+                    data: {reportNum: $(this).val(),
+                        startDate: $('#minBidDate').val(),
+                        endDate: $('#maxBidDate').val() },
+                    success: function(res){
+                        if(res=='1') {
+                            window.open("reportDownload");
+                        }
+                    }
+                });
             })
         })
     </script>
@@ -167,6 +181,20 @@
             </td>
             <td hidden="hidden" class="dateTd">
                 <button id="downloadPays" value="5">завантажити</button>
+            </td>
+        </tr>
+        <tr class="reportTr">
+            <td id="report6" class="reportName">
+                Звіт по сумам торгів
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <input id="minBidDate" class="datepicker" about="початкова дата платежів" title="оберіть початкову дату платежів">
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <input id="maxBidDate" class="datepicker" about="кінцева дата платежів" title="оберіть кінцеву дату платежів">
+            </td>
+            <td hidden="hidden" class="dateTd">
+                <button id="downloadBidReport" value="6">завантажити</button>
             </td>
         </tr>
     </table>

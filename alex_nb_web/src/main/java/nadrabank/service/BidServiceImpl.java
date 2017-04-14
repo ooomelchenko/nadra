@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,5 +90,10 @@ public class BidServiceImpl implements BidService {
     @Override
     public List getBidsByExchange(Exchange exchange){
         return bidDao.getBidsByExchange(exchange);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public List getBidsByDates(Date minDate, Date maxDate){
+        return bidDao.getBidsByDates(minDate, maxDate);
     }
 }

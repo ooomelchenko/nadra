@@ -70,4 +70,8 @@ public interface LotService {
 
     @Transactional(readOnly = true)
     List getBidsIdByLot(Long lotId);
+
+    List getLotsFromHistoryByBid(Bid bid);
+
+    List getLotsFromHistoryByBid(long bidId);
 }

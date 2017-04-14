@@ -1,10 +1,9 @@
 package nadrabank.dao;
 
-import nadrabank.domain.Asset;
 import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
-import nadrabank.domain.Lot;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BidDao {
@@ -16,9 +15,11 @@ public interface BidDao {
 
     Long countOfLots(Bid bid);
 
-    List<Lot> lotsByBid(Bid bid);
+    List lotsByBid(Bid bid);
 
-    List<Asset> assetsByBid(Bid bid);
+    List assetsByBid(Bid bid);
 
-    List<Exchange> getBidsByExchange(Exchange exchange);
+    List getBidsByExchange(Exchange exchange);
+
+    List getBidsByDates (Date minDate, Date maxDate);
 }

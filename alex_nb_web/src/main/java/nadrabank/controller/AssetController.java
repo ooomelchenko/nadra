@@ -836,6 +836,72 @@ public class AssetController {
         return fileName;
     }
 
+    private String makeBidsSumReport(List<Bid> bidList) throws IOException {
+
+        InputStream ExcelFileToRead = new FileInputStream("C:\\projectFiles\\Temp1.xlsx");
+        XSSFWorkbook xwb = new XSSFWorkbook(ExcelFileToRead);
+        SXSSFWorkbook wb = new SXSSFWorkbook(xwb);
+        SXSSFSheet sheet = wb.getSheetAt(0);
+
+        //задаем формат даты
+        String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
+        CellStyle dateStyle = wb.createCellStyle();
+        CellStyle numStyle = wb.createCellStyle();
+
+        DataFormat poiFormat = wb.createDataFormat();
+        dateStyle.setDataFormat(poiFormat.getFormat(excelFormatter));
+
+        numStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("$#,##0.00"));
+        //end
+
+        //Заполнение листа с лотами
+        SXSSFRow headRow = sheet.createRow(0);
+        headRow.createCell(0).setCellValue("Біржа_дата");
+        headRow.createCell(1).setCellValue("Біржа");
+        headRow.createCell(2).setCellValue("Дата");
+        headRow.createCell(3).setCellValue("ID_Лоту");
+        headRow.createCell(4).setCellValue("Сума, грн.");
+        int rowNum=0;
+        List <LotHistory> lotList;
+        for (Bid bid : bidList) {
+            
+            lotList = lotService.getLotsFromHistoryByBid(bid.getId());
+
+            for (LotHistory lot : lotList) {
+                rowNum++;
+                SXSSFRow row = sheet.createRow(rowNum);
+                try{
+                    row.createCell(0).setCellValue(bid.getExchange().getCompanyName()+"_"+sdfshort.format(bid.getBidDate()));
+                }
+                catch (NullPointerException e){
+                }
+                try {
+                    row.createCell(1).setCellValue(bid.getExchange().getCompanyName());
+                } catch (NullPointerException e) {
+                }
+                try {
+                    row.createCell(2).setCellValue(bid.getBidDate());
+                    row.getCell(2).setCellStyle(dateStyle);
+                } catch (NullPointerException e) {
+                }
+                row.createCell(3).setCellValue(lot.getId());
+                try {
+                    row.createCell(4).setCellValue(lot.getStartPrice().doubleValue());
+                } catch (NullPointerException e) {
+                }
+                row.createCell(5).setCellValue(bid.getId());
+            }
+        }
+
+        String fileName = "C:\\projectFiles\\" + ("Bids_report.xlsx");
+        OutputStream fileOut = new FileOutputStream(fileName);
+
+        wb.write(fileOut);
+        fileOut.flush();
+        fileOut.close();
+        return fileName;
+    }
+
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
     private String main(HttpSession session) {
         Locale.setDefault(Locale.ENGLISH);
@@ -1212,11 +1278,18 @@ public class AssetController {
                 e.printStackTrace();
             }
         }
+        if (reportNum==2) {
+            reportPath = "C:\\projectFiles\\Dodatok 2_14.xls";
+        }
         if (reportNum==5) {
                 reportPath = makePaymentsReport(payService.getPaysByDates(startDate, endDate), start, end);
         }
-        if (reportNum==2) {
-            reportPath = "C:\\projectFiles\\Dodatok 2_14.xls";
+        if (reportNum==6) {
+            try {
+                reportPath = makeBidsSumReport(bidService.getBidsByDates(startDate, endDate));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         model.addAttribute("reportPath", reportPath);

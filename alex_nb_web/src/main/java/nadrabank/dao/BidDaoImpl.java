@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -72,9 +73,16 @@ public class BidDaoImpl implements BidDao {
         return query.list();
     }
     @Override
-    public List<Exchange> getBidsByExchange (Exchange exchange){
+    public List getBidsByExchange (Exchange exchange){
         Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Bid bid WHERE bid.exchange=:exchange");
         query.setParameter("exchange", exchange);
+        return query.list();
+    }
+    @Override
+    public List getBidsByDates(Date minDate, Date maxDate){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Bid bid WHERE bid.bidDate>=:minDate and bid.bidDate<=:maxDate");
+        query.setParameter("minDate", minDate);
+        query.setParameter("maxDate", maxDate);
         return query.list();
     }
 }
