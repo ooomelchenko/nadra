@@ -856,11 +856,13 @@ public class AssetController {
 
         //Заполнение листа с лотами
         SXSSFRow headRow = sheet.createRow(0);
-        headRow.createCell(0).setCellValue("Біржа_дата");
-        headRow.createCell(1).setCellValue("Біржа");
-        headRow.createCell(2).setCellValue("Дата");
-        headRow.createCell(3).setCellValue("ID_Лоту");
-        headRow.createCell(4).setCellValue("Сума, грн.");
+        headRow.createCell(0).setCellValue("ID_Торгів");
+        headRow.createCell(1).setCellValue("Біржа_дата");
+        headRow.createCell(2).setCellValue("Біржа");
+        headRow.createCell(3).setCellValue("Дата");
+        headRow.createCell(4).setCellValue("ID_Лоту");
+        headRow.createCell(5).setCellValue("Сума, грн.");
+
         int rowNum=0;
         List <LotHistory> lotList;
         for (Bid bid : bidList) {
@@ -870,26 +872,27 @@ public class AssetController {
             for (LotHistory lot : lotList) {
                 rowNum++;
                 SXSSFRow row = sheet.createRow(rowNum);
+                row.createCell(0).setCellValue(bid.getId());
                 try{
-                    row.createCell(0).setCellValue(bid.getExchange().getCompanyName()+"_"+sdfshort.format(bid.getBidDate()));
+                    row.createCell(1).setCellValue(bid.getExchange().getCompanyName()+"_"+sdfshort.format(bid.getBidDate()));
                 }
                 catch (NullPointerException e){
                 }
                 try {
-                    row.createCell(1).setCellValue(bid.getExchange().getCompanyName());
+                    row.createCell(2).setCellValue(bid.getExchange().getCompanyName());
                 } catch (NullPointerException e) {
                 }
                 try {
-                    row.createCell(2).setCellValue(bid.getBidDate());
-                    row.getCell(2).setCellStyle(dateStyle);
+                    row.createCell(3).setCellValue(bid.getBidDate());
+                    row.getCell(3).setCellStyle(dateStyle);
                 } catch (NullPointerException e) {
                 }
-                row.createCell(3).setCellValue(lot.getId());
+                row.createCell(4).setCellValue(lot.getId());
                 try {
-                    row.createCell(4).setCellValue(lot.getStartPrice().doubleValue());
+                    row.createCell(5).setCellValue(lot.getStartPrice().doubleValue());
                 } catch (NullPointerException e) {
                 }
-                row.createCell(5).setCellValue(bid.getId());
+
             }
         }
 

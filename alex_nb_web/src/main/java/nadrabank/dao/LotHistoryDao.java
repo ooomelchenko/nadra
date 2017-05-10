@@ -3,6 +3,7 @@ package nadrabank.dao;
 import nadrabank.domain.Bid;
 import nadrabank.domain.LotHistory;
 
+import java.util.Date;
 import java.util.List;
 
 public interface LotHistoryDao {
@@ -14,6 +15,8 @@ public interface LotHistoryDao {
     List getAllBidsId(Long lotId);
 
     List getLotsFromHistoryByBid(Bid bid);
+
+    List getLotsHistoryByBidDates(Date startDate, Date endDate);
 
     List getLotsFromHistoryByBid(long bidId);
 }

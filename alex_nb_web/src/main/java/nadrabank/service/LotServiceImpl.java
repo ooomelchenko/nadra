@@ -122,18 +122,7 @@ public class LotServiceImpl implements LotService {
     @Override
     public boolean delLot(Long lotId) {
         Lot lot = getLot(lotId);
-        try {
-            List<Pay> paysByLot = payDao.getPaymentsByLot(lot);
-            for (Pay pay : paysByLot) {
-                pay.setHistoryLotId(pay.getLotId());
-                pay.setLotId(null);
-                payDao.update(pay);
-            }
-        } catch (NullPointerException e) {
-        }
-        assetDao.delAssetsFromLot(lot);
-        creditDao.delCreditsFromLot(lotId);
-        return lotDao.delete(lot);
+        return delLot(lot);
     }
     @Override
     @Transactional(readOnly = true)
@@ -191,11 +180,18 @@ public class LotServiceImpl implements LotService {
         return lotHistoryDao.getAllBidsId(lotId);
     }
     @Override
+    @Transactional(readOnly = true)
     public List getLotsFromHistoryByBid(Bid bid) {
         return lotHistoryDao.getLotsFromHistoryByBid(bid);
     }
     @Override
+    @Transactional(readOnly = true)
     public List getLotsFromHistoryByBid(long bidId) {
         return lotHistoryDao.getLotsFromHistoryByBid(bidId);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotsHistoryByBidDates(Date startDate, Date endDate) {
+        return lotHistoryDao.getLotsHistoryByBidDates(startDate, endDate);
     }
 }
