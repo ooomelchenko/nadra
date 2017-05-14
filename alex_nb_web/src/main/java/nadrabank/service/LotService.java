@@ -76,4 +76,6 @@ public interface LotService {
     List getLotsFromHistoryByBid(long bidId);
 
     List getLotsHistoryByBidDates(Date startDate, Date endDate);
+
+    List getLotsHistoryAggregatedByBid(Date bidStartDate, Date bidEndDate);
 }

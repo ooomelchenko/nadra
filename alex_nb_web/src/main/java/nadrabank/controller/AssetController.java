@@ -1,6 +1,7 @@
 package nadrabank.controller;
 
 import nadrabank.domain.*;
+import nadrabank.queryDomain.BidDetails;
 import nadrabank.service.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
@@ -836,14 +837,13 @@ public class AssetController {
         return fileName;
     }
 
-    private String makeBidsSumReport(List<LotHistory> lotList) throws IOException {
+    private String makeBidsSumReport(List<LotHistory> lotList, List<BidDetails> aggregatedLotList) throws IOException {
         InputStream ExcelFileToRead = new FileInputStream("C:\\projectFiles\\Temp1.xlsx");
         XSSFWorkbook xwb = new XSSFWorkbook(ExcelFileToRead);
         SXSSFWorkbook wb = new SXSSFWorkbook(xwb);
         SXSSFSheet sheet = wb.getSheetAt(0);
-        SXSSFSheet sheetST = wb.getSheetAt(1);
 
-        //задаем формат даты
+        //задаем форматы
         String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
         CellStyle dateStyle = wb.createCellStyle();
         CellStyle numStyle = wb.createCellStyle();
@@ -854,7 +854,7 @@ public class AssetController {
         numStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("$#,##0.00"));
         //end
 
-        //Заполнение листа с лотами
+        //Заполнение листа 1 с лотами
         SXSSFRow headRow = sheet.createRow(0);
         headRow.createCell(0).setCellValue("ID_Торгів");
         headRow.createCell(1).setCellValue("Біржа_дата");
@@ -890,6 +890,42 @@ public class AssetController {
                 } catch (NullPointerException e) {
                 }
             }
+
+        SXSSFSheet sheetST = wb.getSheetAt(1);
+        //Заполнение листа 2 сумами по торгам
+        SXSSFRow headRow2 = sheetST.createRow(0);
+        headRow2.createCell(0).setCellValue("ID_Торгів");
+        headRow2.createCell(1).setCellValue("Біржа_дата");
+        headRow2.createCell(2).setCellValue("Біржа");
+        headRow2.createCell(3).setCellValue("Дата");
+        headRow2.createCell(4).setCellValue("Сума, грн.");
+
+        int rowN=0;
+
+        for (BidDetails aggregatedLot : aggregatedLotList) {
+            rowN++;
+            SXSSFRow row = sheetST.createRow(rowN);
+            row.createCell(0).setCellValue(aggregatedLot.getBidId());
+            Bid bid = bidService.getBid(aggregatedLot.getBidId());
+            try{
+                row.createCell(1).setCellValue(bid.getExchange().getCompanyName()+"_"+sdfshort.format(bid.getBidDate()));
+            }
+            catch (NullPointerException e){
+            }
+            try {
+                row.createCell(2).setCellValue(bid.getExchange().getCompanyName());
+            } catch (NullPointerException e) {
+            }
+            try {
+                row.createCell(3).setCellValue(bid.getBidDate());
+                row.getCell(3).setCellStyle(dateStyle);
+            } catch (NullPointerException e) {
+            }
+            try {
+                row.createCell(4).setCellValue(aggregatedLot.getStartPrice().doubleValue());
+            } catch (NullPointerException e) {
+            }
+        }
 
         String fileName = "C:\\projectFiles\\" + ("Bids_report.xlsx");
         OutputStream fileOut = new FileOutputStream(fileName);
@@ -1284,7 +1320,7 @@ public class AssetController {
         }
         if (reportNum==6) {
             try {
-                reportPath = makeBidsSumReport(lotService.getLotsHistoryByBidDates(startDate, endDate));
+                reportPath = makeBidsSumReport(lotService.getLotsHistoryByBidDates(startDate, endDate), lotService.getLotsHistoryAggregatedByBid(startDate, endDate));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -2,12 +2,12 @@ package nadrabank.dao;
 
 import nadrabank.domain.Bid;
 import nadrabank.domain.LotHistory;
+import nadrabank.queryDomain.BidDetails;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -64,19 +64,23 @@ public class LotHistoryDaoImpl implements LotHistoryDao {
         query.setParameter("bidId", bidId);
         return query.list();
     }
-    @Override
-    public BigDecimal getStartSumFromHistoryByBid(long bidId) {
-        Query query = factory.getCurrentSession().createQuery("SELECT sum(lh.startPrice) FROM nadrabank.domain.LotHistory lh " +
-                "WHERE lh.idKey in (SELECT max(idKey) FROM LotHistory WHERE id=lh.id AND bidId=:bidId)");
-        query.setParameter("bidId", bidId);
-        return (BigDecimal) query.list().get(0);
-    }
+
     @Override
     public List getLotsHistoryByBidDates(Date startDate, Date endDate) {
         Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.LotHistory lh " +
                 "WHERE lh.idKey in (SELECT max(idKey) FROM LotHistory WHERE id=lh.id AND bidId in (SELECT id from Bid bid WHERE bidDate>=:startDate AND bidDate<=:endDate))");
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
+        return query.list();
+    }
+
+    @Override
+    public List<BidDetails> getLotsHistoryAggregatedByBid(Date bidStartDate, Date bidEndDate) {
+        Query query = factory.getCurrentSession().createQuery("Select new nadrabank.queryDomain.BidDetails(lh.bidId, sum(lh.startPrice)) FROM nadrabank.domain.LotHistory lh " +
+                "WHERE lh.idKey in (SELECT max(idKey) FROM LotHistory WHERE id=lh.id AND bidId in (SELECT id from Bid bid WHERE bidDate>=:startDate AND bidDate<=:endDate)) " +
+                "GROUP BY lh.bidId");
+        query.setParameter("startDate", bidStartDate);
+        query.setParameter("endDate", bidEndDate);
         return query.list();
     }
 
