@@ -836,12 +836,12 @@ public class AssetController {
         return fileName;
     }
 
-    private String makeBidsSumReport(List<Bid> bidList) throws IOException {
-
+    private String makeBidsSumReport(List<LotHistory> lotList) throws IOException {
         InputStream ExcelFileToRead = new FileInputStream("C:\\projectFiles\\Temp1.xlsx");
         XSSFWorkbook xwb = new XSSFWorkbook(ExcelFileToRead);
         SXSSFWorkbook wb = new SXSSFWorkbook(xwb);
         SXSSFSheet sheet = wb.getSheetAt(0);
+        SXSSFSheet sheetST = wb.getSheetAt(1);
 
         //задаем формат даты
         String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
@@ -864,15 +864,12 @@ public class AssetController {
         headRow.createCell(5).setCellValue("Сума, грн.");
 
         int rowNum=0;
-        List <LotHistory> lotList;
-        for (Bid bid : bidList) {
-            
-            lotList = lotService.getLotsFromHistoryByBid(bid.getId());
 
             for (LotHistory lot : lotList) {
                 rowNum++;
                 SXSSFRow row = sheet.createRow(rowNum);
-                row.createCell(0).setCellValue(bid.getId());
+                row.createCell(0).setCellValue(lot.getBidId());
+                Bid bid = bidService.getBid(lot.getBidId());
                 try{
                     row.createCell(1).setCellValue(bid.getExchange().getCompanyName()+"_"+sdfshort.format(bid.getBidDate()));
                 }
@@ -892,9 +889,7 @@ public class AssetController {
                     row.createCell(5).setCellValue(lot.getStartPrice().doubleValue());
                 } catch (NullPointerException e) {
                 }
-
             }
-        }
 
         String fileName = "C:\\projectFiles\\" + ("Bids_report.xlsx");
         OutputStream fileOut = new FileOutputStream(fileName);
@@ -1289,7 +1284,7 @@ public class AssetController {
         }
         if (reportNum==6) {
             try {
-                reportPath = makeBidsSumReport(bidService.getBidsByDates(startDate, endDate));
+                reportPath = makeBidsSumReport(lotService.getLotsHistoryByBidDates(startDate, endDate));
             } catch (IOException e) {
                 e.printStackTrace();
             }
