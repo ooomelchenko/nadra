@@ -24,6 +24,12 @@ public interface LotService {
     List getLots();
 
     @Transactional(readOnly = true)
+    List getSoldedLots();
+
+    @Transactional(readOnly = true)
+    List getNotSoldedLots();
+
+    @Transactional(readOnly = true)
     List getLotsByType(int lotType);
 
     @Transactional(readOnly = true)

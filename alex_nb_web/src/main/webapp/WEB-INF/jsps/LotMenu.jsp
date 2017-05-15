@@ -130,8 +130,31 @@
         <H1 align="center">Меню лотів</H1>
     </div>
     <div id="buttonsBlock">
-        <table>
-            <tr align="left">
+        <table align="left" id="filterMenu_table">
+            <tr>
+                <td>
+                    <button id="lotMenu" onclick="location.href ='lotMenu'">
+                        Всі лоти
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="notSoldedLotMenu" onclick="location.href ='notSoldedLotMenu'">
+                        Непродані лоти
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="soldedLotMenu" onclick="location.href ='soldedLotMenu'">
+                        Продані лоти
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <table align="right" id="createMenu_table">
+            <tr>
                 <td>
                     <button id="createSingleLot" onclick="location.href ='lotCreator'">
                         Новий лот активів

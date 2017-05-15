@@ -57,6 +57,20 @@ public class LotDaoImpl implements LotDao {
         return lotList;
     }
     @Override
+    public List<Lot> findSolded() {
+        List <Lot> lotList = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot WHERE lot.isItSold = true ").list(); // ORDER BY lot.bid.bidDate DESC , lot.bid.exchange.companyName
+        Collections.sort(lotList);
+        Collections.reverse(lotList);
+        return lotList;
+    }
+    @Override
+    public List<Lot> findNotSolded() {
+        List <Lot> lotList = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot WHERE lot.isItSold = false ").list(); // ORDER BY lot.bid.bidDate DESC , lot.bid.exchange.companyName
+        Collections.sort(lotList);
+        Collections.reverse(lotList);
+        return lotList;
+    }
+    @Override
     public List<Lot> findByLotType(int type) {
         Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot WHERE lot.lotType=:lType ORDER BY lot.bid.bidDate , lot.bid.exchange.companyName DESC ");
         query.setParameter("lType", type);

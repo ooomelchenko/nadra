@@ -80,6 +80,16 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     @Transactional(readOnly = true)
+    public List getSoldedLots() {
+        return lotDao.findSolded();
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getNotSoldedLots() {
+        return lotDao.findNotSolded();
+    }
+    @Override
+    @Transactional(readOnly = true)
     public List getLotsByType(int lotType){
         return lotDao.findByLotType(lotType);
     }

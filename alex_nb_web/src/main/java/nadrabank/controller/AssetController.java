@@ -1962,8 +1962,25 @@ public class AssetController {
         if (!isAuth(session)) {
             return "LogIN";
         } else {
-            List<Lot> lotList = lotService.getLots();
-            model.addAttribute("lotList", lotList);
+            model.addAttribute("lotList", lotService.getLots());
+            return "LotMenu";
+        }
+    }
+    @RequestMapping(value = "/soldedLotMenu", method = RequestMethod.GET)
+    private String soldedLotMenu(HttpSession session, Model model) {
+        if (!isAuth(session)) {
+            return "LogIN";
+        } else {
+            model.addAttribute("lotList", lotService.getSoldedLots());
+            return "LotMenu";
+        }
+    }
+    @RequestMapping(value = "/notSoldedLotMenu", method = RequestMethod.GET)
+    private String notSoldedLotMenu(HttpSession session, Model model) {
+        if (!isAuth(session)) {
+            return "LogIN";
+        } else {
+            model.addAttribute("lotList", lotService.getNotSoldedLots());
             return "LotMenu";
         }
     }

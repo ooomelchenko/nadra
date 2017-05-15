@@ -113,7 +113,7 @@
         <%--<img class="menuImg" src="images/menu/lot.jpg" onclick="location.href = 'lotMenu'" title="ЛОТИ">
         <img class="menuImg" src="images/menu/bid.jpg" onclick="location.href = 'bidMenu'" title="ТОРГИ">
         <img class="menuImg" src="images/menu/ex.jpg" onclick="location.href = 'exMenu'" title="БІРЖІ">--%>
-        <button id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
+        <button id="lotBut" onclick="location.href = 'notSoldedLotMenu'">Лоти</button>
         <button id="bidBut" onclick="location.href = 'bidMenu'">Аукціони</button>
         <button id="exBut" onclick="location.href = 'exMenu'">Біржі</button>
     </div>

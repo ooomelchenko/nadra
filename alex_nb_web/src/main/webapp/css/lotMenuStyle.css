@@ -77,23 +77,29 @@ b:hover{
 }
 #backBlock {
     display: table-cell;
-    width: 20%;
+    width: 25%;
 }
 #headerBlock {
     display: table-cell;
-    width: 60%;
+    width: 50%;
 }
 #buttonsBlock {
     display: table-cell;
-    width: 20%;
+    width: 25%;
 }
-#buttonsBlock button {
+#filterMenu_table button {
+    width: 160px;
+    height: 30px ;
+    font-size: 100%;
+    text-align: left;
+}
+#createMenu_table button {
     width: 120%;
     height: 30px ;
     font-size: 100%;
     text-align: left;
 }
-#buttonsBlock img {
+#createMenu_table img {
     width: 25px ;
     height: 25px;
 }
