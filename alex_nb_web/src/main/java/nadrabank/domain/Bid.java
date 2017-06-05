@@ -31,6 +31,9 @@ public class Bid implements Serializable, Comparable<Bid> {
     /*@Column(name = "COUNT_OF_PARTICIPANTS")
     private int countOfParticipants;*/
 
+    @ManyToOne
+    private Exchange exchange;//класс
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,8 +48,6 @@ public class Bid implements Serializable, Comparable<Bid> {
         return Objects.hash(bidDate, exchange);
     }
 
-    @ManyToOne
-    private Exchange exchange;//класс
 
     public Long getId() {
         return id;

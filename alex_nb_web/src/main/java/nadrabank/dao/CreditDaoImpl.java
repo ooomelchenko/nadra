@@ -54,12 +54,20 @@ public class CreditDaoImpl implements CreditDao {
         if(isNbu!=10){
             queryText+="and cr.nbuPladge= "+isNbu+" ";
         }
-        if(isFondDec==0){
+        /*if(isFondDec==0){
             queryText+="and cr.fondDecisionDate is null ";
         }
         else if(isFondDec==1){
             queryText+="and cr.fondDecisionDate is not null ";
+        }*/
+        if(isFondDec==0){
+            queryText+="and ( cr.lot is null or cr.lot in (SELECT id from Lot lot WHERE lot.fondDecisionDate is null))) ";
         }
+        else if(isFondDec==1){
+            queryText+="and cr.lot in (SELECT id from Lot lot WHERE lot.fondDecisionDate is not null)) ";
+        }
+
+
         if(idBarsMass.length>0||innMass.length>0||idLotMass.length>0){
             int i=0;
             String a = "and( ";
@@ -100,10 +108,8 @@ public class CreditDaoImpl implements CreditDao {
                 }
             }
         }
-            queryText+=" )";
+          //  queryText+=" )";
         }
-
-        System.out.println(queryText);
         return queryText;
     }
     @Override

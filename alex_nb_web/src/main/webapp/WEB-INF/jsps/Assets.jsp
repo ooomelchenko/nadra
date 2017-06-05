@@ -320,46 +320,8 @@
                             })
                     );
                 }
-                /* else {
-                   $(this).find("input").hide();
-                    $(this).find(".okButton").remove();
-                    $(this).find("div").show();
-                }*/
+
             });
-            /*$('.acceptEx').dblclick(function () {
-                if ($(this).find(".inputAccEx").is(":hidden")) {
-                    $(this).find(".inputAccEx").show();
-                    $(this).find("div").hide();
-                    $(this).append($("<button class='okButton'>ok</button>").click(function () {
-                        var assetTr = $(this).parent().parent();
-                        var inAcceptEx = $(this).parent().find('.inputAccEx').val();
-                        var selectedExName = $(this).parent().find('option:selected').text();
-                        $.ajax({
-                            url: "setAcceptEx",
-                            type: "POST",
-                            data: {
-                                assetId: $(this).parent().parent().find('.objId').text(),
-                                acceptEx: inAcceptEx
-                            },
-                            success: function (result) {
-                                if (result == "1") {
-                                    assetTr.find(".accExDiv").text(selectedExName);
-                                    assetTr.find(".accExDiv").show();
-                                    assetTr.find(".inputAccEx").hide();
-                                    assetTr.find(".okButton").remove();
-                                }
-                                else alert("данні не внесені!");
-                            }
-                        });
-                    })
-                    );
-                }
-                else {
-                    $(this).find(".inputAccEx").hide();
-                    $(this).find(".okButton").remove();
-                    $(this).find("div").show();
-                }
-            });*/
 
             $('.planSaleDate').dblclick(function(){
                 var planSaleTd = $(this);

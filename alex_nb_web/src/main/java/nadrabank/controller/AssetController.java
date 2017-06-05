@@ -2188,6 +2188,11 @@ public class AssetController {
         return assetService.getAssetsByInNum(inn);
     }
 
+    @RequestMapping(value = "/allObjectsByInNum", method = RequestMethod.POST)
+    private @ResponseBody List<Asset> getAllAssetsByInNum(@RequestParam("inn") String inn) {
+        return assetService.getAllAssetsByInNum(inn);
+    }
+
     @RequestMapping(value = "/sumById", method = RequestMethod.POST)
     private @ResponseBody String sumById(@RequestParam("idMass") String ids) {
         Formatter f = new Formatter();
@@ -2768,9 +2773,7 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/createBid", method = RequestMethod.GET)
-    private
-    @ResponseBody
-    String createBid(@RequestParam("exId") String exId,
+    private @ResponseBody String createBid(@RequestParam("exId") String exId,
                      @RequestParam("bidDate") String bidD,
                      @RequestParam("newspaper") String newspaper,
                      @RequestParam("newsDate1") String newsD1,
@@ -2791,6 +2794,15 @@ public class AssetController {
         Bid bid = new Bid(bidDate, exchange, newspaper, newsDate1, newsDate2, registrEnd);
         bidService.createBid(bid);
         return "1";
+    }
+
+    @RequestMapping(value = "/assetsSearch", method = RequestMethod.GET)
+    private String assetsSearch(HttpSession session) {
+        if (!isAuth(session)) {
+            return "LogIN";
+        } else {
+            return "AssetsSearch";
+        }
     }
 
 }

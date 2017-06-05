@@ -115,6 +115,12 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     @Transactional(readOnly = true)
+    public List getAllAssetsByInNum(String inn){
+        return assetDao.getAllAssetsByINum(inn);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List getAllBidDates(){
         return assetDao.getAllBidDates();
     }

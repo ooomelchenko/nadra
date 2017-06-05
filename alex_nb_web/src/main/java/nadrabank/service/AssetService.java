@@ -47,6 +47,9 @@ public interface AssetService {
     List getAssetsByInNum(String inn);
 
     @Transactional(readOnly = true)
+    List getAllAssetsByInNum(String inn);
+
+    @Transactional(readOnly = true)
     List getAllBidDates();
 
     @Transactional(readOnly = true)

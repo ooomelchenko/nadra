@@ -31,6 +31,8 @@ public interface AssetDao {
 
     List getAssetsByINum(String inn);
 
+    List getAllAssetsByINum(String inn);
+
     List getAllBidDates();
 
     List getExchanges();

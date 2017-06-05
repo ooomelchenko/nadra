@@ -104,6 +104,12 @@ public class AssetDaoImpl implements AssetDao {
             return query.list();
     }
     @Override
+    public List getAllAssetsByINum(String inn){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Asset asset WHERE asset.inn=:inn");
+        query.setParameter("inn", inn);
+        return query.list();
+    }
+    @Override
     public List getAllBidDates(){
         return factory.getCurrentSession().createQuery("SELECT asset.lot.bid.bidDate FROM nadrabank.domain.Asset asset GROUP BY asset.lot.bid.bidDate ORDER BY asset.lot.bid.bidDate").list();
     }
