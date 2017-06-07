@@ -2190,6 +2190,7 @@ public class AssetController {
 
     @RequestMapping(value = "/allObjectsByInNum", method = RequestMethod.POST)
     private @ResponseBody List<Asset> getAllAssetsByInNum(@RequestParam("inn") String inn) {
+        System.out.println(assetService.getAllAssetsByInNum(inn));
         return assetService.getAllAssetsByInNum(inn);
     }
 
@@ -2615,29 +2616,6 @@ public class AssetController {
         lotService.updateLot(login, lot);
         return "1";
     }
-
-/*    @RequestMapping(value = "/setPlanSaleDate", method = RequestMethod.GET)
-    private @ResponseBody void setPlanSaleDate(@RequestParam("objID") Long objId,
-                                               @RequestParam("objType") int objType,
-                                               @RequestParam("planDate") String stringDate ){
-        Date planDat=new Date();
-        try {
-            planDat = yearMonthFormat.parse(stringDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println(planDat);
-        if (objType==0){
-            Credit credit =creditService.getCredit(objId);
-            credit.setPlanSaleDate(planDat);
-            creditService.updateCredit(credit);
-        }
-        else if (objType==1){
-            Asset asset =assetService.getAsset(objId);
-            asset.setPlanSaleDate(planDat);
-            assetService.updateAsset(asset);
-        }
-    }*/
 
     @RequestMapping(value = "/updateCreditsInLot", method = RequestMethod.POST)
     private @ResponseBody String updateCreditsInLot(@RequestParam("newPricesId") String newPricesId,

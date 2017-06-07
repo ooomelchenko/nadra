@@ -5,6 +5,9 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
+            $('#search_button').click(function(){
+                window.open("assetsSearch")
+            });
             $('#assButt').click(function(){
                 window.open("assets")
             });
@@ -120,6 +123,7 @@
     <div id="objButBlock">
         <%--<img id="assButt" class="menuImg" src="images/menu/assets.jpg" title="Відкрити список матеріальних активів">
         <img id="crdButt" class="menuImg" src="images/menu/credits.jpg" title="Відкрити список кредитів">--%>
+        <button id="search_button">Пошук</button>
         <button id="assButt">Об'єкти</button>
         <button id="crdButt">Кредити</button>
     </div>
