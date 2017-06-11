@@ -3,6 +3,7 @@ package nadrabank.dao;
 import nadrabank.domain.AssetHistory;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface AssetHistoryDao {
     Long create( AssetHistory  assetHistory);
@@ -11,4 +12,8 @@ public interface AssetHistoryDao {
     boolean delete( AssetHistory assetHistory);
 
     BigDecimal getFirstAccPrice(Long lotId);
+
+    List getLotIdHistoryByAsset(Long assId);
+
+    BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);
 }

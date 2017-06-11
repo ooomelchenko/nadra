@@ -5,7 +5,7 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
-            $('#search_button').click(function(){
+            $('#search_img').click(function(){
                 window.open("assetsSearch")
             });
             $('#assButt').click(function(){
@@ -76,6 +76,15 @@
             border: double blue;
             color: blue;
         }
+        #search_img{
+            width: 80px;
+            height: 50px;
+        }
+        #search_img:hover{
+            cursor: pointer;
+            width: 82px;
+            height: 52px;
+        }
         #infoBlock{
             position: absolute;
             bottom: 0;
@@ -123,7 +132,7 @@
     <div id="objButBlock">
         <%--<img id="assButt" class="menuImg" src="images/menu/assets.jpg" title="Відкрити список матеріальних активів">
         <img id="crdButt" class="menuImg" src="images/menu/credits.jpg" title="Відкрити список кредитів">--%>
-        <button id="search_button">Пошук</button>
+        <img id="search_img" src="images/search.png" title="пошук об'єктів">
         <button id="assButt">Об'єкти</button>
         <button id="crdButt">Кредити</button>
     </div>

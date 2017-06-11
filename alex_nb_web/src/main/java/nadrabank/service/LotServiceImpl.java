@@ -205,8 +205,13 @@ public class LotServiceImpl implements LotService {
         return lotHistoryDao.getLotsHistoryByBidDates(startDate, endDate);
     }
     @Override
+    @Transactional(readOnly = true)
     public List getLotsHistoryAggregatedByBid(Date bidStartDate, Date bidEndDate) {
         return lotHistoryDao.getLotsHistoryAggregatedByBid(bidStartDate, bidEndDate);
     }
-
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotHistoryAggregatedByBid(Long lotId) {
+        return lotHistoryDao.getLotHistoryAggregatedByBid(lotId);
+    }
 }

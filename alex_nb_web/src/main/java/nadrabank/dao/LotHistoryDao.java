@@ -22,4 +22,6 @@ public interface LotHistoryDao {
     List getLotsFromHistoryByBid(long bidId);
 
     List getLotsHistoryAggregatedByBid(Date startDate, Date endDate);
+
+    List<Bid> getLotHistoryAggregatedByBid(Long lotId);
 }

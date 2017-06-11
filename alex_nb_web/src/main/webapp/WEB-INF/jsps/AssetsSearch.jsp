@@ -7,6 +7,7 @@
     <script>
         $(document).ready(function () {
             var ftab = $('.findTab');
+            var history_table = $('.history_table');
 
             function addToFindTab(obj) {
                 $('.findTab').find('.ftr').remove();
@@ -45,14 +46,44 @@
                 }
             }
 
-            $('#findObjBut').on('click', function () {
-
+            $('#findObjBut').click( function () {
                 $.ajax({
                     url: "allObjectsByInNum",
                     method: "POST",
                     data: {inn: $('#inn').val()},
                     success(obj){
                         addToFindTab(obj);
+                    }
+                });
+            });
+
+            $('#objHistoryBut').click( function() {
+                if($(this).val()==0){
+                    $(this).val(1);
+                    $('.asset_history_block').show();
+                }
+                else{
+                    $(this).val(0);
+                    $('.asset_history_block').hide();
+                }
+                $('.asset_history_tr').remove();
+                $.ajax({
+                    url: "getAssetHistory",
+                    method: "POST",
+                    data: {inn: $('#inn').val()},
+                    success(objList){
+                        for (var i = 0; i < objList.length; i++) {
+                            var obj = objList[i].split("||");
+
+                            var trR = $('<tr align="center" class="asset_history_tr">' +
+                                '<td>' + obj[0] +'</td>' +
+                                '<td>' + obj[1] + '</td>' +
+                                '<td>' + obj[2] + '</td>' +
+                                '<td>' + obj[3] + '</td>' +
+                                '<td>' + obj[4] + '</td>' +
+                                '</tr>');
+                            history_table.append(trR);
+                        }
                     }
                 });
             });
@@ -103,7 +134,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
+                        <button id="findObjBut" class="button" style="width: 70%">Знайти</button>
+                        <button id="objHistoryBut" class="button" style="width: 30%">Історія</button>
                     </td>
                 </tr>
             </table>
@@ -139,7 +171,19 @@
             <th>Біржа</th>
         </tr>
     </table>
+</div>
+<div class="asset_history_block" hidden="hidden">
+    <h2>Історія торгів по об'єкту</h2>
+<table class="history_table" border="1">
+    <tr align="center" style="background-color: #edff9a">
+        <th>ID</th>
+        <th>Лот</th>
+        <th>Біржа</th>
+        <th>Дата аукціону</th>
+        <th>Затверджена ціна, грн.</th>
+    </tr>
 
+</table>
 </div>
 </body>
 </html>

@@ -138,12 +138,27 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getFirstAccPrice(Long assId) {
-
         return assetHistoryDao.getFirstAccPrice(assId);
     }
+
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getFirstAccPrice(Asset asset) {
         return assetHistoryDao.getFirstAccPrice(asset.getId());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotIdHistoryByAsset(Long assId){
+        return assetHistoryDao.getLotIdHistoryByAsset(assId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId){
+        return assetHistoryDao.getAccPriceByLotIdHistory(assetId, lotId);
+        }
+
 }

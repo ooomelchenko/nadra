@@ -84,4 +84,11 @@ public class LotHistoryDaoImpl implements LotHistoryDao {
         return query.list();
     }
 
+    @Override
+    public List<Bid> getLotHistoryAggregatedByBid(Long lotId) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Bid bid WHERE bid.id in (SELECT lh.bidId FROM LotHistory lh WHERE lh.id=:lotId Group by lh.bidId)");
+        query.setParameter("lotId", lotId);
+        return query.list();
+    }
+
 }

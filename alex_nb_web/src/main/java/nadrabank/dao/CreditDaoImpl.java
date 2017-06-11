@@ -108,7 +108,7 @@ public class CreditDaoImpl implements CreditDao {
                 }
             }
         }
-          //  queryText+=" )";
+            queryText+=" )";
         }
         return queryText;
     }

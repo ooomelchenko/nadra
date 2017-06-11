@@ -61,4 +61,8 @@ public interface AssetService {
     BigDecimal getFirstAccPrice(Long assId);
 
     BigDecimal getFirstAccPrice(Asset asset);
+
+    List getLotIdHistoryByAsset(Long assId);
+
+    BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);
 }

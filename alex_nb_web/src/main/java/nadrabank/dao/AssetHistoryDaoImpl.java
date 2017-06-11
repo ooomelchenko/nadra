@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public class AssetHistoryDaoImpl implements AssetHistoryDao {
@@ -48,6 +49,30 @@ public class AssetHistoryDaoImpl implements AssetHistoryDao {
     public BigDecimal getFirstAccPrice(Long assId) {
         Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.id=:assId and ah.acceptPrice is not null ORDER BY ah.changeDate ASC ");
         query.setParameter("assId", assId);
+        try {
+            return (BigDecimal) query.list().get(0);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+    }
+    @Override
+    public List getLotIdHistoryByAsset(Long assId){
+        Query query = factory.getCurrentSession().createQuery("select ah.lotId from AssetHistory ah where ah.id=:assId GROUP BY ah.lotId ");
+        query.setParameter("assId", assId);
+        try {
+            return  query.list();
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+    }
+
+    @Override
+    public BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId){
+        Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.idKey in (SELECT max(a.idKey) from AssetHistory a where a.id=:assetId and a.lotId=:lotId)");
+        query.setParameter("assetId", assetId);
+        query.setParameter("lotId", lotId);
         try {
             return (BigDecimal) query.list().get(0);
         }
