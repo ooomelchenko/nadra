@@ -8,7 +8,6 @@ public class BidDetails implements Serializable {
     private Long bidId;
     private BigDecimal startPrice;
 
-
     public BidDetails() {
     }
     public BidDetails(Long bidId, BigDecimal startPrice) {

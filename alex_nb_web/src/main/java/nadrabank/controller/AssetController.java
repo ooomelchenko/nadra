@@ -1,6 +1,7 @@
 package nadrabank.controller;
 
 import nadrabank.domain.*;
+import nadrabank.queryDomain.AcceptPriceHistory;
 import nadrabank.queryDomain.BidDetails;
 import nadrabank.service.*;
 import org.apache.commons.fileupload.FileItem;
@@ -2323,9 +2324,9 @@ public class AssetController {
             String bidDate="";
             String exchangeName="";
 
-            String nbuPledge = "Ні";
+            /*String nbuPledge = "Ні";
             if (cr.getNbuPladge())
-                nbuPledge = "Так";
+                nbuPledge = "Так";*/
             String factPrice = "";
             if (cr.getFactPrice() != null)
                 factPrice = String.valueOf(cr.getFactPrice());
@@ -2389,7 +2390,7 @@ public class AssetController {
                     + "||" + cr.getClientType()
                     + "||" + cr.getFio()
                     + "||" + cr.getProduct()
-                    + "||" + nbuPledge
+                    + "||" + cr.getNbuPladge()
                     + "||" + cr.getRegion()
                     + "||" + cr.getCurr()
                     + "||" + cr.getZb()
@@ -2791,8 +2792,7 @@ public class AssetController {
 
         List<Long> lotIdList = assetService.getLotIdHistoryByAsset(asset.getId());
         for(Long lotId: lotIdList){
-
-            List<Bid> bidList =lotService.getLotHistoryAggregatedByBid(lotId);
+            List<Bid> bidList = lotService.getLotHistoryAggregatedByBid(lotId);
             Collections.sort(bidList);
             for(Bid bid: bidList){
                 temp = asset.getInn() + "||" + lotId+ "||" +bid.getExchange().getCompanyName()+ "||" +sdfshort.format(bid.getBidDate()) + "||" +assetService.getAccPriceByLotIdHistory(asset.getId(), lotId);
@@ -2800,6 +2800,14 @@ public class AssetController {
             }
         }
             return rezList;
+    }
+    @RequestMapping(value = "/getAccPriceHistory", method = RequestMethod.POST)
+    private @ResponseBody List getDateAndAccPriceHistoryByAsset(@RequestParam("inn") String inn) {
+        Asset asset = (Asset) assetService.getAllAssetsByInNum(inn).get(0);
+
+        List<AcceptPriceHistory> acceptPriceHistoryList = assetService.getDateAndAccPriceHistoryByAsset(asset.getId());
+        System.out.println(acceptPriceHistoryList);
+        return acceptPriceHistoryList;
     }
 
 }

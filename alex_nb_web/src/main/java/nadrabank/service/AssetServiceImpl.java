@@ -161,4 +161,10 @@ public class AssetServiceImpl implements AssetService {
         return assetHistoryDao.getAccPriceByLotIdHistory(assetId, lotId);
         }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List getDateAndAccPriceHistoryByAsset(Long assId){
+        return assetHistoryDao.getDateAndAccPriceHistoryByAsset(assId);
+    }
+
 }

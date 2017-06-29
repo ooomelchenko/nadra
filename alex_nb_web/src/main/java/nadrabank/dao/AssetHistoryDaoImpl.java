@@ -1,6 +1,7 @@
 package nadrabank.dao;
 
 import nadrabank.domain.AssetHistory;
+import nadrabank.queryDomain.AcceptPriceHistory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,4 +81,16 @@ public class AssetHistoryDaoImpl implements AssetHistoryDao {
             return null;
         }
     }
+    @Override
+    public List<AcceptPriceHistory> getDateAndAccPriceHistoryByAsset(Long assId){
+        Query query = factory.getCurrentSession().createQuery("select new nadrabank.queryDomain.AcceptPriceHistory(min(ah.changeDate), ah.acceptPrice) from AssetHistory ah where ah.id=:assId and acceptPrice is not null GROUP BY ah.acceptPrice ");
+        query.setParameter("assId", assId);
+        try {
+            return  query.list();
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+    }
+
 }

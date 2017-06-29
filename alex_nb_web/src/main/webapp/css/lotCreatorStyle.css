@@ -34,3 +34,6 @@ input {
 .view table{
     width: 100%;
 }
+#asset_history_block div{
+    display: table-cell;
+}

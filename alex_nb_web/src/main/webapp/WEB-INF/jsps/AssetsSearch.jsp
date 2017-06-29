@@ -8,6 +8,7 @@
         $(document).ready(function () {
             var ftab = $('.findTab');
             var history_table = $('.history_table');
+            var history_accPrice_table = $('.history_accPrice_table');
 
             function addToFindTab(obj) {
                 $('.findTab').find('.ftr').remove();
@@ -60,13 +61,15 @@
             $('#objHistoryBut').click( function() {
                 if($(this).val()==0){
                     $(this).val(1);
-                    $('.asset_history_block').show();
+                    $('#asset_history_block').show();
                 }
                 else{
                     $(this).val(0);
-                    $('.asset_history_block').hide();
+                    $('#asset_history_block').hide();
                 }
                 $('.asset_history_tr').remove();
+                $('.price_history_tr').remove();
+
                 $.ajax({
                     url: "getAssetHistory",
                     method: "POST",
@@ -83,6 +86,21 @@
                                 '<td>' + obj[4] + '</td>' +
                                 '</tr>');
                             history_table.append(trR);
+                        }
+                    }
+                });
+                $.ajax({
+                    url: "getAccPriceHistory",
+                    method: "POST",
+                    data: {inn: $('#inn').val()},
+                    success(objList){
+                        for (var i = 0; i < objList.length; i++) {
+                            var d = new Date(objList[i].date);
+                            var trPh = $('<tr align="center" class="price_history_tr">' +
+                                '<td>' + d.toISOString().substring(0, 10) + '</td>' +
+                                '<td>' + objList[i].acceptedPrice + '</td>' +
+                                '</tr>');
+                            history_accPrice_table.append(trPh);
                         }
                     }
                 });
@@ -134,8 +152,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <button id="findObjBut" class="button" style="width: 70%">Знайти</button>
-                        <button id="objHistoryBut" class="button" style="width: 30%">Історія</button>
+                        <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
+                        <button id="objHistoryBut" class="button" style="width: 20%">Історія</button>
                     </td>
                 </tr>
             </table>
@@ -172,18 +190,28 @@
         </tr>
     </table>
 </div>
-<div class="asset_history_block" hidden="hidden">
-    <h2>Історія торгів по об'єкту</h2>
-<table class="history_table" border="1">
-    <tr align="center" style="background-color: #edff9a">
-        <th>ID</th>
-        <th>Лот</th>
-        <th>Біржа</th>
-        <th>Дата аукціону</th>
-        <th>Затверджена ціна, грн.</th>
-    </tr>
-
-</table>
+<div id="asset_history_block" hidden="hidden">
+    <div>
+        <h2>Історія торгів</h2>
+        <table class="history_table" border="1">
+            <tr align="center" style="background-color: #edff9a">
+                <th>Інвентарний №</th>
+                <th>Лот</th>
+                <th>Біржа</th>
+                <th>Дата аукціону</th>
+                <th>Затверджена ціна, грн.</th>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h2>Історія зміни ціни</h2>
+        <table class="history_accPrice_table" border="1">
+            <tr align="center" style="background-color: #fffe9f">
+                <th>Дата запису</th>
+                <th>Затверджена ціна, грн.</th>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>

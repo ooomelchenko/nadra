@@ -256,7 +256,6 @@
                         },
                         success: function (objList) {
                             for (var i = 0; i < objList.length; i++) {
-                                var approveNBU = objList[i].nbuPladge ? "Так" : "Ні";
                                 var neadNewFondDec = objList[i].neadNewFondDec ? "Так" : "Ні";
                                 var trR = $('<tr align="center" class="tR">' +
                                     '<td class="idLot" hidden="hidden">' + objList[i].id + '</td>' +
@@ -270,7 +269,7 @@
                                     '<td ><div class="accPrice">' + objList[i].acceptPrice + '</div></td>' +
                                     '<td>' + objList[i].factPrice + '</td>' +
                                     '<td>' + neadNewFondDec + '</td>' +
-                                    '<td>' + approveNBU + '</td>' +
+                                    '<td>' + objList[i].nbuPladge + '</td>' +
                                     '</tr>');
                                 //var factPriceTd = trR.find('.factPriceTd');
 

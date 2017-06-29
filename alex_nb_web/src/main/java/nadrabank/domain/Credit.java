@@ -89,8 +89,8 @@ public class Credit implements Serializable {
 
     @Column(name = "FACT_SALE_PRICE_UAH")
     private BigDecimal factPrice;
-    @Column(name = "ZASTAVA_NBU")
-    private Boolean nbuPladge;
+    @Column(name = "ZASTAVA_NBU_GIOC")
+    private String nbuPladge;
     @Column(name = "IS_IT_SOLD")
     private Boolean isSold;
     /*@Column(name = "FOND_DEC_DATE")
@@ -357,10 +357,10 @@ public class Credit implements Serializable {
         this.factPrice = factPrice;
     }
 
-    public Boolean getNbuPladge() {
+    public String getNbuPladge() {
         return nbuPladge;
     }
-    public void setNbuPladge(Boolean nbuPladge) {
+    public void setNbuPladge(String nbuPladge) {
         this.nbuPladge = nbuPladge;
     }
 

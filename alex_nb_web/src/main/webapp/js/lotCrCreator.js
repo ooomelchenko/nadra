@@ -53,7 +53,7 @@ $(document).ready(function () {
         }
     }
 
-    $('#findObjBut').on('click', function () {
+    $('#findObjBut').click( function () {
         ltab.hide();
         $('.findTab').find('.ftr').remove();
         ftab.show();
@@ -70,7 +70,7 @@ $(document).ready(function () {
             }
         });
     });
-    $('#showLCrdts').on('click', function () {
+    $('#showLCrdts').click( function () {
         ftab.hide();
         ltab.show();
     });
