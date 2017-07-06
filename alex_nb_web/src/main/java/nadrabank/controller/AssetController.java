@@ -57,20 +57,11 @@ public class AssetController {
     @Autowired
     private PayService payService;
 
-    private static final List<String> statusList = Arrays.asList("Новий лот", "Опубліковано", "Оформлення угоди", "Угода укладена");
-    private static final List<String> bidStatusList = Arrays.asList("Перші торги", "Другі торги", "Треті торги", "Четверті торги", "П'яті торги");
-    private static final List<String> bidResultList = Arrays.asList("", "Торги відбулись", "Торги не відбулись");
-    private static final List<String> fondDecisionsList = Arrays.asList("", "Відправлено до ФГВФО", "Повторно відправлено до ФГВФО", "ВД ФГВФО", "Комітет ФГВФО");
     private static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private static final SimpleDateFormat sdfpoints = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy", Locale.ENGLISH);
     private static final String documentsPath = "C:\\SCAN\\DocumentsByLots\\";
     private static final String bidDocumentsPath = "C:\\SCAN\\DocumentsByBid\\";
-
-    private boolean isAuth(HttpSession session) {
-        Locale.setDefault(Locale.ENGLISH);
-        return session.getAttribute("userId") != null;
-    }
 
     private BigDecimal getCoefficient(BigDecimal divident, BigDecimal divisor) {
         try{
@@ -935,46 +926,6 @@ public class AssetController {
         fileOut.flush();
         fileOut.close();
         return fileName;
-    }
-
-    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
-    private String main(HttpSession session) {
-        Locale.setDefault(Locale.ENGLISH);
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            return "Menu";
-        }
-    }
-
-    @RequestMapping(value = "/index", method = {RequestMethod.GET, RequestMethod.HEAD})
-    private String index(HttpSession session) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            return "Menu";
-        }
-    }
-
-    @RequestMapping(value = "/reports", method = {RequestMethod.GET, RequestMethod.HEAD})
-    private String reports(HttpSession session) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            return "Reports";
-        }
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    private @ResponseBody String logCheck(@RequestParam("login") String login,
-                                          @RequestParam("password") String password,
-                                          Model uID) {
-        if (userService.isExist(login, password)) {
-            uID.addAttribute("userId", login);
-            return "1";
-        } else {
-            return "0";
-        }
     }
 
     @RequestMapping(value = "/lotList", method = RequestMethod.GET)
@@ -1876,20 +1827,20 @@ public class AssetController {
         }
 
         if (requestType == 1) {
-            if (lot.getBidStage().equals(bidStatusList.get(0))) {
-                lot.setBidStage(bidStatusList.get(1));
-            } else if (lot.getBidStage().equals(bidStatusList.get(1))) {
-                lot.setBidStage(bidStatusList.get(2));
-            } else if (lot.getBidStage().equals(bidStatusList.get(2))) {
-                lot.setBidStage(bidStatusList.get(3));
-            } else if (lot.getBidStage().equals(bidStatusList.get(3))) {
-                lot.setBidStage(bidStatusList.get(4));
+            if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(0))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(1));
+            } else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(1))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(2));
+            } else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(2))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(3));
+            } else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(3))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(4));
             }
         }
         else if(requestType==2){
             //lot.setFirstStartPrice(null);
             lot.setStartPrice(null);
-            lot.setBidStage(bidStatusList.get(0));
+            lot.setBidStage(StaticStatus.bidStatusList.get(0));
             lot.setNeedNewFondDec(true);
         }
         lot.setFactPrice(null);
@@ -1958,55 +1909,7 @@ public class AssetController {
         return "1";
     }
 
-    @RequestMapping(value = "/lotMenu", method = RequestMethod.GET)
-    private String lotMenu(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            model.addAttribute("lotList", lotService.getLots());
-            return "LotMenu";
-        }
-    }
-    @RequestMapping(value = "/soldedLotMenu", method = RequestMethod.GET)
-    private String soldedLotMenu(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            model.addAttribute("lotList", lotService.getSoldedLots());
-            return "LotMenu";
-        }
-    }
-    @RequestMapping(value = "/notSoldedLotMenu", method = RequestMethod.GET)
-    private String notSoldedLotMenu(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            model.addAttribute("lotList", lotService.getNotSoldedLots());
-            return "LotMenu";
-        }
-    }
 
-    @RequestMapping(value = "/exMenu", method = RequestMethod.GET)
-    private String exMenu(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            model.addAttribute("exchangesList", exchangeService.getAllExchanges());
-            return "ExMenu";
-        }
-    }
-
-    @RequestMapping(value = "/bidMenu", method = RequestMethod.GET)
-    private String bidMenu(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            model.addAttribute("bidList", bidService.getAllBids());
-            model.addAttribute("exchangeList", exchangeService.getAllExchanges());
-           /* model.addAttribute("bidStatusList", bidStatusList);*/
-            return "BidMenu";
-        }
-    }
 
     @RequestMapping(value = "/setAssetPortionNum", method = RequestMethod.POST)
     private @ResponseBody
@@ -2015,102 +1918,7 @@ public class AssetController {
         return "1";
     }
 
-    @RequestMapping(value = "/assets", method = RequestMethod.GET)
-    private String assets(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            int portionNum;
-            try {
-                String p = (String) session.getAttribute("assetPortionNum");
-                portionNum = Integer.parseInt(p);
-            } catch (Exception e) {
-                portionNum = 0;
-            }
-            model.addAttribute("assetPortion", portionNum + 1);
-            model.addAttribute("assetList", assetService.getAssetsByPortion(portionNum));
-            model.addAttribute("fondDecisionsList", fondDecisionsList);
-            model.addAttribute("allBidDates", assetService.getAllBidDates());
-            model.addAttribute("bidResultList", bidResultList);
-            model.addAttribute("workStages", statusList);
-            model.addAttribute("exchangeList", assetService.getExchanges());
-            model.addAttribute("decisionNumbers", assetService.getDecisionNumbers());
-            model.addAttribute("allLotId", lotService.getLotsId());
-            model.addAttribute("allExchangeList", exchangeService.getAllExchanges());
-            return "Assets";
-        }
-    }
 
-    @RequestMapping(value = "/credits", method = RequestMethod.GET)
-    private String credits(HttpSession session, Model model) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else
-            model.addAttribute("totalCountOfCredits", creditService.getTotalCountOfCredits());
-
-        return "Credits";
-    }
-
-    @RequestMapping(value = "/lotCreator", method = RequestMethod.GET)
-    private String singleFormLot(HttpSession session, Model m) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            List<Asset> assetList = new ArrayList<>();
-            m.addAttribute("assetList", assetList);
-            m.addAttribute("lotType", 1);
-            return "LotCreator";
-        }
-    }
-
-    @RequestMapping(value = "/lotCreator1", method = RequestMethod.GET)
-    private String singleFormLot1(HttpSession session, Model m) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            List<Asset> assetList = new ArrayList<>();
-            String[] idMass = (String[]) session.getAttribute("assetsListToLot");
-            for (String id : idMass) {
-                assetList.add(assetService.getAsset(Long.parseLong(id)));
-            }
-            m.addAttribute("assetList", assetList);
-            m.addAttribute("lotType", 1);
-            return "LotCreator";
-        }
-    }
-
-    @RequestMapping(value = "/lotCreditsCreator", method = RequestMethod.GET)
-    private String lotCreditsCreator(HttpSession session, Model m) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            List<Credit> creditList = new ArrayList<>();
-            m.addAttribute("creditList", creditList);
-            m.addAttribute("lotType", 0);
-            //return "LotCreditsCreator";
-            return "LotCreator";
-        }
-    }
-
-    @RequestMapping(value = "/lotCreditsCreator1", method = RequestMethod.GET)
-    private String lotCreditsCreator1(HttpSession session, Model m) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            List<Credit> creditList = new ArrayList<>();
-            String[] idMass = (String[]) session.getAttribute("creditsListToLot");
-            for (String id : idMass) {
-                Credit cr = creditService.getCredit(Long.parseLong(id));
-                /*if(cr.getLot()==null&&cr.getFondDecisionDate()!=null)*/
-                creditList.add(cr);
-            }
-
-            m.addAttribute("creditList", creditList);
-            m.addAttribute("lotType", 0);
-            //return "LotCreditsCreator";
-            return "LotCreator";
-        }
-    }
 
     @RequestMapping(value = "/createLotByCheckedAssets", method = RequestMethod.POST)
     private @ResponseBody String createLotByAssets(@RequestParam("idList") String idList, HttpSession session) {
@@ -2131,50 +1939,6 @@ public class AssetController {
 
         session.setAttribute("creditsListToLot", idMass);
         return "1";
-    }
-
-    @RequestMapping(value = "/lotRedactor", method = RequestMethod.GET)
-    private String LotRedactor(HttpSession session, Model model) {
-        String lotId = (String) session.getAttribute("lotRid");
-        String userName = (String) session.getAttribute("userId");
-        Lot lot = lotService.getLot(Long.parseLong(lotId));
-
-        model.addAttribute("bidStatusList", bidStatusList);
-        model.addAttribute("statusList", statusList);
-        model.addAttribute("lott", lot);
-        model.addAttribute("user", userName);
-        model.addAttribute("bidResultList", bidResultList);
-        model.addAttribute("allBidsList", bidService.getAllBids());
-        model.addAttribute("fondDecisionsList", fondDecisionsList);
-        model.addAttribute("allExchangeList", exchangeService.getAllExchanges());
-        List<Long> bidIdList = lotService.getBidsIdByLot(Long.parseLong(lotId));
-
-        Set<Bid> historyBids = new TreeSet<>();
-
-        for (long id : bidIdList) {
-            Bid bid = bidService.getBid(id);
-            if (lot.getBid() == null || lot.getBid().getId() != id) {
-                historyBids.add(bid);
-            }
-        }
-        model.addAttribute("bidsHistoryList", historyBids);
-        return "LotRedaction";
-
-    }
-
-    @RequestMapping(value = "/exLots", method = RequestMethod.GET)
-    private String exRedactor(HttpSession session, Model model) {
-        String exId = (String) session.getAttribute("exRid");
-        Exchange exchange = exchangeService.getExchange(Long.parseLong(exId));
-        List<Bid> bidList = bidService.getBidsByExchange(exchange);
-
-        List<Lot> lotList = new ArrayList<>();
-        for (Bid bid : bidList) {
-            lotList.addAll(lotService.getLotsByBid(bid));
-        }
-        model.addAttribute("exchange", exchange);
-        model.addAttribute("lotList", lotList);
-        return "ExLots";
     }
 
     @RequestMapping(value = "/creditsByClient", method = RequestMethod.POST)
@@ -2540,16 +2304,6 @@ public class AssetController {
         return "1";
     }
 
-/*    @RequestMapping(value = "/setAcceptEx", method = RequestMethod.POST)
-    private @ResponseBody String setAcceptEx(HttpSession session,
-                                             @RequestParam("assetId") String assetId,
-                                             @RequestParam("acceptEx") Long exId) {
-        String login = (String) session.getAttribute("userId");
-        Asset asset = assetService.getAsset(Long.parseLong(assetId));
-        asset.setAcceptExchange(exchangeService.getExchange(exId).getCompanyName());
-        assetService.updateAsset(login, asset);
-        return "1";
-    }*/
     @RequestMapping(value = "/setAcceptEx", method = RequestMethod.POST)
     private @ResponseBody String setAcceptEx(HttpSession session,
                                              @RequestParam("lotId") String lotId,
@@ -2565,32 +2319,6 @@ public class AssetController {
         lotService.updateLot(login, lot);
         return "1";
     }
-/*    @RequestMapping(value = "/changeFondDec", method = RequestMethod.POST)
-    private @ResponseBody String changeFondDec(HttpSession session,
-                         @RequestParam("idList") String idList,
-                         @RequestParam("fondDecDate") String fondDecDate,
-                         @RequestParam("fondDec") String fondDec,
-                         @RequestParam("decNum") String decNum
-                         // @RequestParam("acceptedPrice") BigDecimal acceptedPrice
-    ) {
-        String login = (String) session.getAttribute("userId");
-        String[] idMass = idList.split(",");
-        Date date = null;
-        try {
-            date = sdfshort.parse(fondDecDate);
-        } catch (ParseException e) {
-            System.out.println("Халепа!");
-        }
-        for (String id : idMass) {
-            Asset asset = assetService.getAsset(Long.parseLong(id));
-            asset.setFondDecisionDate(date);
-            asset.setFondDecision(fondDec);
-            asset.setDecisionNumber(decNum);
-            asset.setNeedNewFondDec(false); //убираем необходимость пересогласования
-            assetService.updateAsset(login, asset);
-        }
-        return "1";
-    }*/
 
     @RequestMapping(value = "/changeFondDec", method = RequestMethod.POST)
     private @ResponseBody String changeFondDec(HttpSession session,
@@ -2659,9 +2387,7 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/selectedParam", method = RequestMethod.POST)
-    private
-    @ResponseBody
-    List<String> getParam(@RequestParam("types") String types,
+    private @ResponseBody List<String> getParam(@RequestParam("types") String types,
                           @RequestParam("regions") String regs,
                           @RequestParam("curs") String curs,
                           @RequestParam("dpdmin") int dpdmin,
@@ -2775,15 +2501,6 @@ public class AssetController {
         return "1";
     }
 
-    @RequestMapping(value = "/assetsSearch", method = RequestMethod.GET)
-    private String assetsSearch(HttpSession session) {
-        if (!isAuth(session)) {
-            return "LogIN";
-        } else {
-            return "AssetsSearch";
-        }
-    }
-
     @RequestMapping(value = "/getAssetHistory", method = RequestMethod.POST)
     private @ResponseBody List assetHistory(@RequestParam("inn") String inn) {
         List<String> rezList = new ArrayList<>();
@@ -2801,12 +2518,11 @@ public class AssetController {
         }
             return rezList;
     }
+
     @RequestMapping(value = "/getAccPriceHistory", method = RequestMethod.POST)
     private @ResponseBody List getDateAndAccPriceHistoryByAsset(@RequestParam("inn") String inn) {
         Asset asset = (Asset) assetService.getAllAssetsByInNum(inn).get(0);
-
         List<AcceptPriceHistory> acceptPriceHistoryList = assetService.getDateAndAccPriceHistoryByAsset(asset.getId());
-        System.out.println(acceptPriceHistoryList);
         return acceptPriceHistoryList;
     }
 

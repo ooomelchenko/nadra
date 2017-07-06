@@ -1,12 +1,12 @@
 package nadrabank.controller;
 
-import java.math.BigDecimal;
-
 public class Test {
     public static void main(String[] args) {
-        BigDecimal a = new BigDecimal(80);
-        BigDecimal b = new BigDecimal(33.5);
-         b = b.add(a);
-        System.out.println(b);
+        int a = 100037;
+        int b = 2;
+        int c, d;
+         c = b^a;
+
+        System.out.println(c);
     }
 }
