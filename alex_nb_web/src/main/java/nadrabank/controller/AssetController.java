@@ -1352,8 +1352,7 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/uploadIdFile", method = RequestMethod.POST)
-    private @ResponseBody
-    List uploadIdFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
+    private @ResponseBody List uploadIdFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
 
         File file = getTempFile(multipartFile);
         if (idType == 1) {
@@ -1424,7 +1423,7 @@ public class AssetController {
                         XSSFRow row = (XSSFRow) rows.next();
                         String inn = row.getCell(0).getStringCellValue();
                         Double accPrice = row.getCell(1).getNumericCellValue();
-                        assetList=assetService.getAssetsByInNum(inn);
+                        assetList=assetService.getAllAssetsByInNum(inn);
                         assetList.forEach(asset -> asset.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
                         assetList.forEach(asset -> assetService.updateAsset(asset) );
                     }
@@ -1827,6 +1826,7 @@ public class AssetController {
         }
 
         if (requestType == 1) {
+
             if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(0))) {
                 lot.setBidStage(StaticStatus.bidStatusList.get(1));
             } else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(1))) {
@@ -1835,6 +1835,15 @@ public class AssetController {
                 lot.setBidStage(StaticStatus.bidStatusList.get(3));
             } else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(3))) {
                 lot.setBidStage(StaticStatus.bidStatusList.get(4));
+            }
+            else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(4))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(5));
+            }
+            else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(5))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(6));
+            }
+            else if (lot.getBidStage().equals(StaticStatus.bidStatusList.get(6))) {
+                lot.setBidStage(StaticStatus.bidStatusList.get(7));
             }
         }
         else if(requestType==2){
@@ -1909,16 +1918,12 @@ public class AssetController {
         return "1";
     }
 
-
-
     @RequestMapping(value = "/setAssetPortionNum", method = RequestMethod.POST)
     private @ResponseBody
     String setAssetPortionNum(HttpSession session, @RequestParam("portion") String portion, Model model) {
         model.addAttribute("assetPortionNum", portion);
         return "1";
     }
-
-
 
     @RequestMapping(value = "/createLotByCheckedAssets", method = RequestMethod.POST)
     private @ResponseBody String createLotByAssets(@RequestParam("idList") String idList, HttpSession session) {

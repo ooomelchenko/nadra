@@ -64,6 +64,10 @@ public class PayDaoImpl implements PayDao {
     public BigDecimal sumByLot(Lot lot){
         Query query = factory.getCurrentSession().createQuery("SELECT sum(pay.paySum) FROM nadrabank.domain.Pay pay WHERE pay.lotId=:lotId");
         query.setParameter("lotId", lot.getId());
+        if(query.list().isEmpty()){
+            return new BigDecimal(0);
+        }
+        else
         return (BigDecimal)query.list().get(0);
     }
     @Override

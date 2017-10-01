@@ -32,7 +32,7 @@
 
                     var tr = $('<tr class="ftr" align="center">' +
                         '<td class="idObj">' + obj[i].id + '</td>' +
-                        '<td>' + lotId + '</td>' +
+                        '<td class="lotId">' + lotId + '</td>' +
                         '<td>' + obj[i].inn + '</td>' +
                         '<td>' + obj[i].asset_name + '</td>' +
                         '<td>' + obj[i].asset_descr + '</td>' +
@@ -45,6 +45,19 @@
                         '</tr>');
                     ftab.append(tr);
                 }
+                $('.lotId').dblclick(function(){
+                    var idL =$(this).text();
+                    if(idL!=""){
+                        $.ajax({
+                            url: "setRlot",
+                            type: "GET",
+                            data: {lotID: idL},
+                            success: function(){
+                                window.open("lotRedactor")
+                            }
+                        })
+                    }
+                });
             }
 
             $('#findObjBut').click( function () {

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
-@SessionAttributes({"userId", "lotRid", "exRid", "objIdToDownload", "docName", "docType", "reportPath", "assetPortionNum"})
+@SessionAttributes({"userId"})
 public class DirectController {
 
     @Autowired
@@ -208,8 +208,9 @@ public class DirectController {
         } else {
             List<Credit> creditList = new ArrayList<>();
             String[] idMass = (String[]) session.getAttribute("creditsListToLot");
+            System.out.println("idMass "+ Arrays.toString(idMass));
             for (String id : idMass) {
-                Credit cr = creditService.getCredit(Long.parseLong(id));
+                Credit cr = (Credit)creditService.getCreditsByIdBars(Long.parseLong(id)).get(0);
                 /*if(cr.getLot()==null&&cr.getFondDecisionDate()!=null)*/
                 creditList.add(cr);
             }

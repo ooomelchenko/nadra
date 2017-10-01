@@ -219,24 +219,14 @@
                 // if(crdt.getLot()==null && !crdt.getFondDecision().equals("Відправлено до ФГВФО") && !crdt.getFondDecision().equals("") ){
         %>
         <tr align="center">
-            <td class="idCredit"><%=crdt.getId()%>
-            </td>
-            <td><%=crdt.getInn()%>
-            </td>
-            <td><%=crdt.getFio()%>
-            </td>
-            <td><%=crdt.getProduct()%>
-            </td>
-            <td><%=crdt.getRegion()%>
-            </td>
-            <td><%=crdt.getZb()%>
-            </td>
-            <td><%=crdt.getRv()%>
-            </td>
-            <td><%
-                if (crdt.getNbuPladge()) out.print("Так");
-                else out.print("Ні");
-            %></td>
+            <td class="idCredit"><%=crdt.getId()%></td>
+            <td><%=crdt.getInn()%></td>
+            <td><%=crdt.getFio()%></td>
+            <td><%=crdt.getProduct()%></td>
+            <td><%=crdt.getRegion()%></td>
+            <td><%=crdt.getZb()%></td>
+            <td><%=crdt.getRv()%></td>
+            <td><%=crdt.getNbuPladge()%></td>
         </tr>
         <%
                 //    }

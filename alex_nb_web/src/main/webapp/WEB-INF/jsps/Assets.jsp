@@ -11,7 +11,7 @@
     <%
         int assetPortion = (Integer) request.getAttribute("assetPortion");
         List<Asset> assetList = (List<Asset>) request.getAttribute("assetList");
-    /*List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");*/
+        /*List<String> fondDecisionsList = (List<String>) request.getAttribute("fondDecisionsList");*/
         List<Date> allBidDates = (List<Date>) request.getAttribute("allBidDates");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy", Locale.ENGLISH);

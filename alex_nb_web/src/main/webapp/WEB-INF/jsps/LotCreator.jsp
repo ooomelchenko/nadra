@@ -137,22 +137,13 @@
         <tr align="center">
             <td class="idObj" hidden="hidden"><%=crdt.getId()%></td>
             <td class="ndObj"><%=crdt.getNd()%></td>
-            <td><%=crdt.getInn()%>
-            </td>
-            <td><%=crdt.getFio()%>
-            </td>
-            <td><%=crdt.getProduct()%>
-            </td>
-            <td><%=crdt.getRegion()%>
-            </td>
-            <td><%=crdt.getZb()%>
-            </td>
-            <td><%=crdt.getRv()%>
-            </td>
-            <td><%
-                if (crdt.getNbuPladge()) out.print("Так");
-                else out.print("Ні");
-            %></td>
+            <td><%=crdt.getInn()%></td>
+            <td><%=crdt.getFio()%></td>
+            <td><%=crdt.getProduct()%></td>
+            <td><%=crdt.getRegion()%></td>
+            <td><%=crdt.getZb()%></td>
+            <td><%=crdt.getRv()%></td>
+            <td><%=crdt.getNbuPladge()%></td>
         </tr>
         <%
                 }
