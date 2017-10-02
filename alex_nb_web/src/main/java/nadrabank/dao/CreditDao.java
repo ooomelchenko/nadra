@@ -39,6 +39,8 @@ public interface CreditDao {
 
     List getCreditsByClient(String inn, Long idBars);
 
+    List getAllCreditsByClient(String inn, Long idBars);
+
     List getCreditsByLot(Long lotId);
 
     List getCreditsByIdBars(Long id);

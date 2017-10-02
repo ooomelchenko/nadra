@@ -1352,7 +1352,8 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/uploadIdFile", method = RequestMethod.POST)
-    private @ResponseBody List uploadIdFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
+    private @ResponseBody
+    List uploadIdFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
 
         File file = getTempFile(multipartFile);
         if (idType == 1) {
@@ -1952,6 +1953,13 @@ public class AssetController {
             @RequestParam("idBars") Long idBars) {
         return creditService.getCreditsByClient(inn, idBars);
     }
+    @RequestMapping(value = "/allCreditsByClient", method = RequestMethod.POST)
+    private @ResponseBody List<Credit> getAllCreditsByClient(
+            @RequestParam("inn") String inn,
+            @RequestParam("idBars") Long idBars) {
+        return creditService.getAllCreditsByClient(inn, idBars);
+    }
+
 
     @RequestMapping(value = "/objectsByInNum", method = RequestMethod.POST)
     private @ResponseBody List<Asset> getAssetsByInNum(@RequestParam("inn") String inn) {
@@ -1960,7 +1968,6 @@ public class AssetController {
 
     @RequestMapping(value = "/allObjectsByInNum", method = RequestMethod.POST)
     private @ResponseBody List<Asset> getAllAssetsByInNum(@RequestParam("inn") String inn) {
-        System.out.println(assetService.getAllAssetsByInNum(inn));
         return assetService.getAllAssetsByInNum(inn);
     }
 

@@ -274,4 +274,12 @@ public class DirectController {
             return "AssetsSearch";
         }
     }
+    @RequestMapping(value = "/creditsSearch", method = RequestMethod.GET)
+    private String creditsSearch(HttpSession session) {
+        if (!isAuth(session)) {
+            return "LogIN";
+        } else {
+            return "CreditsSearch";
+        }
+    }
 }

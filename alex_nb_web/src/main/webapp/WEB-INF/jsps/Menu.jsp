@@ -8,6 +8,9 @@
             $('#search_img').click(function(){
                 window.open("assetsSearch")
             });
+            $('#search_cr_img').click(function(){
+                window.open("creditsSearch")
+            });
             $('#assButt').click(function(){
                 window.open("assets")
             });
@@ -76,11 +79,11 @@
             border: double blue;
             color: blue;
         }
-        #search_img{
+        #search_img, #search_cr_img{
             width: 80px;
             height: 50px;
         }
-        #search_img:hover{
+        #search_img, #search_cr_img:hover{
             cursor: pointer;
             width: 82px;
             height: 52px;
@@ -135,6 +138,7 @@
         <img id="search_img" src="images/search.png" title="пошук об'єктів">
         <button id="assButt">Об'єкти</button>
         <button id="crdButt">Кредити</button>
+        <img id="search_cr_img" src="images/search.png" title="пошук кредитів">
     </div>
     <div id="repButBlock">
         <img id="reportsButton" src="images/reports.png" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів"/>

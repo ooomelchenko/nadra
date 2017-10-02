@@ -122,6 +122,11 @@ public class CreditServiceImpl implements CreditService {
         return creditDao.getCreditsByClient(inn, id);
     }
     @Override
+    @Transactional(readOnly = true)
+    public List getAllCreditsByClient(String inn, Long id){
+        return creditDao.getAllCreditsByClient(inn, id);
+    }
+    @Override
     public List getCreditsByIdBars(Long id){
         return creditDao.getCreditsByIdBars(id);
     }

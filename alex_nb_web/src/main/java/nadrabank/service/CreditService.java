@@ -43,6 +43,9 @@ public interface CreditService {
 
     List getCreditsByClient(String inn, Long id);
 
+    @Transactional(readOnly = true)
+    List getAllCreditsByClient(String inn, Long id);
+
     List getCreditsByIdBars(Long id);
 
     boolean updateCredit(String userLogin, Credit crdt);

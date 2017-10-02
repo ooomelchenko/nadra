@@ -306,6 +306,26 @@ public class CreditDaoImpl implements CreditDao {
        else return null;
     }
     @Override
+    public List getAllCreditsByClient(String inn, Long idBars){
+        if (!inn.equals("")&&idBars!=null){
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.inn=:inn and crdt.nd=:idBars");
+            query.setParameter("inn", inn);
+            query.setParameter("idBars", idBars);
+            return query.list();
+        }
+        else if(!inn.equals("")&&idBars==null){
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.inn=:inn");
+            query.setParameter("inn", inn);
+            return query.list();
+        }
+        else if (inn.equals("")&&idBars!=null){
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.nd=:idBars");
+            query.setParameter("idBars", idBars);
+            return query.list();
+        }
+        else return null;
+    }
+    @Override
     public List getCreditsByLot(Long lotId){
         Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot=:lotId");
         query.setParameter("lotId", lotId);
