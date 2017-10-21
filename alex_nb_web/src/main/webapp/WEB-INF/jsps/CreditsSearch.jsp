@@ -65,7 +65,7 @@
                 });
             });
 
-            /*$('#objHistoryBut').click( function() {
+            $('#objHistoryBut').click( function() {
                 if($(this).val()==0){
                     $(this).val(1);
                     $('#asset_history_block').show();
@@ -78,9 +78,12 @@
                 $('.price_history_tr').remove();
 
                 $.ajax({
-                    url: "getAssetHistory",
+                    url: "getCreditsHistory",
                     method: "POST",
-                    data: {inn: $('#inn').val()},
+                    data: {
+                        inn: $('#inn').val(),
+                        idBars: $('#idBars').val()
+                    },
                     success(objList){
                         for (var i = 0; i < objList.length; i++) {
                             var obj = objList[i].split("||");
@@ -97,9 +100,10 @@
                     }
                 });
                 $.ajax({
-                    url: "getAccPriceHistory",
+                    url: "getCrPriceHistory",
                     method: "POST",
-                    data: {inn: $('#inn').val()},
+                    data: {inn: $('#inn').val(),
+                        idBars: $('#idBars').val()},
                     success(objList){
                         for (var i = 0; i < objList.length; i++) {
                             var d = new Date(objList[i].date);
@@ -111,7 +115,7 @@
                         }
                     }
                 });
-            });*/
+            });
 
             $('#formDownld').click(function(){
                 window.open("downLotIdListForm");
@@ -165,7 +169,7 @@
                 <tr>
                     <td>
                         <button id="findObjBut" class="button" style="width: 100%">Знайти</button>
-                        <%--<button id="objHistoryBut" class="button" style="width: 20%">Історія</button>--%>
+                        <button id="objHistoryBut" class="button" style="width: 20%">Історія</button>
                     </td>
                 </tr>
             </table>
@@ -205,7 +209,7 @@
     </table>
 </div>
 
-<%--<div id="asset_history_block" hidden="hidden">
+<div id="asset_history_block" hidden="hidden">
     <div>
         <h2>Історія торгів</h2>
         <table class="history_table" border="1">
@@ -227,6 +231,6 @@
             </tr>
         </table>
     </div>
-</div>--%>
+</div>
 </body>
 </html>

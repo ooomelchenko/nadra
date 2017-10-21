@@ -99,7 +99,7 @@ public class AssetDaoImpl implements AssetDao {
     }
     @Override
     public List getAssetsByINum(String inn){
-            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Asset asset WHERE asset.lot is null and asset.inn=:inn");
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Asset asset WHERE asset.lot is null and proposition is null and asset.inn=:inn");
             query.setParameter("inn", inn);
             return query.list();
     }

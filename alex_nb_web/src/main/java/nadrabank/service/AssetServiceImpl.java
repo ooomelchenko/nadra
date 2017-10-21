@@ -52,7 +52,7 @@ public class AssetServiceImpl implements AssetService {
     }
     @Override
     public boolean updateAsset(Asset asset) {
-        return  assetDao.update(asset);
+        return assetDao.update(asset);
     }
     @Override
     public boolean updateAsset(String userName, Asset asset) {

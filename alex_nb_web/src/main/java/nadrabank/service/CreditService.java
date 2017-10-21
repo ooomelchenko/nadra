@@ -4,15 +4,16 @@ import nadrabank.domain.Credit;
 import nadrabank.domain.Lot;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by HP on 10/15/2015.
- */
 public interface CreditService {
     Credit getCredit(Long id);
     boolean createCredit(Credit credit);
+
+    boolean createCredit(String user, Credit credit);
+
     boolean delete(Long id);
     boolean delete(Credit credit);
     boolean updateCredit(Credit credit);
@@ -55,4 +56,16 @@ public interface CreditService {
 
     @Transactional(readOnly = true)
     List getCredits_SuccessBids(Date startBids, Date endBids);
+
+    @Transactional(readOnly = true)
+    List getLotIdHistoryByCredit(String crInn);
+
+    @Transactional(readOnly = true)
+    List getLotIdHistoryByCredit(Long idBars);
+
+    @Transactional(readOnly = true)
+    List getLotIdHistoryByCredit(String crInn, Long idBars);
+
+    @Transactional(readOnly = true)
+    BigDecimal getPriceByLotIdHistory(Long id, Long lotId);
 }

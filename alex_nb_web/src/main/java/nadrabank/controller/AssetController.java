@@ -1029,10 +1029,12 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/addPayToLot", method = RequestMethod.POST)
-    private @ResponseBody String addPayToLot(@RequestParam("lotId") Long idLot,
+    private @ResponseBody String addPayToLot(HttpSession session,
+                                             @RequestParam("lotId") Long idLot,
                                              @RequestParam("payDate") String payDate,
                                              @RequestParam("pay") BigDecimal pay,
                                              @RequestParam("paySource") String paySource) {
+        String login = (String) session.getAttribute("userId");
         Date date;
         try {
             date = sdfshort.parse(payDate);
@@ -1071,7 +1073,7 @@ public class AssetController {
                 if (i == assetsByLot.size() - 1 & paySource.equals("Покупець")) {
                     asset.setPaysCustomer(asset.getPaysCustomer().add(pay.subtract(assetsTotalPays)));
                 }
-                assetService.updateAsset(asset);
+                assetService.updateAsset(login, asset);
             }
             Pay payment = new Pay(lot, date, pay, paySource);
             if (payService.createPay(payment) > 0L) return "1";
@@ -1107,7 +1109,7 @@ public class AssetController {
                 if (i == creditsByLot.size() - 1 & paySource.equals("Покупець")) {
                     credit.setPaysCustomer(credit.getPaysCustomer().add(pay.subtract(assetsTotalPays)));
                 }
-                creditService.updateCredit(credit);
+                creditService.updateCredit(login, credit);
             }
             Pay payment = new Pay(lot, date, pay, paySource);
             if (payService.createPay(payment) > 0L) return "1";
@@ -1117,7 +1119,8 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/delPay", method = RequestMethod.GET)
-    private @ResponseBody String delPay(@RequestParam("payId") Long payId){
+    private @ResponseBody String delPay(HttpSession session, @RequestParam("payId") Long payId){
+        String login = (String) session.getAttribute("userId");
         Pay pay = payService.getPay(payId);
         Lot lot = lotService.getLot(pay.getLotId());
         if (lot.getLotType() == 1) {
@@ -1148,7 +1151,7 @@ public class AssetController {
                     //    asset.setCustomerPayDate(date);
                 }
                 currentMinus = currentMinus.add(minusByAsset);
-                assetService.updateAsset(asset);
+                assetService.updateAsset(login, asset);
             }
             pay.setHistoryLotId(pay.getLotId());
             pay.setLotId(null);
@@ -1184,7 +1187,7 @@ public class AssetController {
                     //    asset.setCustomerPayDate(date);
                 }
                 currentMinus = currentMinus.add(minusByAsset);
-                creditService.updateCredit(credit);
+                creditService.updateCredit(login, credit);
             }
 
             pay.setHistoryLotId(pay.getLotId());
@@ -1406,8 +1409,10 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/setAccPriceByFile", method = RequestMethod.POST)
-    private @ResponseBody
-    String setAccPriceByFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType) throws IOException {
+    private @ResponseBody String setAccPriceByFile(HttpSession session,
+                                                   @RequestParam("file") MultipartFile multipartFile,
+                                                   @RequestParam("idType") int idType) throws IOException {
+        String login = (String) session.getAttribute("userId");
         List<Asset> assetList;
         File file = getTempFile(multipartFile);
         if (idType == 1) {
@@ -1426,7 +1431,7 @@ public class AssetController {
                         Double accPrice = row.getCell(1).getNumericCellValue();
                         assetList=assetService.getAllAssetsByInNum(inn);
                         assetList.forEach(asset -> asset.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
-                        assetList.forEach(asset -> assetService.updateAsset(asset) );
+                        assetList.forEach(asset -> assetService.updateAsset(login, asset) );
                     }
                     return "1";
                 } catch (Exception e) {
@@ -1449,7 +1454,7 @@ public class AssetController {
                         Double accPrice = row.getCell(1).getNumericCellValue();
                        List<Credit> creditList = creditService.getCreditsByIdBars(Long.parseLong(inn));
                         creditList.forEach(credit -> credit.setAcceptPrice(BigDecimal.valueOf(accPrice)) );
-                        creditList.forEach(credit -> creditService.updateCredit(credit));
+                        creditList.forEach(credit -> creditService.updateCredit(login, credit));
                     }
                     return "1";
                 } catch (Exception e) {
@@ -1797,7 +1802,7 @@ public class AssetController {
             }
             for(Asset asset: assetList){
                 asset.setSold(true);
-                assetService.updateAsset(asset);
+                assetService.updateAsset(login, asset);
             }
         }
         boolean isitChanged = lotService.updateLot(login, lot);
@@ -2359,18 +2364,20 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/updateCreditsInLot", method = RequestMethod.POST)
-    private @ResponseBody String updateCreditsInLot(@RequestParam("newPricesId") String newPricesId,
-                                            @RequestParam("newPrice") String newPrices,
-                                            @RequestParam("factPricesId") String factPricesId,
-                                            @RequestParam("factPrice") String factPrices,
-                                            @RequestParam("soldId") String soldId) {
+    private @ResponseBody String updateCreditsInLot(HttpSession session,
+                                                    @RequestParam("newPricesId") String newPricesId,
+                                                    @RequestParam("newPrice") String newPrices,
+                                                    @RequestParam("factPricesId") String factPricesId,
+                                                    @RequestParam("factPrice") String factPrices,
+                                                    @RequestParam("soldId") String soldId) {
+        String login = (String) session.getAttribute("userId");
         if (!newPricesId.equals("")) {
             String[] newPricesIdMass = newPricesId.split(",");
             String[] newPricesMass = newPrices.split(",");
             for (int i = 0; i < newPricesIdMass.length; i++) {
                 Credit credit = creditService.getCredit(Long.parseLong(newPricesIdMass[i]));
                 credit.setDiscountPrice(BigDecimal.valueOf(Double.valueOf(newPricesMass[i])));
-                creditService.updateCredit(credit);
+                creditService.updateCredit(login, credit);
 
             }
         }
@@ -2381,7 +2388,7 @@ public class AssetController {
             for (int i = 0; i < factPricesIdMass.length; i++) {
                 Credit credit = creditService.getCredit(Long.parseLong(factPricesIdMass[i]));
                 credit.setFactPrice(BigDecimal.valueOf(Double.parseDouble(factPricesMass[i])));
-                creditService.updateCredit(credit);
+                creditService.updateCredit(login, credit);
 
             }
         }
@@ -2391,7 +2398,7 @@ public class AssetController {
             for (String sId : soldIdMass) {
                 Credit credit = creditService.getCredit(Long.parseLong(sId));
                 credit.setSold(true);
-                creditService.updateCredit(credit);
+                creditService.updateCredit(login, credit);
 
             }
         }
@@ -2440,7 +2447,6 @@ public class AssetController {
         newlot.setStartPrice(startPrice);
         newlot.setFirstStartPrice(startPrice);
 
-
         lotService.updateLot(newlot);
 
         model.addAttribute("lotRid", lotRid.toString());
@@ -2479,7 +2485,7 @@ public class AssetController {
               //  creditService.updateCredit(crdt);
             }
             if (crdt.getLot() == null) crdt.setLot(lotRid);
-            creditService.updateCredit(crdt);
+            creditService.updateCredit(userLogin, crdt);
         }
         newlot.setStartPrice(startPrice);
         newlot.setFirstStartPrice(startPrice);
@@ -2536,6 +2542,24 @@ public class AssetController {
         Asset asset = (Asset) assetService.getAllAssetsByInNum(inn).get(0);
         List<AcceptPriceHistory> acceptPriceHistoryList = assetService.getDateAndAccPriceHistoryByAsset(asset.getId());
         return acceptPriceHistoryList;
+    }
+
+    @RequestMapping(value = "/getCreditsHistory", method = RequestMethod.POST)
+    private @ResponseBody List creditHistory(@RequestParam("inn") String inn, @RequestParam("idBars") Long idBars) {
+        List<String> rezList = new ArrayList<>();
+        String temp;
+        Credit credit = (Credit) creditService.getAllCreditsByClient(inn, idBars).get(0);
+        List <Long> lotIdList = creditService.getLotIdHistoryByCredit(credit.getNd());
+        System.out.println(lotIdList);
+        for(Long lotId: lotIdList){
+            List<Bid> bidList = lotService.getLotHistoryAggregatedByBid(lotId);
+            Collections.sort(bidList);
+            for(Bid bid: bidList){
+                temp = credit.getInn() + "||" + lotId+ "||" +bid.getExchange().getCompanyName()+ "||" +sdfshort.format(bid.getBidDate()) + "||" +creditService.getPriceByLotIdHistory(credit.getId(), lotId);
+                rezList.add(temp);
+            }
+        }
+        return rezList;
     }
 
 }

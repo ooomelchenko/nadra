@@ -2,12 +2,15 @@ package nadrabank.service;
 
 import nadrabank.dao.CreditDao;
 import nadrabank.dao.CreditDaoImpl;
+import nadrabank.dao.CreditHistoryDao;
 import nadrabank.domain.Credit;
+import nadrabank.domain.CreditHistory;
 import nadrabank.domain.Lot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +19,8 @@ import java.util.List;
 public class CreditServiceImpl implements CreditService {
     @Autowired
     private CreditDao creditDao;
+    @Autowired
+    private CreditHistoryDao creditHistoryDao;
 
     public CreditServiceImpl() {
     }
@@ -46,6 +51,12 @@ public class CreditServiceImpl implements CreditService {
         return true;
     }
     @Override
+    public boolean createCredit(String user, Credit credit) {
+        creditDao.create(credit);
+        creditHistoryDao.create(new CreditHistory(user, credit));
+        return true;
+    }
+    @Override
     public boolean delete(Long id) {
         creditDao.delete(creditDao.read(id));
         return true;
@@ -57,7 +68,7 @@ public class CreditServiceImpl implements CreditService {
     }
     @Override
     public boolean updateCredit(Credit credit) {
-      return  creditDao.update(credit);
+      return creditDao.update(credit);
     }
     @Override
     @Transactional(readOnly = true)
@@ -132,7 +143,8 @@ public class CreditServiceImpl implements CreditService {
     }
     @Override
     public boolean updateCredit(String userLogin, Credit credit) {
-        return  creditDao.update(credit);
+        creditHistoryDao.create(new CreditHistory(userLogin, credit));
+        return creditDao.update(credit);
     }
     @Override
     @Transactional(readOnly = true)
@@ -144,5 +156,24 @@ public class CreditServiceImpl implements CreditService {
     public List getCredits_SuccessBids(Date startBids, Date endBids) {
         return creditDao.getCredits_SuccessBids(startBids, endBids);
     }
-
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotIdHistoryByCredit(String crInn){
+        return creditHistoryDao.getLotIdHistoryByCredit(crInn);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotIdHistoryByCredit(Long idBars){
+        return creditHistoryDao.getLotIdHistoryByCredit(idBars);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotIdHistoryByCredit(String crInn, Long idBars){
+        return creditHistoryDao.getLotIdHistoryByCredit(crInn, idBars);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public BigDecimal getPriceByLotIdHistory(Long id, Long lotId){
+        return creditHistoryDao.getPriceByLotIdHistory(id, lotId);
+    }
 }
