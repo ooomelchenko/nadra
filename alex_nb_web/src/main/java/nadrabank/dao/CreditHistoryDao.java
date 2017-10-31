@@ -1,6 +1,7 @@
 package nadrabank.dao;
 
 import nadrabank.domain.CreditHistory;
+import nadrabank.queryDomain.CreditAccPriceHistory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface CreditHistoryDao {
     List getLotIdHistoryByCredit(String inn, Long idBars);
 
     BigDecimal getPriceByLotIdHistory(Long id, Long lotId);
+
+    List<CreditAccPriceHistory> getDateAndAccPriceHistoryByCredit(Long id);
 }

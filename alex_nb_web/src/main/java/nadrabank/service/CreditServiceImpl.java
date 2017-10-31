@@ -6,6 +6,7 @@ import nadrabank.dao.CreditHistoryDao;
 import nadrabank.domain.Credit;
 import nadrabank.domain.CreditHistory;
 import nadrabank.domain.Lot;
+import nadrabank.queryDomain.CreditAccPriceHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -175,5 +176,10 @@ public class CreditServiceImpl implements CreditService {
     @Transactional(readOnly = true)
     public BigDecimal getPriceByLotIdHistory(Long id, Long lotId){
         return creditHistoryDao.getPriceByLotIdHistory(id, lotId);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<CreditAccPriceHistory> getDateAndAccPriceHistoryByCredit(Long id){
+       return  creditHistoryDao.getDateAndAccPriceHistoryByCredit(id);
     }
 }

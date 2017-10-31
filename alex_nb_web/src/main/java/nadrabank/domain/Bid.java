@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "BIDS")
 public class Bid implements Serializable, Comparable<Bid> {
-   // private static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
     @Id
     @SequenceGenerator(name = "sequence", sequenceName = "BIDS_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
@@ -24,8 +24,8 @@ public class Bid implements Serializable, Comparable<Bid> {
     private String newspaper;
     @Column(name = "NEWSPAPER1_DATE")
     private Date news1Date;
-    @Column(name = "NEWSPAPER2_DATE")
-    private Date news2Date;
+    @Column(name = "COMENT")
+    private String coment;
     @Column(name = "REGISTRATION_END_Date")
     private Date registrEndDate;
     /*@Column(name = "COUNT_OF_PARTICIPANTS")
@@ -47,7 +47,6 @@ public class Bid implements Serializable, Comparable<Bid> {
     public int hashCode() {
         return Objects.hash(bidDate, exchange);
     }
-
 
     public Long getId() {
         return id;
@@ -77,11 +76,11 @@ public class Bid implements Serializable, Comparable<Bid> {
         this.news1Date = news1Date;
     }
 
-    public Date getNews2Date() {
-        return news2Date;
+    public String getComent() {
+        return coment;
     }
-    public void setNews2Date(Date news2Date) {
-        this.news2Date = news2Date;
+    public void setComent(String coment) {
+        this.coment = coment;
     }
 
     public Date getRegistrEndDate() {
@@ -100,19 +99,19 @@ public class Bid implements Serializable, Comparable<Bid> {
 
     public Bid() {
     }
-    public Bid(Date bidDate, String newspaper, Date news1Date, Date news2Date, Date registrEndDate, Exchange exchange) {
+    public Bid(Date bidDate, String newspaper, Date news1Date, String coment, Date registrEndDate, Exchange exchange) {
         this.bidDate = bidDate;
         this.newspaper = newspaper;
         this.news1Date = news1Date;
-        this.news2Date = news2Date;
+        this.coment = coment;
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
     }
-    public Bid(Date bidDate, Exchange exchange, String newspaper, Date news1Date, Date news2Date, Date registrEndDate) {
+    public Bid(Date bidDate, Exchange exchange, String newspaper, Date news1Date, String coment, Date registrEndDate) {
         this.bidDate = bidDate;
         this.newspaper = newspaper;
         this.news1Date = news1Date;
-        this.news2Date = news2Date;
+        this.coment = coment;
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
     }
@@ -129,7 +128,7 @@ public class Bid implements Serializable, Comparable<Bid> {
                 ", bidDate=" + bidDate +
                 ", newspaper='" + newspaper + '\'' +
                 ", news1Date=" + news1Date +
-                ", news2Date=" + news2Date +
+                ", news2Date=" + coment +
                 ", registrEndDate=" + registrEndDate +
                 ", exchange=" + exchange +
                 '}';

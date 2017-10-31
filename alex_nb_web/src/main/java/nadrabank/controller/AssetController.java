@@ -3,6 +3,7 @@ package nadrabank.controller;
 import nadrabank.domain.*;
 import nadrabank.queryDomain.AcceptPriceHistory;
 import nadrabank.queryDomain.BidDetails;
+import nadrabank.queryDomain.CreditAccPriceHistory;
 import nadrabank.service.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
@@ -1875,7 +1876,7 @@ public class AssetController {
                                                  @RequestParam("exId") String exId,
                                                  @RequestParam("newNP") String newNP,
                                                  @RequestParam("newND1") String newND1,
-                                                 @RequestParam("newND2") String newND2,
+                                               //  @RequestParam("newND2") String coment,
                                                  @RequestParam("newRED") String newRED) {
         Date bDate = null, ND1 = null, ND2 = null, RED = null;
         Bid bid = bidService.getBid(Long.parseLong(bidId));
@@ -1891,11 +1892,6 @@ public class AssetController {
             System.out.println("Неверный формат даты");
         }
         try {
-            ND2 = sdfshort.parse(newND2);
-        } catch (ParseException e) {
-            System.out.println("Неверный формат даты");
-        }
-        try {
             RED = sdfshort.parse(newRED);
         } catch (ParseException e) {
             System.out.println("Неверный формат даты");
@@ -1904,7 +1900,7 @@ public class AssetController {
         bid.setBidDate(bDate);
         bid.setNewspaper(newNP);
         bid.setNews1Date(ND1);
-        bid.setNews2Date(ND2);
+      //  bid.setComent(coment);
         bid.setRegistrEndDate(RED);
         bidService.updateBid(bid);
         return "1";
@@ -2026,6 +2022,18 @@ public class AssetController {
     private @ResponseBody List<Lot> lotsByBid(@RequestParam("bidId") String bidId) {
         Bid bid = bidService.getBid(Long.parseLong(bidId));
         return bidService.lotsByBid(bid);
+    }
+
+    @RequestMapping(value = "/comentsByLotsFromBid", method = RequestMethod.GET)
+    private @ResponseBody List<String> getComments(@RequestParam("bidId") String bidId) {
+        String aggregatedComment="";
+        List<String> resList= new ArrayList<>();
+        Bid bid = bidService.getBid(Long.parseLong(bidId));
+        for(Lot l: (List<Lot>)bidService.lotsByBid(bid)){
+            aggregatedComment+=l.getComment()+" ||";
+        }
+        resList.add(aggregatedComment);
+        return resList;
     }
 
     @RequestMapping(value = "/getPaySum_Residual", method = RequestMethod.GET)
@@ -2500,21 +2508,20 @@ public class AssetController {
                      @RequestParam("bidDate") String bidD,
                      @RequestParam("newspaper") String newspaper,
                      @RequestParam("newsDate1") String newsD1,
-                     @RequestParam("newsDate2") String newsD2,
+                     @RequestParam("newsDate2") String coment,
                      @RequestParam("registrEnd") String regEnd) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date bidDate, newsDate1, newsDate2, registrEnd;
+        Date bidDate, newsDate1, registrEnd;
         try {
             bidDate = bidD.equals("") ? null : format.parse(bidD);
             newsDate1 = newsD1.equals("") ? null : format.parse(newsD1);
-            newsDate2 = newsD2.equals("") ? null : format.parse(newsD2);
             registrEnd = regEnd.equals("") ? null : format.parse(regEnd);
         } catch (ParseException e) {
             e.printStackTrace();
             return "0";
         }
         Exchange exchange = exchangeService.getExchange(Long.parseLong(exId));
-        Bid bid = new Bid(bidDate, exchange, newspaper, newsDate1, newsDate2, registrEnd);
+        Bid bid = new Bid(bidDate, exchange, newspaper, newsDate1, coment, registrEnd);
         bidService.createBid(bid);
         return "1";
     }
@@ -2561,5 +2568,10 @@ public class AssetController {
         }
         return rezList;
     }
-
+    @RequestMapping(value = "/getCrPriceHistory", method = RequestMethod.POST)
+    private @ResponseBody List getCrPriceHistory(@RequestParam("inn") String inn, @RequestParam("idBars") Long idBars) {
+        Credit credit = (Credit) creditService.getAllCreditsByClient(inn, idBars).get(0);
+        List<CreditAccPriceHistory> creditPriceHistoryList = creditService.getDateAndAccPriceHistoryByCredit(credit.getId());
+        return creditPriceHistoryList;
+    }
 }

@@ -1,6 +1,7 @@
 package nadrabank.dao;
 
 import nadrabank.domain.CreditHistory;
+import nadrabank.queryDomain.CreditAccPriceHistory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,17 @@ public class CreditHistoryDaoImpl implements CreditHistoryDao {
         query.setParameter("lotId", lotId);
         try {
             return (BigDecimal) query.list().get(0);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+    }
+    @Override
+    public List<CreditAccPriceHistory> getDateAndAccPriceHistoryByCredit(Long id){
+        Query query = factory.getCurrentSession().createQuery("select new nadrabank.queryDomain.CreditAccPriceHistory(min(ch.changeDate), ch.acceptPrice) from CreditHistory ch where ch.id=:id and acceptPrice is not null GROUP BY ch.acceptPrice ");
+        query.setParameter("id", id);
+        try {
+            return  query.list();
         }
         catch(IndexOutOfBoundsException e){
             return null;

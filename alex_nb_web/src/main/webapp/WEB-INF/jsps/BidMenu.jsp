@@ -43,6 +43,19 @@
                 }
             });
 
+            bidTr.each(function() {
+                var currentTr = $(this);
+                var bidId = currentTr.find('.idBid').text();
+                $.ajax({
+                    url: "comentsByLotsFromBid",
+                    type: "GET",
+                    data: {bidId: bidId},
+                    success: function (comments) {
+                        currentTr.find('.lotData').text(comments[0].substring(0,45));
+                    }
+                })
+            });
+
             bidTr.dblclick(function () {
                 var bid = $(this);
                 var bidId = $(this).find('.idBid').text();
@@ -116,7 +129,7 @@
                             exId: $(this).parent().parent().find('.ex').val(),
                             newNP: $(this).parent().parent().find('.newNP').val(),
                             newND1: $(this).parent().parent().find('.newND1').val(),
-                            newND2: $(this).parent().parent().find('.newND2').val(),
+                          //  newND2: $(this).parent().parent().find('.newND2').val(),
                             newRED: $(this).parent().parent().find('.newRED').val()
                         },
                         success: function (req) {
@@ -290,6 +303,14 @@
         .showDocs:hover {
             border: solid yellowgreen;
         }
+        .lotData{
+            width: 150px;
+            height: 30px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
     </style>
     <title>Торги</title>
     <%
@@ -341,17 +362,19 @@
                 <th>ID</th>
                 <th>Дата торгів</th>
                 <th>Біржа</th>
-                <th>Газета</th>
-                <th>Дата публікації 1</th>
-                <th>Дата публікації 2</th>
+                <th>N рішення</th>
+                <th>Дата публікації</th>
                 <th>Кінець реєстрації</th>
+                <%--<th>Коментар</th>--%>
+                <th>Коментарі лотів</th>
                 <td colspan="2"><button id="addBidButt" value="0" style="width: 100%; height: 100%">Додати торги</button></td>
             </tr>
+
             <%for (Bid bid : bidList) {%>
             <tr class="bidTr" align="center">
                 <td class="idBid"><%=bid.getId()%></td>
                 <td class="bidData"><input class="newBD" datatype="date" hidden="hidden"
-                                           value="<%if(bid.getBidDate()!=null)out.print(sdf.format(bid.getBidDate()));%>">
+                                           value="<%if(bid.getBidDate()!=null) out.print(sdf.format(bid.getBidDate()));%>">
                     <b><%if (bid.getBidDate() != null) out.print(sdf.format(bid.getBidDate()));%></b></td>
                 <td class="bidData">
                     <select class="ex" hidden="hidden">
@@ -368,18 +391,26 @@
                     </b>
                 </td>
                 <td class="bidData"><input class="newNP" type="text" hidden="hidden"
-                                           value="<%if(bid.getNewspaper()!=null)out.print(bid.getNewspaper());%>"><b><%=bid.getNewspaper()%>
-                </b></td>
+                                           value="<%if(bid.getNewspaper()!=null)out.print(bid.getNewspaper());%>">
+                    <b><%if(bid.getNewspaper()!=null)out.print(bid.getNewspaper());%>
+                </b>
+                </td>
                 <td class="bidData"><input class="newND1" datatype="date" hidden="hidden"
                                            value="<%if(bid.getNews1Date()!=null)out.print(sdf.format(bid.getNews1Date()));%>">
                     <b><%if (bid.getNews1Date() != null) out.print(sdf.format(bid.getNews1Date()));%></b></td>
-                <td class="bidData"><input class="newND2" datatype="date" hidden="hidden"
-                                           value="<%if(bid.getNews2Date()!=null)out.print(sdf.format(bid.getNews2Date()));%>">
-                    <b><%if (bid.getNews2Date() != null) out.print(sdf.format(bid.getNews2Date()));%></b></td>
+
                 <td class="bidData"><input class="newRED" datatype="date" hidden="hidden"
                                            value="<%if(bid.getRegistrEndDate()!=null)out.print(sdf.format(bid.getRegistrEndDate()));%>">
                     <b><%if (bid.getRegistrEndDate() != null) out.print(sdf.format(bid.getRegistrEndDate()));%>
-                    </b></td>
+                    </b>
+                </td>
+                <%--<td class="bidData"><input class="newND2" hidden="hidden"
+                                           value="<%if(bid.getComent()!=null)out.print(bid.getComent());%>">
+                    <b><%if(bid.getComent()!=null)out.print(bid.getComent());%></b>
+                </td>--%>
+                <td class="lotData">
+
+                </td>
                 <td>
                     <button class="changeButton">Редагувати</button>
                 </td>
