@@ -51,6 +51,7 @@
                     type: "GET",
                     data: {bidId: bidId},
                     success: function (comments) {
+                        currentTr.find('.lotData').attr("title", comments[0]);
                         currentTr.find('.lotData').text(comments[0].substring(0,45));
                     }
                 })
