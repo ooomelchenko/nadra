@@ -35,6 +35,8 @@ public class Lot implements Serializable, Comparable<Lot> {
     private BigDecimal factPrice;
     @Column(name = "CUSTOMER")
     private String customerName;
+    @Column(name = "CUSTOMER_INN")
+    private int customerInn;
     @Column(name = "RESULT_Status")
     private String status;
     @Column(name = "ACT_SIGNED_DATE")
@@ -231,6 +233,13 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.decisionNumber = decisionNumber;
     }
 
+    public int getCustomerInn() {
+        return customerInn;
+    }
+    public void setCustomerInn(int customerInn) {
+        this.customerInn = customerInn;
+    }
+
     //Конструктора
     public Lot() {
     }
@@ -251,9 +260,10 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.fondDecision = null;
         this.decisionNumber = null;
         this.bid = null;
+        this.customerInn = 0;
     }
 
-    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, Date actSignedDate, int lotType, Date planSaleDate, String acceptExchange, boolean needNewFondDec, Date fondDecisionDate, String fondDecision, String decisionNumber, User user, Bid bid) {
+    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, Date actSignedDate, int lotType, Date planSaleDate, String acceptExchange, boolean needNewFondDec, Date fondDecisionDate, String fondDecision, String decisionNumber, User user, Bid bid, int customerInn) {
         this.lotNum = lotNum;
         this.workStage = workStage;
         this.isItSold = isItSold;
@@ -276,6 +286,7 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.decisionNumber = decisionNumber;
         this.user = user;
         this.bid = bid;
+        this.customerInn = customerInn;
     }
 
     @Override
@@ -293,9 +304,16 @@ public class Lot implements Serializable, Comparable<Lot> {
                 ", firstStartPrice=" + firstStartPrice +
                 ", factPrice=" + factPrice +
                 ", customerName='" + customerName + '\'' +
+                ", customerInn=" + customerInn +
                 ", status='" + status + '\'' +
                 ", actSignedDate=" + actSignedDate +
                 ", lotType=" + lotType +
+                ", planSaleDate=" + planSaleDate +
+                ", acceptExchange='" + acceptExchange + '\'' +
+                ", needNewFondDec=" + needNewFondDec +
+                ", fondDecisionDate=" + fondDecisionDate +
+                ", fondDecision='" + fondDecision + '\'' +
+                ", decisionNumber='" + decisionNumber + '\'' +
                 ", user=" + user +
                 ", bid=" + bid +
                 '}';

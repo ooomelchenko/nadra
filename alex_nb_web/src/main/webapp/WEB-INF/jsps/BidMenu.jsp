@@ -158,7 +158,6 @@
                         bidDate: $('#newBidDate').val(),
                         newspaper: $('#newspaper').val(),
                         newsDate1: $('#newsDate1').val(),
-                        newsDate2: $('#newsDate2').val(),
                         registrEnd: $('#registrEnd').val()
                     },
                     success: function (res) {
@@ -353,7 +352,6 @@
                 </td>
                 <td><input type="text" id="newspaper" title="заповніть назву газети"></td>
                 <td><input id="newsDate1" class="datepicker" title="оберіть дату публікації 1"></td>
-                <td><input id="newsDate2" class="datepicker" title="оберіть дату публікації 2"></td>
                 <td><input id="registrEnd" class="datepicker" title="введіть дату кінця реєстрації"></td>
                 <td>
                     <button id="buttAddBid">Підтвердити</button>

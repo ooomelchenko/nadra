@@ -1756,6 +1756,7 @@ public class AssetController {
                                                   @RequestParam("bidStage") String bidStage,
                                                   @RequestParam("resultStatus") String resultStatus,
                                                   @RequestParam("customer") String customer,
+                                                  @RequestParam("customerInn") int customerInn,
                                                   @RequestParam("firstPrice") BigDecimal firstPrice,
                                                   @RequestParam("startPrice") BigDecimal startPrice,
                                                   @RequestParam("factPrice") BigDecimal factLotPrice,
@@ -1770,6 +1771,7 @@ public class AssetController {
         lot.setBidStage(bidStage);
         lot.setStatus(resultStatus);
         lot.setCustomerName(customer);
+        lot.setCustomerInn(customerInn);
         lot.setCountOfParticipants(countOfParticipants);
         lot.setFirstStartPrice(firstPrice);
         if (selectedBidId == 0L) {
@@ -2508,7 +2510,6 @@ public class AssetController {
                      @RequestParam("bidDate") String bidD,
                      @RequestParam("newspaper") String newspaper,
                      @RequestParam("newsDate1") String newsD1,
-                     @RequestParam("newsDate2") String coment,
                      @RequestParam("registrEnd") String regEnd) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date bidDate, newsDate1, registrEnd;
@@ -2521,7 +2522,7 @@ public class AssetController {
             return "0";
         }
         Exchange exchange = exchangeService.getExchange(Long.parseLong(exId));
-        Bid bid = new Bid(bidDate, exchange, newspaper, newsDate1, coment, registrEnd);
+        Bid bid = new Bid(bidDate, exchange, newspaper, newsDate1, registrEnd);
         bidService.createBid(bid);
         return "1";
     }

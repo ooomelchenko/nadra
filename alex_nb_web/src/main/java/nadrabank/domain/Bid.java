@@ -24,8 +24,6 @@ public class Bid implements Serializable, Comparable<Bid> {
     private String newspaper;
     @Column(name = "NEWSPAPER1_DATE")
     private Date news1Date;
-    @Column(name = "COMENT")
-    private String coment;
     @Column(name = "REGISTRATION_END_Date")
     private Date registrEndDate;
     /*@Column(name = "COUNT_OF_PARTICIPANTS")
@@ -76,13 +74,6 @@ public class Bid implements Serializable, Comparable<Bid> {
         this.news1Date = news1Date;
     }
 
-    public String getComent() {
-        return coment;
-    }
-    public void setComent(String coment) {
-        this.coment = coment;
-    }
-
     public Date getRegistrEndDate() {
         return registrEndDate;
     }
@@ -99,19 +90,17 @@ public class Bid implements Serializable, Comparable<Bid> {
 
     public Bid() {
     }
-    public Bid(Date bidDate, String newspaper, Date news1Date, String coment, Date registrEndDate, Exchange exchange) {
+    public Bid(Date bidDate, String newspaper, Date news1Date, Date registrEndDate, Exchange exchange) {
         this.bidDate = bidDate;
         this.newspaper = newspaper;
         this.news1Date = news1Date;
-        this.coment = coment;
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
     }
-    public Bid(Date bidDate, Exchange exchange, String newspaper, Date news1Date, String coment, Date registrEndDate) {
+    public Bid(Date bidDate, Exchange exchange, String newspaper, Date news1Date, Date registrEndDate) {
         this.bidDate = bidDate;
         this.newspaper = newspaper;
         this.news1Date = news1Date;
-        this.coment = coment;
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
     }
@@ -128,7 +117,6 @@ public class Bid implements Serializable, Comparable<Bid> {
                 ", bidDate=" + bidDate +
                 ", newspaper='" + newspaper + '\'' +
                 ", news1Date=" + news1Date +
-                ", news2Date=" + coment +
                 ", registrEndDate=" + registrEndDate +
                 ", exchange=" + exchange +
                 '}';

@@ -368,6 +368,7 @@
                             lotNum: $('#lotNum').val(),
                             resultStatus: $('#bidResultSt').val(),
                             customer: $('#customerName').val(),
+                            customerInn: $('#customerInn').val(),
                             firstPrice: $('#firstPrice').val(),
                             startPrice: $('#startPrice').val(),
                             factPrice: $('#factPrice').val(),
@@ -852,8 +853,10 @@
                     <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>">
                     </td>
                     <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
-                    <td><input id="customerName" type="text" placeholder="ФІО"
+                    <td><input id="customerName" type="text" placeholder="ФІО" title="ІНН"
                                value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'>
+                        <input id="customerInn" type="number" placeholder="ІНН" title="ІНН"
+                               value='<%if(lot.getCustomerInn()!=0)out.print(lot.getCustomerInn());%>'>
                     </td>
                     <td id="firstPriceTd" align="center" title="Клікніть двічі для редагування">
                         <div><%=lot.getFirstStartPrice()%></div>
