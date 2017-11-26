@@ -1756,7 +1756,7 @@ public class AssetController {
                                                   @RequestParam("bidStage") String bidStage,
                                                   @RequestParam("resultStatus") String resultStatus,
                                                   @RequestParam("customer") String customer,
-                                                  @RequestParam("customerInn") int customerInn,
+                                                  @RequestParam("customerInn") String customerInn,
                                                   @RequestParam("firstPrice") BigDecimal firstPrice,
                                                   @RequestParam("startPrice") BigDecimal startPrice,
                                                   @RequestParam("factPrice") BigDecimal factLotPrice,
@@ -1771,7 +1771,12 @@ public class AssetController {
         lot.setBidStage(bidStage);
         lot.setStatus(resultStatus);
         lot.setCustomerName(customer);
-        lot.setCustomerInn(customerInn);
+
+        if (customerInn.equals(""))
+            lot.setCustomerInn(0);
+        else
+        lot.setCustomerInn(Integer.parseInt(customerInn));
+
         lot.setCountOfParticipants(countOfParticipants);
         lot.setFirstStartPrice(firstPrice);
         if (selectedBidId == 0L) {
