@@ -1374,7 +1374,7 @@ public class AssetController {
                     while (rows.hasNext()) {
                         XSSFRow row = (XSSFRow) rows.next();
                         String inn = row.getCell(0).getStringCellValue();
-                        assetList.addAll(assetService.getAssetsByInNum(inn));
+                        assetList.addAll(assetService.getAllAssetsByInNum(inn));
                     }
                     return assetList;
                 } catch (Exception e) {
