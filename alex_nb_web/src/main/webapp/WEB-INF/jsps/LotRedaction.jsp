@@ -261,6 +261,7 @@
                                     '<td class="idLot" hidden="hidden">' + objList[i].id + '</td>' +
                                     '<td class="nd">' + objList[i].nd + '</td>' +
                                     '<td>' + objList[i].inn + '</td>' +
+                                    '<td>' + objList[i].contractNum + '</td>' +
                                     '<td>' + objList[i].fio + '</td>' +
                                     '<td>' + objList[i].product + '</td>' +
                                     '<td>' + objList[i].region + '</td>' +
@@ -947,6 +948,7 @@
             <th hidden="hidden">ID</th>
             <th>ID_Bars</th>
             <th>ІНН</th>
+            <th>N договору</th>
             <th>Назва</th>
             <th>Опис обєкту</th>
             <th>Регіон</th>

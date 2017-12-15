@@ -62,6 +62,12 @@ public interface AssetService {
 
     BigDecimal getFirstAccPrice(Asset asset);
 
+    @Transactional(readOnly = true)
+    BigDecimal getLastAccPrice(Asset asset);
+
+    @Transactional(readOnly = true)
+    BigDecimal getLastAccPrice(Long id);
+
     List getLotIdHistoryByAsset(Long assId);
 
     BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);

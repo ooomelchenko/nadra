@@ -13,6 +13,8 @@ public interface AssetHistoryDao {
 
     BigDecimal getFirstAccPrice(Long lotId);
 
+    BigDecimal getLastAccPrice(Long assId);
+
     List getLotIdHistoryByAsset(Long assId);
 
     BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);

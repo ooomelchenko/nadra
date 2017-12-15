@@ -17,16 +17,16 @@
                 for (var i = 0; i < obj.length; i++) {
 
                     var approveNBU = obj[i].approveNBU ? "Так" : "Ні";
-                    var lotId="";
-                    var bidDate="";
-                    var exName="";
+                    var lotId = "";
+                    var bidDate = "";
+                    var exName = "";
 
-                    if(obj[i].lot!= null){
-                        lotId=obj[i].lot.id;
-                        if(obj[i].lot.bid!=null){
+                    if (obj[i].lot != null) {
+                        lotId = obj[i].lot.id;
+                        if (obj[i].lot.bid != null) {
                             bidDate = new Date(obj[i].lot.bid.bidDate).toLocaleDateString();
 
-                            exName= obj[i].lot.bid.exchange.companyName;
+                            exName = obj[i].lot.bid.exchange.companyName;
                         }
                     }
 
@@ -42,17 +42,20 @@
                         '<td>' + approveNBU + '</td>' +
                         '<td>' + bidDate + '</td>' +
                         '<td>' + exName + '</td>' +
+                        '<td class="lastStartPrice"></td>' +
                         '</tr>');
+
                     ftab.append(tr);
                 }
-                $('.lotId').dblclick(function(){
-                    var idL =$(this).text();
-                    if(idL!=""){
+
+                $('.lotId').dblclick(function () {
+                    var idL = $(this).text();
+                    if (idL != "") {
                         $.ajax({
                             url: "setRlot",
                             type: "GET",
                             data: {lotID: idL},
-                            success: function(){
+                            success: function () {
                                 window.open("lotRedactor")
                             }
                         })
@@ -60,23 +63,38 @@
                 });
             }
 
-            $('#findObjBut').click( function () {
+            function fillLastStartPrice(){
+            $('.lastStartPrice').each(function () {
+                var thisTd = $(this);
+               var id = $(this).parent().find('.idObj').text();
+                    $.ajax({
+                        url: "getLastAccPriceByInNum",
+                        type: "POST",
+                        data: {id: id},
+                        success(lastStartPrice){
+                            thisTd.text(lastStartPrice);
+                        }
+                    });
+            });
+            }
+            $('#findObjBut').click(function () {
                 $.ajax({
                     url: "allObjectsByInNum",
                     method: "POST",
                     data: {inn: $('#inn').val()},
                     success(obj){
                         addToFindTab(obj);
+                        fillLastStartPrice();
                     }
                 });
             });
 
-            $('#objHistoryBut').click( function() {
-                if($(this).val()==0){
+            $('#objHistoryBut').click(function () {
+                if ($(this).val() == 0) {
                     $(this).val(1);
                     $('#asset_history_block').show();
                 }
-                else{
+                else {
                     $(this).val(0);
                     $('#asset_history_block').hide();
                 }
@@ -92,7 +110,7 @@
                             var obj = objList[i].split("||");
 
                             var trR = $('<tr align="center" class="asset_history_tr">' +
-                                '<td>' + obj[0] +'</td>' +
+                                '<td>' + obj[0] + '</td>' +
                                 '<td>' + obj[1] + '</td>' +
                                 '<td>' + obj[2] + '</td>' +
                                 '<td>' + obj[3] + '</td>' +
@@ -119,22 +137,22 @@
                 });
             });
 
-            $('#formDownld').click(function(){
+            $('#formDownld').click(function () {
                 window.open("downLotIdListForm");
             });
 
-            $('#sendBut').click(function(){
+            $('#sendBut').click(function () {
                 sendFile();
             });
 
-            function sendFile(){
+            function sendFile() {
                 var formData = new FormData($('form')[0]);
                 $.ajax({
                     type: "POST",
                     processData: false,
                     contentType: false,
                     url: "uploadIdFile",
-                    data:  formData,
+                    data: formData,
                     success: function (obj) {
                         addToFindTab(obj);
                     }
@@ -200,6 +218,7 @@
             <th>В заставі НБУ</th>
             <th>Дата аукціону</th>
             <th>Біржа</th>
+            <th>Стартова ціна на останніх торгах</th>
         </tr>
     </table>
 </div>

@@ -110,11 +110,11 @@ public class AssetController {
             //
             row.getCell(0).setCellValue(i);
             row.getCell(1).setCellValue(380764);
-            if (asset.getLot() != null && lot.getFondDecisionDate()!=null) {
+            if (lot != null && lot.getFondDecisionDate()!=null) {
                 row.getCell(2).setCellValue(lot.getFondDecisionDate());
                 row.getCell(2).setCellStyle(cellStyle);
             }
-            if (asset.getLot() != null) {
+            if (lot != null) {
                 row.getCell(3).setCellValue(asset.getLot().getLotNum());
             }
             row.getCell(4).setCellValue("AU");
@@ -144,8 +144,8 @@ public class AssetController {
             row.getCell(44).setCellValue(bid.getExchange().getInn());
             row.getCell(45).setCellValue(bid.getBidDate());
             row.getCell(45).setCellStyle(cellStyle);
-            row.getCell(46).setCellValue(asset.getLot().getCountOfParticipants());
-            row.getCell(48).setCellValue(asset.getLot().getBidStage());
+            row.getCell(46).setCellValue(lot.getCountOfParticipants());
+            row.getCell(48).setCellValue(lot.getBidStage());
 
          //   BigDecimal lotStartPrice = lot.getStartPrice();
          //   BigDecimal lotFirstStartPrice = lot.getFirstStartPrice();
@@ -164,8 +164,8 @@ public class AssetController {
             row.getCell(49).setCellFormula("(1-AZ"+numRow+"/N"+numRow+ ")*100");//Зниження початкової ціни реалізації активу
             row.getCell(49).setCellStyle(numStyle);
             if (lot.getStartPrice() != null) {
-                BigDecimal assetStartPrive = lot.getStartPrice().multiply(coeffAcc).setScale(10, BigDecimal.ROUND_HALF_UP);
-                row.getCell(50).setCellValue(assetStartPrive.divide(new BigDecimal(6), 4).multiply(new BigDecimal(5)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //Початкова ціна реалізації активу на актуальном аукціоні без ПДВ, грн.
+                BigDecimal assetStartPrise = lot.getStartPrice().multiply(coeffAcc).setScale(10, BigDecimal.ROUND_HALF_UP);
+                row.getCell(50).setCellValue(assetStartPrise.divide(new BigDecimal(6), 4).multiply(new BigDecimal(5)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //Початкова ціна реалізації активу на актуальном аукціоні без ПДВ, грн.
                 row.getCell(50).setCellStyle(numStyle);
             }
             if (lot.getStartPrice() != null)
@@ -1977,6 +1977,11 @@ public class AssetController {
     @RequestMapping(value = "/allObjectsByInNum", method = RequestMethod.POST)
     private @ResponseBody List<Asset> getAllAssetsByInNum(@RequestParam("inn") String inn) {
         return assetService.getAllAssetsByInNum(inn);
+    }
+
+    @RequestMapping(value = "/getLastAccPriceByInNum", method = RequestMethod.POST)
+    private @ResponseBody BigDecimal getLastAccPriceByInNum(@RequestParam("id") Long id) {
+        return assetService.getLastAccPrice(id);
     }
 
     @RequestMapping(value = "/sumById", method = RequestMethod.POST)

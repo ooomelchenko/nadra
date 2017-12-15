@@ -58,6 +58,17 @@ public class AssetHistoryDaoImpl implements AssetHistoryDao {
         }
     }
     @Override
+    public BigDecimal getLastAccPrice(Long assId) {
+        Query query = factory.getCurrentSession().createQuery("select ah.acceptPrice from AssetHistory ah where ah.id=:assId and ah.acceptPrice is not null ORDER BY ah.changeDate DESC ");
+        query.setParameter("assId", assId);
+        try {
+            return (BigDecimal) query.list().get(0);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+    }
+    @Override
     public List getLotIdHistoryByAsset(Long assId){
         Query query = factory.getCurrentSession().createQuery("select ah.lotId from AssetHistory ah where ah.id=:assId GROUP BY ah.lotId ");
         query.setParameter("assId", assId);
