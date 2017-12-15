@@ -3,7 +3,6 @@ package nadrabank.service;
 import nadrabank.domain.Pay;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,10 +21,10 @@ public interface PayService {
     Date getLastDateByCustomer(Long lotId);
 
     @Transactional(readOnly = true)
-    BigDecimal sumByLotFromBid(Long lotId);
+    int sumByLotFromBid(Long lotId);
 
     @Transactional(readOnly = true)
-    BigDecimal sumByLotFromCustomer(Long lotId);
+    int sumByLotFromCustomer(Long lotId);
 
     @Transactional(readOnly = true)
     List getPaysByDates(Date s, Date e);

@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -46,29 +45,29 @@ public class Credit implements Serializable {
     @Column(name = "FX_NUMBER")
     private String curr;
     @Column(name = "INTEREST")
-    private BigDecimal interestRate;
+    private int interestRate;
     @Column(name = "CONTRACT_SUM_FX")
-    private BigDecimal contractSumVal;
+    private int contractSumVal;
     @Column(name = "CONTRACT_SUM_UAH")
-    private BigDecimal contractSumUAH;
+    private int contractSumUAH;
     @Column(name = "ACA_UAH_EVA")
-    private BigDecimal zbRateDay;
+    private int zbRateDay;
     @Column(name = "BODY_UAH")
-    private BigDecimal bodyUAH;
+    private int bodyUAH;
     @Column(name = "PRC_UAH")
-    private BigDecimal prcUAH;
+    private int prcUAH;
     @Column(name = "COMMIS")
-    private BigDecimal comission;
+    private int comission;
     @Column(name = "ACA_UAH")
-    private BigDecimal zb;
+    private int zb;
     @Column(name = "DPD_NEW")
     private int dpd;
     @Column(name = "FDAT")
     private Date lastPayDate;
     @Column(name = "RV_BEZ_PDV_UAH")
-    private BigDecimal ratingPriceNoPDV;
+    private int ratingPriceNoPDV;
     @Column(name = "RV_UAH")
-    private BigDecimal rv;
+    private int rv;
     @Column(name = "KAT")
     private String nbuRate;
     @Column(name = "FIN")
@@ -80,15 +79,15 @@ public class Credit implements Serializable {
     @Column(name = "S031")
     private String gageCode;
     @Column(name = "RV_DISCOUNT_UAH")
-    private BigDecimal discountPrice;
+    private int discountPrice;
 
     @Column(name = "Start_PRICE")
-    private BigDecimal startPrice;
+    private int startPrice;
     @Column(name = "FIRST_Start_PRICE")
-    private BigDecimal firstStartPrice;
+    private int firstStartPrice;
 
     @Column(name = "FACT_SALE_PRICE_UAH")
-    private BigDecimal factPrice;
+    private int factPrice;
     @Column(name = "ZASTAVA_NBU_GIOC")
     private String nbuPladge;
     @Column(name = "IS_IT_SOLD")
@@ -100,11 +99,11 @@ public class Credit implements Serializable {
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;*/
     @Column(name = "ACCEPTED_PRICE")
-    private BigDecimal acceptPrice;
+    private int acceptPrice;
     @Column(name = "PAYMENTS_BID")
-    private BigDecimal paysBid;
+    private int paysBid;
     @Column(name = "PAYMENTS_CUSTOMER")
-    private BigDecimal paysCustomer;
+    private int paysCustomer;
     @Column(name = "LAST_BID_PAY_DATE")
     private Date bidPayDate;
     @Column(name = "LAST_CUSTOMER_PAY_DATE")
@@ -224,59 +223,59 @@ public class Credit implements Serializable {
         this.curr = curr;
     }
 
-    public BigDecimal getInterestRate() {
+    public int getInterestRate() {
         return interestRate;
     }
-    public void setInterestRate(BigDecimal interestRate) {
+    public void setInterestRate(int interestRate) {
         this.interestRate = interestRate;
     }
 
-    public BigDecimal getContractSumVal() {
+    public int getContractSumVal() {
         return contractSumVal;
     }
-    public void setContractSumVal(BigDecimal contractSumVal) {
+    public void setContractSumVal(int contractSumVal) {
         this.contractSumVal = contractSumVal;
     }
 
-    public BigDecimal getContractSumUAH() {
+    public int getContractSumUAH() {
         return contractSumUAH;
     }
-    public void setContractSumUAH(BigDecimal contractSumUAH) {
+    public void setContractSumUAH(int contractSumUAH) {
         this.contractSumUAH = contractSumUAH;
     }
 
-    public BigDecimal getZbRateDay() {
+    public int getZbRateDay() {
         return zbRateDay;
     }
-    public void setZbRateDay(BigDecimal zbRateDay) {
+    public void setZbRateDay(int zbRateDay) {
         this.zbRateDay = zbRateDay;
     }
 
-    public BigDecimal getBodyUAH() {
+    public int getBodyUAH() {
         return bodyUAH;
     }
-    public void setBodyUAH(BigDecimal bodyUAH) {
+    public void setBodyUAH(int bodyUAH) {
         this.bodyUAH = bodyUAH;
     }
 
-    public BigDecimal getPrcUAH() {
+    public int getPrcUAH() {
         return prcUAH;
     }
-    public void setPrcUAH(BigDecimal prcUAH) {
+    public void setPrcUAH(int prcUAH) {
         this.prcUAH = prcUAH;
     }
 
-    public BigDecimal getComission() {
+    public int getComission() {
         return comission;
     }
-    public void setComission(BigDecimal comission) {
+    public void setComission(int comission) {
         this.comission = comission;
     }
 
-    public BigDecimal getZb() {
+    public int getZb() {
         return zb;
     }
-    public void setZb(BigDecimal zb) {
+    public void setZb(int zb) {
         this.zb = zb;
     }
 
@@ -294,17 +293,17 @@ public class Credit implements Serializable {
         this.lastPayDate = lastPayDate;
     }
 
-    public BigDecimal getRatingPriceNoPDV() {
+    public int getRatingPriceNoPDV() {
         return ratingPriceNoPDV;
     }
-    public void setRatingPriceNoPDV(BigDecimal ratingPriceNoPDV) {
+    public void setRatingPriceNoPDV(int ratingPriceNoPDV) {
         this.ratingPriceNoPDV = ratingPriceNoPDV;
     }
 
-    public BigDecimal getCreditPrice() {
+    public int getCreditPrice() {
         return rv;
     }
-    public void setCreditPrice(BigDecimal rv) {
+    public void setCreditPrice(int rv) {
         this.rv = rv;
     }
 
@@ -343,17 +342,17 @@ public class Credit implements Serializable {
         this.gageCode = gageCode;
     }
 
-    public BigDecimal getDiscountPrice() {
+    public int getDiscountPrice() {
         return discountPrice;
     }
-    public void setDiscountPrice(BigDecimal discountPrice) {
+    public void setDiscountPrice(int discountPrice) {
         this.discountPrice = discountPrice;
     }
 
-    public BigDecimal getFactPrice() {
+    public int getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(BigDecimal factPrice) {
+    public void setFactPrice(int factPrice) {
         this.factPrice = factPrice;
     }
 
@@ -378,31 +377,31 @@ public class Credit implements Serializable {
         this.lot = lot;
     }
 
-    public BigDecimal getRv() {
+    public int getRv() {
         return rv;
     }
-    public void setRv(BigDecimal rv) {
+    public void setRv(int rv) {
         this.rv = rv;
     }
 
-    public BigDecimal getAcceptPrice() {
+    public int getAcceptPrice() {
         return acceptPrice;
     }
-    public void setAcceptPrice(BigDecimal acceptPrice) {
+    public void setAcceptPrice(int acceptPrice) {
         this.acceptPrice = acceptPrice;
     }
 
-    public BigDecimal getPaysBid() {
+    public int getPaysBid() {
         return paysBid;
     }
-    public void setPaysBid(BigDecimal paysBid) {
+    public void setPaysBid(int paysBid) {
         this.paysBid = paysBid;
     }
 
-    public BigDecimal getPaysCustomer() {
+    public int getPaysCustomer() {
         return paysCustomer;
     }
-    public void setPaysCustomer(BigDecimal paysCustomer) {
+    public void setPaysCustomer(int paysCustomer) {
         this.paysCustomer = paysCustomer;
     }
 
@@ -427,17 +426,17 @@ public class Credit implements Serializable {
         this.planSaleDate = planSaleDate;
     }
 
-    public BigDecimal getStartPrice() {
+    public int getStartPrice() {
         return startPrice;
     }
-    public void setStartPrice(BigDecimal startPrice) {
+    public void setStartPrice(int startPrice) {
         this.startPrice = startPrice;
     }
 
-    public BigDecimal getFirstStartPrice() {
+    public int getFirstStartPrice() {
         return firstStartPrice;
     }
-    public void setFirstStartPrice(BigDecimal firstStartPrice) {
+    public void setFirstStartPrice(int firstStartPrice) {
         this.firstStartPrice = firstStartPrice;
     }
 

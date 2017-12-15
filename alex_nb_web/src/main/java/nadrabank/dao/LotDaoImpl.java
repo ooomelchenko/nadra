@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +80,7 @@ public class LotDaoImpl implements LotDao {
         return factory.getCurrentSession().createQuery("SELECT lot.id FROM nadrabank.domain.Lot lot ORDER BY lot.id DESC").list();
     }
     @Override
-    public BigDecimal lotSum(Lot lot){
+    public int lotSum(Lot lot){
         Query queryS;
         if(lot.getLotType()==0) {
             queryS = factory.getCurrentSession().createQuery("SELECT sum(cr.rv) FROM nadrabank.domain.Credit cr WHERE cr.lot=:lot");
@@ -95,10 +94,10 @@ public class LotDaoImpl implements LotDao {
             queryS = factory.getCurrentSession().createQuery("SELECT sum(asset.rv) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
             queryS.setParameter("lot", lot);
         }
-        return (BigDecimal)queryS.list().get(0);
+        return (int)queryS.list().get(0);
     }
     @Override
-    public BigDecimal lotAcceptedSum(Lot lot){
+    public int lotAcceptedSum(Lot lot){
         Query queryS;
         if(lot.getLotType()==0) {
             queryS = factory.getCurrentSession().createQuery("SELECT sum(cr.acceptPrice) FROM nadrabank.domain.Credit cr WHERE cr.lot=:lot");
@@ -112,7 +111,7 @@ public class LotDaoImpl implements LotDao {
             queryS = factory.getCurrentSession().createQuery("SELECT sum(asset.acceptPrice) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
             queryS.setParameter("lot", lot);
         }
-        return (BigDecimal)queryS.list().get(0);
+        return (int)queryS.list().get(0);
     }
     @Override
     public Long lotCount(Lot lot){

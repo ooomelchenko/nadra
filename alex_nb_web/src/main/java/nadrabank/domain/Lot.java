@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -28,11 +27,11 @@ public class Lot implements Serializable, Comparable<Lot> {
     @Column(name = "COUNT_OF_PARTICIPANTS")
     private int countOfParticipants;
     @Column(name = "Start_PRICE")
-    private BigDecimal startPrice;
+    private int startPrice;
     @Column(name = "FIRST_Start_PRICE")
-    private BigDecimal firstStartPrice;
+    private int firstStartPrice;
     @Column(name = "FACT_PRICE")
-    private BigDecimal factPrice;
+    private int factPrice;
     @Column(name = "CUSTOMER")
     private String customerName;
     @Column(name = "CUSTOMER_INN")
@@ -114,17 +113,17 @@ public class Lot implements Serializable, Comparable<Lot> {
         isItSold = itSold;
     }
 
-    public BigDecimal getStartPrice() {
+    public int getStartPrice() {
         return startPrice;
     }
-    public void setStartPrice(BigDecimal startPrice) {
+    public void setStartPrice(int startPrice) {
         this.startPrice = startPrice;
     }
 
-    public BigDecimal getFactPrice() {
+    public int getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(BigDecimal factPrice) {
+    public void setFactPrice(int factPrice) {
         this.factPrice = factPrice;
     }
 
@@ -170,10 +169,10 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.status = status;
     }
 
-    public BigDecimal getFirstStartPrice() {
+    public int getFirstStartPrice() {
         return firstStartPrice;
     }
-    public void setFirstStartPrice(BigDecimal firstStartPrice) {
+    public void setFirstStartPrice(int firstStartPrice) {
         this.firstStartPrice = firstStartPrice;
     }
 
@@ -263,7 +262,7 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.customerInn = 0;
     }
 
-    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, Date actSignedDate, int lotType, Date planSaleDate, String acceptExchange, boolean needNewFondDec, Date fondDecisionDate, String fondDecision, String decisionNumber, User user, Bid bid, int customerInn) {
+    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, int startPrice, int firstStartPrice, int factPrice, String customerName, String status, Date actSignedDate, int lotType, Date planSaleDate, String acceptExchange, boolean needNewFondDec, Date fondDecisionDate, String fondDecision, String decisionNumber, User user, Bid bid, int customerInn) {
         this.lotNum = lotNum;
         this.workStage = workStage;
         this.isItSold = isItSold;

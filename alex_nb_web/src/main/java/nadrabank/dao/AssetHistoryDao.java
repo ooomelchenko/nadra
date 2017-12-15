@@ -1,8 +1,6 @@
 package nadrabank.dao;
 
 import nadrabank.domain.AssetHistory;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface AssetHistoryDao {
@@ -11,13 +9,13 @@ public interface AssetHistoryDao {
     boolean update( AssetHistory assetHistory);
     boolean delete( AssetHistory assetHistory);
 
-    BigDecimal getFirstAccPrice(Long lotId);
+    Integer getFirstAccPrice(Long lotId);
 
-    BigDecimal getLastAccPrice(Long assId);
+    Integer getLastAccPrice(Long assId);
 
     List getLotIdHistoryByAsset(Long assId);
 
-    BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);
+    Integer getAccPriceByLotIdHistory(Long assetId, Long lotId);
 
     List getDateAndAccPriceHistoryByAsset(Long assId);
 }

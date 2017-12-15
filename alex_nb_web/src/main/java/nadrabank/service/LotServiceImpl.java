@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -100,12 +99,12 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal lotSum(Lot lot){
+    public int lotSum(Lot lot){
         return lotDao.lotSum(lot);
     }
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal lotAcceptedSum(Lot lot){
+    public int lotAcceptedSum(Lot lot){
         return lotDao.lotAcceptedSum(lot);
     }
     @Override
@@ -166,7 +165,7 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal paymentsSumByLot(Lot lot){
+    public int paymentsSumByLot(Lot lot){
         return payDao.sumByLot(lot);
     }
     @Override

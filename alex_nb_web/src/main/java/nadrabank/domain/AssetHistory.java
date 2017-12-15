@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -38,19 +37,19 @@ public class AssetHistory implements Serializable {
     @Column(name = "EKSPL_VVedeno_DATE")
     private Date eksplDate;
     @Column(name = "PERVISNA_VARTIST_UAH")
-    private BigDecimal originalPrice;
+    private int originalPrice;
     @Column(name = "BALANCE_COST_UAH")
-    private BigDecimal zb;
+    private int zb;
     @Column(name = "RV_BEZ_PDV_UAH")
-    private BigDecimal rvNoPdv;
+    private int rvNoPdv;
     @Column(name = "RV_UAH")
-    private BigDecimal rv;
+    private int rv;
     @Column(name = "STAN_OCINKI")
     private String evaluationStatus;
     @Column(name = "REGION")
     private String region;
     @Column(name = "FACT_SALE_PRICE_UAH")
-    private BigDecimal factPrice;
+    private int factPrice;
     @Column(name = "IS_IT_SOLD")
     private boolean isSold;
     @Column(name = "NBU_APPROVE")
@@ -62,7 +61,7 @@ public class AssetHistory implements Serializable {
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;*/
     @Column(name = "ACCEPTED_PRICE")
-    private BigDecimal acceptPrice;
+    private int acceptPrice;
     @Column(name = "PROPOSITION")
     private String proposition;
     /*@Column(name = "NEED_NEW_FD")
@@ -155,31 +154,31 @@ public class AssetHistory implements Serializable {
         this.eksplDate = eksplDate;
     }
 
-    public BigDecimal getOriginalPrice() {
+    public int getOriginalPrice() {
         return originalPrice;
     }
-    public void setOriginalPrice(BigDecimal originalPrice) {
+    public void setOriginalPrice(int originalPrice) {
         this.originalPrice = originalPrice;
     }
 
-    public BigDecimal getZb() {
+    public int getZb() {
         return zb;
     }
-    public void setZb(BigDecimal zb) {
+    public void setZb(int zb) {
         this.zb = zb;
     }
 
-    public BigDecimal getRvNoPdv() {
+    public int getRvNoPdv() {
         return rvNoPdv;
     }
-    public void setRvNoPdv(BigDecimal rvNoPdv) {
+    public void setRvNoPdv(int rvNoPdv) {
         this.rvNoPdv = rvNoPdv;
     }
 
-    public BigDecimal getRv() {
+    public int getRv() {
         return rv;
     }
-    public void setRv(BigDecimal rv) {
+    public void setRv(int rv) {
         this.rv = rv;
     }
 
@@ -197,10 +196,10 @@ public class AssetHistory implements Serializable {
         this.region = region;
     }
 
-    public BigDecimal getFactPrice() {
+    public int getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(BigDecimal factPrice) {
+    public void setFactPrice(int factPrice) {
         this.factPrice = factPrice;
     }
 
@@ -246,10 +245,10 @@ public class AssetHistory implements Serializable {
         this.decisionNumber = decisionNumber;
     }*/
 
-    public BigDecimal getAcceptPrice() {
+    public int getAcceptPrice() {
         return acceptPrice;
     }
-    public void setAcceptPrice(BigDecimal acceptPrice) {
+    public void setAcceptPrice(int acceptPrice) {
         this.acceptPrice = acceptPrice;
     }
 

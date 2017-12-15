@@ -2,14 +2,9 @@ package nadrabank.service;
 
 import nadrabank.domain.Asset;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by HP on 10/15/2015.
- */
 public interface AssetService {
     Asset getAsset(Long id);
     boolean createAsset(Asset asset);
@@ -29,7 +24,7 @@ public interface AssetService {
     Long getTotalCountOfAssets();
 
     @Transactional(readOnly = true)
-    BigDecimal getTotalSumOfAssets();
+    int getTotalSumOfAssets();
 
     @Transactional(readOnly = true)
     List getAll();
@@ -58,19 +53,19 @@ public interface AssetService {
     @Transactional(readOnly = true)
     List getDecisionNumbers();
 
-    BigDecimal getFirstAccPrice(Long assId);
+    int getFirstAccPrice(Long assId);
 
-    BigDecimal getFirstAccPrice(Asset asset);
-
-    @Transactional(readOnly = true)
-    BigDecimal getLastAccPrice(Asset asset);
+    int getFirstAccPrice(Asset asset);
 
     @Transactional(readOnly = true)
-    BigDecimal getLastAccPrice(Long id);
+    int getLastAccPrice(Asset asset);
+
+    @Transactional(readOnly = true)
+    int getLastAccPrice(Long id);
 
     List getLotIdHistoryByAsset(Long assId);
 
-    BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId);
+    int getAccPriceByLotIdHistory(Long assetId, Long lotId);
 
     List getDateAndAccPriceHistoryByAsset(Long assId);
 }

@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -34,11 +33,11 @@ public class LotHistory implements Serializable {
     @Column(name = "COUNT_OF_PARTICIPANTS")
     private int countOfParticipants;
     @Column(name = "Start_PRICE")
-    private BigDecimal startPrice;
+    private int startPrice;
     @Column(name = "FIRST_Start_PRICE")
-    private BigDecimal firstStartPrice;
+    private int firstStartPrice;
     @Column(name = "FACT_PRICE")
-    private BigDecimal factPrice;
+    private int factPrice;
     @Column(name = "CUSTOMER")
     private String customerName;
     @Column(name = "RESULT_Status")
@@ -143,24 +142,24 @@ public class LotHistory implements Serializable {
         this.countOfParticipants = countOfParticipants;
     }
 
-    public BigDecimal getStartPrice() {
+    public int getStartPrice() {
         return startPrice;
     }
-    public void setStartPrice(BigDecimal startPrice) {
+    public void setStartPrice(int startPrice) {
         this.startPrice = startPrice;
     }
 
-    public BigDecimal getFirstStartPrice() {
+    public int getFirstStartPrice() {
         return firstStartPrice;
     }
-    public void setFirstStartPrice(BigDecimal firstStartPrice) {
+    public void setFirstStartPrice(int firstStartPrice) {
         this.firstStartPrice = firstStartPrice;
     }
 
-    public BigDecimal getFactPrice() {
+    public int getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(BigDecimal factPrice) {
+    public void setFactPrice(int factPrice) {
         this.factPrice = factPrice;
     }
 

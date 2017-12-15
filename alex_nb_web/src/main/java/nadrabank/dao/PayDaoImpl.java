@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -61,14 +60,14 @@ public class PayDaoImpl implements PayDao {
         return query.list();
     }
     @Override
-    public BigDecimal sumByLot(Lot lot){
+    public int sumByLot(Lot lot){
         Query query = factory.getCurrentSession().createQuery("SELECT sum(pay.paySum) FROM nadrabank.domain.Pay pay WHERE pay.lotId=:lotId");
         query.setParameter("lotId", lot.getId());
         if(query.list().isEmpty()){
-            return new BigDecimal(0);
+            return 0;
         }
         else
-        return (BigDecimal)query.list().get(0);
+        return (int)query.list().get(0);
     }
     @Override
     public List getPaymentsByLot(Lot lot) {
@@ -77,18 +76,18 @@ public class PayDaoImpl implements PayDao {
         return query.list();
     }
     @Override
-    public BigDecimal sumByLotFromBid(Long lotId){
+    public int sumByLotFromBid(Long lotId){
         Query query = factory.getCurrentSession().createQuery("SELECT sum(pay.paySum) FROM nadrabank.domain.Pay pay WHERE pay.lotId=:lotId AND pay.paySource=:source");
         query.setParameter("source", "Біржа");
         query.setParameter("lotId", lotId);
-        return (BigDecimal)query.list().get(0);
+        return (int)query.list().get(0);
     }
     @Override
-    public BigDecimal sumByLotFromCustomer(Long lotId){
+    public int sumByLotFromCustomer(Long lotId){
         Query query = factory.getCurrentSession().createQuery("SELECT sum(pay.paySum) FROM nadrabank.domain.Pay pay WHERE pay.lotId=:lotId AND (pay.paySource=:source OR pay.paySource is null)");
         query.setParameter("source", "Покупець");
         query.setParameter("lotId", lotId);
-        return (BigDecimal)query.list().get(0);
+        return (int)query.list().get(0);
     }
 
     @Override

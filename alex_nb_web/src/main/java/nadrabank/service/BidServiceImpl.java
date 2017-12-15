@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -78,11 +77,11 @@ public class BidServiceImpl implements BidService {
     }
     @Transactional(readOnly = true)
     @Override
-    public BigDecimal sumByBid(Bid bid){
-        BigDecimal sum= new BigDecimal(0);
+    public int sumByBid(Bid bid){
+        int sum= 0;
         List<Lot> lotList= bidDao.lotsByBid(bid);
         for(Lot lot: lotList){
-           sum= sum.add(lotDao.lotSum(lot));
+           sum= +lotDao.lotSum(lot);
         }
         return sum;
     }

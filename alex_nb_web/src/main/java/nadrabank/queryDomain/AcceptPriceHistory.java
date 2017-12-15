@@ -1,17 +1,16 @@
 package nadrabank.queryDomain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class AcceptPriceHistory implements Serializable {
 
     private Date date;
-    private BigDecimal acceptedPrice;
+    private int acceptedPrice;
 
     public AcceptPriceHistory() {
     }
-    public AcceptPriceHistory(Date date, BigDecimal acceptedPrice) {
+    public AcceptPriceHistory(Date date, int acceptedPrice) {
         this.date = date;
         this.acceptedPrice = acceptedPrice;
     }
@@ -23,10 +22,10 @@ public class AcceptPriceHistory implements Serializable {
         this.date = date;
     }
 
-    public BigDecimal getAcceptedPrice() {
+    public int getAcceptedPrice() {
         return acceptedPrice;
     }
-    public void setAcceptedPrice(BigDecimal acceptedPrice) {
+    public void setAcceptedPrice(int acceptedPrice) {
         this.acceptedPrice = acceptedPrice;
     }
 

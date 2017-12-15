@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -68,12 +67,12 @@ public class PayServiceImpl implements PayService {
 
     @Transactional(readOnly = true)
     @Override
-    public BigDecimal sumByLotFromBid(Long lotId){
+    public int sumByLotFromBid(Long lotId){
         return payDao.sumByLotFromBid(lotId);
     }
     @Transactional(readOnly = true)
     @Override
-    public BigDecimal sumByLotFromCustomer(Long lotId){
+    public int sumByLotFromCustomer(Long lotId){
         return payDao.sumByLotFromCustomer(lotId);
     }
     @Transactional(readOnly = true)

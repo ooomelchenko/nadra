@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public BigDecimal getTotalSumOfAssets() {
+    public int getTotalSumOfAssets() {
         return assetDao.totalSum();
     }
 
@@ -139,25 +138,25 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getFirstAccPrice(Long assId) {
+    public int getFirstAccPrice(Long assId) {
         return assetHistoryDao.getFirstAccPrice(assId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getFirstAccPrice(Asset asset) {
+    public int getFirstAccPrice(Asset asset) {
         return assetHistoryDao.getFirstAccPrice(asset.getId());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getLastAccPrice(Asset asset) {
+    public int getLastAccPrice(Asset asset) {
         return assetHistoryDao.getLastAccPrice(asset.getId());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getLastAccPrice(Long id) {
+    public int getLastAccPrice(Long id) {
         return assetHistoryDao.getLastAccPrice(id);
     }
 
@@ -169,7 +168,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getAccPriceByLotIdHistory(Long assetId, Long lotId){
+    public int getAccPriceByLotIdHistory(Long assetId, Long lotId){
         return assetHistoryDao.getAccPriceByLotIdHistory(assetId, lotId);
         }
 

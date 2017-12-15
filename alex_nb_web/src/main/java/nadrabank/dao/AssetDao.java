@@ -3,7 +3,6 @@ package nadrabank.dao;
 import nadrabank.domain.Asset;
 import nadrabank.domain.Lot;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public interface AssetDao {
     List findAll(int portionNum);
 
     Long totalCount();
-    BigDecimal totalSum();
+    int totalSum();
 
     List getRegions();
     List getTypes();

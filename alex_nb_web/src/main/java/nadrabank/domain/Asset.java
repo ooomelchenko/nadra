@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -31,21 +30,21 @@ public class Asset implements Serializable {
     @Column(name = "EKSPL_VVedeno_DATE")
     private Date eksplDate;
     @Column(name = "PERVISNA_VARTIST_UAH")
-    private BigDecimal originalPrice;
+    private int originalPrice;
     @Column(name = "BALANCE_COST_UAH")
-    private BigDecimal zb;
+    private int zb;
     @Column(name = "RV_BEZ_PDV_UAH")
-    private BigDecimal rvNoPdv;
+    private int rvNoPdv;
     @Column(name = "RV_UAH")
-    private BigDecimal rv;
+    private int rv;
     @Column(name = "STAN_OCINKI")
     private String evaluationStatus;
     @Column(name = "REGION")
     private String region;
     /*@Column(name = "BID_PRICE_UAH")
-    private BigDecimal bidPrice;*/
+    private int bidPrice;*/
     @Column(name = "FACT_SALE_PRICE_UAH")
-    private BigDecimal factPrice;
+    private int factPrice;
     @Column(name = "IS_IT_SOLD")
     private boolean isSold;
     @Column(name = "NBU_APPROVE")
@@ -57,13 +56,13 @@ public class Asset implements Serializable {
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;*/
     @Column(name = "ACCEPTED_PRICE")
-    private BigDecimal acceptPrice;
+    private int acceptPrice;
     @Column(name = "PROPOSITION")
     private String proposition;
     @Column(name = "PAYMENTS_BID")
-    private BigDecimal paysBid;
+    private int paysBid;
     @Column(name = "PAYMENTS_CUSTOMER")
-    private BigDecimal paysCustomer;
+    private int paysCustomer;
     @Column(name = "LAST_BID_PAY_DATE")
     private Date bidPayDate;
     @Column(name = "LAST_CUSTOMER_PAY_DATE")
@@ -141,31 +140,31 @@ public class Asset implements Serializable {
         this.eksplDate = eksplDate;
     }
 
-    public BigDecimal getOriginalPrice() {
+    public int getOriginalPrice() {
         return originalPrice;
     }
-    public void setOriginalPrice(BigDecimal originalPrice) {
+    public void setOriginalPrice(int originalPrice) {
         this.originalPrice = originalPrice;
     }
 
-    public BigDecimal getZb() {
+    public int getZb() {
         return zb;
     }
-    public void setZb(BigDecimal zb) {
+    public void setZb(int zb) {
         this.zb = zb;
     }
 
-    public BigDecimal getRvNoPdv() {
+    public int getRvNoPdv() {
         return rvNoPdv;
     }
-    public void setRvNoPdv(BigDecimal rvNoPdv) {
+    public void setRvNoPdv(int rvNoPdv) {
         this.rvNoPdv = rvNoPdv;
     }
 
-    public BigDecimal getRv() {
+    public int getRv() {
         return rv;
     }
-    public void setRv(BigDecimal rv) {
+    public void setRv(int rv) {
         this.rv = rv;
     }
 
@@ -183,10 +182,10 @@ public class Asset implements Serializable {
         this.region = region;
     }
 
-    public BigDecimal getFactPrice() {
+    public int getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(BigDecimal factPrice) {
+    public void setFactPrice(int factPrice) {
         this.factPrice = factPrice;
     }
 
@@ -232,10 +231,10 @@ public class Asset implements Serializable {
         this.decisionNumber = decisionNumber;
     }*/
 
-    public BigDecimal getAcceptPrice() {
+    public int getAcceptPrice() {
         return acceptPrice;
     }
-    public void setAcceptPrice(BigDecimal acceptPrice) {
+    public void setAcceptPrice(int acceptPrice) {
         this.acceptPrice = acceptPrice;
     }
 
@@ -246,17 +245,17 @@ public class Asset implements Serializable {
         this.proposition = proposition;
     }
 
-    public BigDecimal getPaysBid() {
+    public int getPaysBid() {
         return paysBid;
     }
-    public void setPaysBid(BigDecimal paysBid) {
+    public void setPaysBid(int paysBid) {
         this.paysBid = paysBid;
     }
 
-    public BigDecimal getPaysCustomer() {
+    public int getPaysCustomer() {
         return paysCustomer;
     }
-    public void setPaysCustomer(BigDecimal paysCustomer) {
+    public void setPaysCustomer(int paysCustomer) {
         this.paysCustomer = paysCustomer;
     }
 

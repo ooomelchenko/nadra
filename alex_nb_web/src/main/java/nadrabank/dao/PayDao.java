@@ -2,8 +2,6 @@ package nadrabank.dao;
 
 import nadrabank.domain.Lot;
 import nadrabank.domain.Pay;
-
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -16,11 +14,11 @@ public interface PayDao {
 
     List getPaysByDates(Date startDate, Date endDate);
 
-    BigDecimal sumByLot(Lot lot);
+    int sumByLot(Lot lot);
 
-    BigDecimal sumByLotFromBid(Long lotId);
+    int sumByLotFromBid(Long lotId);
 
-    BigDecimal sumByLotFromCustomer(Long lotId);
+    int sumByLotFromCustomer(Long lotId);
 
     List getPaymentsByLot(Lot lot);
 

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -174,7 +173,7 @@ public class CreditServiceImpl implements CreditService {
     }
     @Override
     @Transactional(readOnly = true)
-    public BigDecimal getPriceByLotIdHistory(Long id, Long lotId){
+    public int getPriceByLotIdHistory(Long id, Long lotId){
         return creditHistoryDao.getPriceByLotIdHistory(id, lotId);
     }
     @Override

@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -87,12 +86,12 @@ public class CreditHistoryDaoImpl implements CreditHistoryDao {
         }
     }
     @Override
-    public BigDecimal getPriceByLotIdHistory(Long id, Long lotId){
+    public Integer getPriceByLotIdHistory(Long id, Long lotId){
         Query query = factory.getCurrentSession().createQuery("select ch.acceptPrice from CreditHistory ch where ch.id in (SELECT max(a.id) from CreditHistory a where a.id=:id and a.lotId=:lotId)");
         query.setParameter("id", id);
         query.setParameter("lotId", lotId);
         try {
-            return (BigDecimal) query.list().get(0);
+            return (int) query.list().get(0);
         }
         catch(IndexOutOfBoundsException e){
             return null;

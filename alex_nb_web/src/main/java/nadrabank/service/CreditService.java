@@ -5,7 +5,6 @@ import nadrabank.domain.Lot;
 import nadrabank.queryDomain.CreditAccPriceHistory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +67,7 @@ public interface CreditService {
     List getLotIdHistoryByCredit(String crInn, Long idBars);
 
     @Transactional(readOnly = true)
-    BigDecimal getPriceByLotIdHistory(Long id, Long lotId);
+    int getPriceByLotIdHistory(Long id, Long lotId);
 
     @Transactional(readOnly = true)
     List<CreditAccPriceHistory> getDateAndAccPriceHistoryByCredit(Long id);

@@ -4,7 +4,6 @@ import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +22,9 @@ public interface LotDao {
 
     List<Long> findAllId();
 
-    BigDecimal lotSum(Lot lot);
+    int lotSum(Lot lot);
 
-    BigDecimal lotAcceptedSum(Lot lot);
+    int lotAcceptedSum(Lot lot);
 
     Long lotCount(Lot lot);
 

@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -80,8 +79,8 @@ public class AssetDaoImpl implements AssetDao {
         return (Long)factory.getCurrentSession().createQuery("SELECT count(asset.id) from nadrabank.domain.Asset asset").list().get(0);
     }
     @Override
-    public BigDecimal totalSum() {
-        return (BigDecimal)factory.getCurrentSession().createQuery("SELECT sum(asset.rv) from nadrabank.domain.Asset asset").list().get(0);
+    public int totalSum() {
+        return (int)factory.getCurrentSession().createQuery("SELECT sum(asset.rv) from nadrabank.domain.Asset asset").list().get(0);
     }
     @Override
     public List getRegions() {

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -19,12 +18,12 @@ public class CreditHistory implements Serializable {
     @Column(name = "F_IDCODE")
     private String inn;
     @Column(name = "Start_PRICE")
-    private BigDecimal startPrice;
+    private int startPrice;
     @Column(name = "FIRST_Start_PRICE")
-    private BigDecimal firstStartPrice;
+    private int firstStartPrice;
 
     @Column(name = "ACCEPTED_PRICE")
-    private BigDecimal acceptPrice;
+    private int acceptPrice;
 
     @Column(name = "LOT_ID")
     private Long lotId;
@@ -57,24 +56,24 @@ public class CreditHistory implements Serializable {
         this.inn = inn;
     }
 
-    public BigDecimal getStartPrice() {
+    public int getStartPrice() {
         return startPrice;
     }
-    public void setStartPrice(BigDecimal startPrice) {
+    public void setStartPrice(int startPrice) {
         this.startPrice = startPrice;
     }
 
-    public BigDecimal getFirstStartPrice() {
+    public int getFirstStartPrice() {
         return firstStartPrice;
     }
-    public void setFirstStartPrice(BigDecimal firstStartPrice) {
+    public void setFirstStartPrice(int firstStartPrice) {
         this.firstStartPrice = firstStartPrice;
     }
 
-    public BigDecimal getAcceptPrice() {
+    public int getAcceptPrice() {
         return acceptPrice;
     }
-    public void setAcceptPrice(BigDecimal acceptPrice) {
+    public void setAcceptPrice(int acceptPrice) {
         this.acceptPrice = acceptPrice;
     }
 

@@ -4,7 +4,6 @@ import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public interface BidService {
 
     List lotsByBid(Bid bid);
 
-    BigDecimal sumByBid(Bid bid);
+    int sumByBid(Bid bid);
 
     @Transactional(readOnly = true)
     List getBidsByExchange(Exchange exchange);

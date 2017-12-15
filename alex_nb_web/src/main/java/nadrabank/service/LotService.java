@@ -5,7 +5,6 @@ import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +34,10 @@ public interface LotService {
     @Transactional(readOnly = true)
     List getLotsId();
 
-    BigDecimal lotSum(Lot lot);
+    int lotSum(Lot lot);
 
     @Transactional(readOnly = true)
-    BigDecimal lotAcceptedSum(Lot lot);
+    int lotAcceptedSum(Lot lot);
 
     Long lotCount(Lot lot);
 
@@ -63,7 +62,7 @@ public interface LotService {
     List getLotsByBidDate(Date first, Date last);
 
     @Transactional(readOnly = true)
-    BigDecimal paymentsSumByLot(Lot lot);
+    int paymentsSumByLot(Lot lot);
 
     @Transactional(readOnly = true)
     List paymentsByLot(Lot lot);

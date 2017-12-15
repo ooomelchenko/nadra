@@ -2,7 +2,6 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -18,7 +17,7 @@ public class Pay implements Serializable {
     @Column(name = "Pay_Date")
     private Date date;
     @Column(name = "Pay_Sum")
-    private BigDecimal paySum;
+    private int paySum;
     @Column(name = "History_Lot_ID")
     private Long historyLotId;
     @Column(name = "Lot_ID")
@@ -38,10 +37,10 @@ public class Pay implements Serializable {
         this.date = date;
     }
 
-    public BigDecimal getPaySum() {
+    public int getPaySum() {
         return paySum;
     }
-    public void setPaySum(BigDecimal paySum) {
+    public void setPaySum(int paySum) {
         this.paySum = paySum;
     }
 
@@ -69,14 +68,14 @@ public class Pay implements Serializable {
     public Pay() {
     }
 
-    public Pay(Lot lot, Date date, BigDecimal paySum) {
+    public Pay(Lot lot, Date date, int paySum) {
         lotId = lot.getId();
         this.date = date;
         this.paySum = paySum;
         this.historyLotId = null;
     }
 
-    public Pay(Lot lot, Date date, BigDecimal paySum, String paySource) {
+    public Pay(Lot lot, Date date, int paySum, String paySource) {
         this.lotId = lot.getId();
         this.date = date;
         this.paySum = paySum;
@@ -84,14 +83,14 @@ public class Pay implements Serializable {
         this.historyLotId = null;
     }
 
-    public Pay(Lot lot, Date date, BigDecimal paySum, Long historyLotId) {
+    public Pay(Lot lot, Date date, int paySum, Long historyLotId) {
         this.lotId = lot.getId();
         this.date = date;
         this.paySum = paySum;
         this.historyLotId = historyLotId;
     }
 
-    public Pay(String paySource, Date date, BigDecimal paySum, Long historyLotId, Lot lot) {
+    public Pay(String paySource, Date date, int paySum, Long historyLotId, Lot lot) {
         this.paySource = paySource;
         this.date = date;
         this.paySum = paySum;
