@@ -42,7 +42,7 @@
                 dateFormat: "yy-mm-dd", dayNamesMin: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
                 monthNames: ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"]
             });
-            $('#inputFondDecDate').datepicker({
+            $('#inputFondDecDate, #inputNBUDecDate').datepicker({
                 dateFormat: "yy-mm-dd", dayNamesMin: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
                 monthNames: ["січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"]
             });
@@ -504,6 +504,36 @@
                 }
             });
 
+            var redactNBUButton = $('#redactNBUButton');
+            redactNBUButton.click(function () {
+                if (redactNBUButton.val() === "0") {
+                    redactNBUButton.val(1);
+                    redactNBUButton.text("Прийняти");
+                    $('#nbuChoose').show();
+                    $('#nbuCurrent').hide();
+                }
+                else {
+                    redactNBUButton.val(0);
+                    redactNBUButton.text("Додати рішення");
+                    $.ajax({
+                        url: "changeNBUDec",
+                        type: "POST",
+                        data: {
+                            lotId: <%out.print(lot.getId());%>,
+                            NBUDecDate: $('#inputNBUDecDate').val(),
+                            NBUDec: $('#inputNBUDec').val(),
+                            decNum: $('#inputNBUDecNum').val()
+                        },
+                        success: function (res) {
+                            if (res == 1) {
+                                alert("Зміни прийнято!");
+                                location.reload(true);
+                            }
+                        }
+                    });
+                }
+            });
+
             $("#okButton").click(function () {
                 $.ajax({
                     url: "setAcceptEx",
@@ -692,8 +722,12 @@
         </table>
     </div>
     <div id="fdBlock">
-        <h2>Погодження продажу ФГВФО</h2>
         <table id="fdTab">
+            <tr>
+                <th colspan="3">
+                    Погодження продажу ФГВФО
+                </th>
+            </tr>
             <tr id="accExCurrent" title="клікніть двічі для зміни погодженої фондом біржі">
                 <td colspan="3" class="acceptEx">
                     <%out.print(lot.getAcceptExchange());%>
@@ -764,6 +798,51 @@
                 </td>
             </tr>
         </table>
+
+        <%if(lot.getLotType()==0){%>
+        <table id="nbuTab">
+            <tr>
+                <th colspan="3">
+                    Погодження НБУ
+                </th>
+            </tr>
+            <tr id="nbuCurrent">
+                <td><%if (lot.getNbuDecisionDate() != null) out.print(sdf.format(lot.getNbuDecisionDate()));%></td>
+                <td><%if (lot.getNbuDecision() != null) out.print(lot.getNbuDecision());%></td>
+                <td><%if (lot.getNbuDecisionNumber() != null) out.print(lot.getNbuDecisionNumber());%></td>
+            </tr>
+            <tr id="nbuChoose" hidden="hidden">
+                <td>
+                    <input id="inputNBUDecDate" title="Дата прийняття рішення" placeholder="дата рішення">
+                </td>
+                <td>
+                    <select id="inputNBUDec" name="decisionSelect" title="Рівень прийняття рішення">
+                        <option value="погоджено">
+                            на погодженні
+                        </option>
+                        <option value="погоджено">
+                            не погоджено
+                        </option>
+                        <option value="погоджено">
+                            погоджено
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <input id="inputNBUDecNum" type="text" title="Номер рішення" placeholder="номер рішення">
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: transparent"></td>
+                <td style="background-color: transparent"></td>
+                <td>
+                    <button id="redactNBUButton" value="0" style="width: 100%; color: darkblue" title="Додати актуальне рішення НБУ">
+                        Додати рішення
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <%}%>
     </div>
     <div id="payBlock">
         <h2>Платежі по лоту</h2>
@@ -854,7 +933,7 @@
                     <td><input id="lotNum" type="text" value="<%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%>">
                     </td>
                     <td><input id="countOfPart" type="number" value="<%out.print(lot.getCountOfParticipants());%>"></td>
-                    <td><input id="customerName" type="text" placeholder="ФІО" title="ІНН"
+                    <td><input id="customerName" type="text" placeholder="ФІО" title="ФІО"
                                value='<%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%>'>
                         <input id="customerInn" type="number" placeholder="ІНН" title="ІНН"
                                value='<%if(lot.getCustomerInn()!=0)out.print(lot.getCustomerInn());%>'>

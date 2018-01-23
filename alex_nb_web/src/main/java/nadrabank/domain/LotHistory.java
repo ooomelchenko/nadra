@@ -65,6 +65,12 @@ public class LotHistory implements Serializable {
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;
 
+    @Column(name = "NBU_DEC_DATE")
+    private Date nbuDecisionDate;
+    @Column(name = "NBU_DECISION")
+    private String nbuDecision;
+    @Column(name = "NBU_DECISION_NUM")
+    private String nbuDecisionNumber;
 
     public Long getIdKey() {
         return idKey;
@@ -248,6 +254,27 @@ public class LotHistory implements Serializable {
         this.decisionNumber = decisionNumber;
     }
 
+    public Date getNbuDecisionDate() {
+        return nbuDecisionDate;
+    }
+    public void setNbuDecisionDate(Date nbuDecisionDate) {
+        this.nbuDecisionDate = nbuDecisionDate;
+    }
+
+    public String getNbuDecision() {
+        return nbuDecision;
+    }
+    public void setNbuDecision(String nbuDecision) {
+        this.nbuDecision = nbuDecision;
+    }
+
+    public String getNbuDecisionNumber() {
+        return nbuDecisionNumber;
+    }
+    public void setNbuDecisionNumber(String nbuDecisionNumber) {
+        this.nbuDecisionNumber = nbuDecisionNumber;
+    }
+
     //Конструктора
     public LotHistory() {
     }
@@ -280,5 +307,8 @@ public class LotHistory implements Serializable {
         this.fondDecisionDate = lot.getFondDecisionDate();
         this.fondDecision = lot.getFondDecision();
         this.decisionNumber = lot.getDecisionNumber();
+        this.nbuDecision = lot.getNbuDecision();
+        this.nbuDecisionDate = lot.getNbuDecisionDate();
+        this.nbuDecisionNumber = lot.getNbuDecisionNumber();
     }
 }

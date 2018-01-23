@@ -929,6 +929,64 @@ public class AssetController {
         return fileName;
     }
 
+    private String makeHistoryReportByAssets(List <Asset> assetList) throws IOException {
+        InputStream ExcelFileToRead = new FileInputStream("C:\\projectFiles\\History.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+        XSSFSheet sheet1 = wb.getSheetAt(0);
+        XSSFSheet sheet2 = wb.getSheetAt(1);
+
+        //задаем формат даты
+        String excelFormatter = DateFormatConverter.convert(Locale.ENGLISH, "yyyy-MM-dd");
+        CellStyle cellStyle = wb.createCellStyle();
+        CellStyle numStyle = wb.createCellStyle();
+
+        DataFormat poiFormat = wb.createDataFormat();
+        cellStyle.setDataFormat(poiFormat.getFormat(excelFormatter));
+
+        numStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("$#,##0.00"));
+        //end
+
+        int numRow1 = 1;
+        int numRow2 = 1;
+        // int i = 0;
+        for(Asset asset : assetList){
+            XSSFRow row = sheet1.createRow(numRow1);
+            List<Long> lotIdList = assetService.getLotIdHistoryByAsset(asset.getId());
+            for(Long lotId: lotIdList){
+                List<Bid> bidList = lotService.getLotHistoryAggregatedByBid(lotId);
+                Collections.sort(bidList);
+                for(Bid bid: bidList){
+
+                    row.createCell(0).setCellValue(asset.getInn());
+                    row.createCell(1).setCellValue(lotId);
+                    row.createCell(2).setCellValue(bid.getExchange().getCompanyName());
+                    row.createCell(3).setCellValue(sdfshort.format(bid.getBidDate()));
+                    try {
+                        row.createCell(4).setCellValue(assetService.getAccPriceByLotIdHistory(asset.getId(), lotId).doubleValue());
+                    }
+                    catch(NullPointerException e){
+                    }
+                    numRow1++;
+                }
+            }
+            List<AcceptPriceHistory> acceptPriceHistoryList = assetService.getDateAndAccPriceHistoryByAsset(asset.getId());
+            for(AcceptPriceHistory acceptPriceHistory: acceptPriceHistoryList){
+                XSSFRow row2 = sheet2.createRow(numRow2);
+                row2.createCell(0).setCellValue(asset.getInn());
+                row2.createCell(1).setCellValue(sdfshort.format(acceptPriceHistory.getDate()));
+                row2.createCell(2).setCellValue(acceptPriceHistory.getAcceptedPrice().doubleValue());
+                numRow2++;
+            }
+        }
+
+        String fileName = "C:\\projectFiles\\" + ("History " +sdfshort.format(new Date())+ ".xlsx");
+        OutputStream fileOut = new FileOutputStream(fileName);
+
+        wb.write(fileOut);
+        fileOut.close();
+        return fileName;
+    }
+
     @RequestMapping(value = "/lotList", method = RequestMethod.GET)
     private @ResponseBody List<Lot> getLots() {
         return lotService.getLots();
@@ -1353,6 +1411,35 @@ public class AssetController {
         } else {
             return "Error. File not choosen.";
         }
+    }
+
+    @RequestMapping(value = "/uploadIdFileForHistory", method = RequestMethod.POST)
+    private @ResponseBody String uploadIdFileForHistory(@RequestParam("file") MultipartFile multipartFile, @RequestParam("idType") int idType, Model model) throws IOException {
+
+            List<Asset> assetList = new ArrayList<>();
+            if (!multipartFile.isEmpty()) {
+                File file = getTempFile(multipartFile);
+                XSSFWorkbook wb;
+
+                try {
+                    wb = new XSSFWorkbook(file);
+                    XSSFSheet sheet = wb.getSheetAt(0);
+                    Iterator rows = sheet.rowIterator();
+                    while (rows.hasNext()) {
+                        XSSFRow row = (XSSFRow) rows.next();
+                        String inn = row.getCell(0).getStringCellValue();
+                        assetList.addAll(assetService.getAllAssetsByInNum(inn));
+                    }
+
+                } catch (Exception e) {
+                    return "4";
+                }
+                String reportPath = makeHistoryReportByAssets(assetList);
+                model.addAttribute("reportPath", reportPath);
+
+                return "1";
+            }
+            else return "0";
     }
 
     @RequestMapping(value = "/uploadIdFile", method = RequestMethod.POST)
@@ -2142,6 +2229,10 @@ public class AssetController {
             String fondDecision = "";
             String fondDecisionNumber = "";
 
+            String nbuDecisionDate = "";
+            String nbuDecision = "";
+            String nbuDecisionNumber = "";
+
             String acceptedPrice="";
             String acceptedExchange="";
 
@@ -2173,6 +2264,10 @@ public class AssetController {
                     fondDecisionDate = String.valueOf(sdfpoints.format(lot.getFondDecisionDate()));
                 fondDecision=lot.getFondDecision();
                 fondDecisionNumber=lot.getDecisionNumber();
+                if (lot.getNbuDecisionDate() != null)
+                    nbuDecisionDate = String.valueOf(sdfpoints.format(lot.getNbuDecisionDate()));
+                nbuDecision=lot.getNbuDecision();
+                nbuDecisionNumber=lot.getNbuDecisionNumber();
                 acceptedExchange=lot.getAcceptExchange();
 
                 if (lot.getActSignedDate() != null)
@@ -2212,6 +2307,9 @@ public class AssetController {
                     + "||" + acceptedExchange
                     + "||" + actSignedDate
                     + "||" + planSaleDate
+                    + "||" + nbuDecisionDate
+                    + "||" + nbuDecision
+                    + "||" + nbuDecisionNumber
             );
         }
         return rezList;
@@ -2379,6 +2477,31 @@ public class AssetController {
         lot.setFondDecision(fondDec);
         lot.setDecisionNumber(decNum);
         lot.setNeedNewFondDec(false); //убираем необходимость пересогласования
+        lotService.updateLot(login, lot);
+        return "1";
+    }
+
+    @RequestMapping(value = "/changeNBUDec", method = RequestMethod.POST)
+    private @ResponseBody String changeNBUDec (HttpSession session,
+                                               @RequestParam("lotId") Long lotId,
+                                               @RequestParam("NBUDecDate") String nbuDecDate,
+                                               @RequestParam("NBUDec") String nbuDec,
+                                               @RequestParam("decNum") String decNum)
+    {
+
+        String login = (String) session.getAttribute("userId");
+
+        Date date = null;
+        try {
+            date = sdfshort.parse(nbuDecDate);
+        } catch (ParseException e) {
+            System.out.println("Халепа!");
+        }
+
+        Lot lot = lotService.getLot(lotId);
+        lot.setNbuDecisionDate(date);
+        lot.setNbuDecision(nbuDec);
+        lot.setNbuDecisionNumber(decNum);
         lotService.updateLot(login, lot);
         return "1";
     }
@@ -2579,6 +2702,7 @@ public class AssetController {
         }
         return rezList;
     }
+
     @RequestMapping(value = "/getCrPriceHistory", method = RequestMethod.POST)
     private @ResponseBody List getCrPriceHistory(@RequestParam("inn") String inn, @RequestParam("idBars") Long idBars) {
         Credit credit = (Credit) creditService.getAllCreditsByClient(inn, idBars).get(0);

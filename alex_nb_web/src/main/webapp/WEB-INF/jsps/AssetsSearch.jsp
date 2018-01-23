@@ -141,6 +141,27 @@
                 window.open("downLotIdListForm");
             });
 
+            $('#getHistoryButton').click(function(){
+                getHistory();
+            });
+
+            function getHistory() {
+                var formData = new FormData($('form')[0]);
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    url: "uploadIdFileForHistory",
+                    data: formData,
+                    success: function (rezult) {
+                        if(rezult==0)
+                            alert("Список пустий!");
+                        if(rezult==1)
+                        window.open("reportDownload");
+                    }
+                })
+            }
+
             $('#sendBut').click(function () {
                 sendFile();
             });
@@ -198,6 +219,7 @@
             <input name="idType" value="1" type="number" hidden="hidden">
         </form>
         <button id="sendBut">Знайти по списку з файлу</button>
+        <button id="getHistoryButton">Завантажити історію по списку</button>
     </div>
     <div style="width: 10%">
         <button id="formDownld" title="Завантажити зразок файлу зі списком ID для пошуку">форма(.xls)</button>

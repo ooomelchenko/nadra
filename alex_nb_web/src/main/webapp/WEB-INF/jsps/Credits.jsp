@@ -64,6 +64,9 @@
                                     '<td class="fondDecisionDate">' + creditFields[23] + '</td>' +
                                     '<td class="fondDec">' + creditFields[24] + '</td>' +
                                     '<td class="fondDecNum">' + creditFields[25] + '</td>' +
+                                '<td class="nbuDecisionDate">' + creditFields[30] + '</td>' +
+                                '<td class="nbuDec">' + creditFields[31] + '</td>' +
+                                '<td class="nbuDecNum">' + creditFields[32] + '</td>' +
                                     '<td class="acceptPrice">' + creditFields[26] + '</td>' +
                                     '<td class="acceptEx">' + creditFields[27] + '</td>' +
                                     '<td class="planSaleDate" title="клікніть двічі для зміни планової дати">' + creditFields[29] + '</td>' +
@@ -436,7 +439,10 @@
             <th>Стадія роботи></th>
             <th>Дата прийняття рішення ФГВФО</th>
             <th>Рівень прийняття рішення</th>
-            <th>Номер рішення</th>
+            <th>Номер рішення ФГВФО</th>
+            <th>Дата прийняття рішення НБУ</th>
+            <th>Статус погодження НБУ</th>
+            <th>Номер рішення НБУ</th>
             <th>Погоджена початкова ціна</th>
             <th>Погоджена біржа</th>
             <th>Заплановано реалізувати</th>

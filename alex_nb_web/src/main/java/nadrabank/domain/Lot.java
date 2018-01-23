@@ -57,6 +57,13 @@ public class Lot implements Serializable, Comparable<Lot> {
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;
 
+    @Column(name = "NBU_DEC_DATE")
+    private Date nbuDecisionDate;
+    @Column(name = "NBU_DECISION")
+    private String nbuDecision;
+    @Column(name = "NBU_DECISION_NUM")
+    private String nbuDecisionNumber;
+
     @ManyToOne
     private User user;//класс
     @ManyToOne
@@ -240,6 +247,27 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.customerInn = customerInn;
     }
 
+    public Date getNbuDecisionDate() {
+        return nbuDecisionDate;
+    }
+    public void setNbuDecisionDate(Date nbuDecisionDate) {
+        this.nbuDecisionDate = nbuDecisionDate;
+    }
+
+    public String getNbuDecision() {
+        return nbuDecision;
+    }
+    public void setNbuDecision(String nbuDecision) {
+        this.nbuDecision = nbuDecision;
+    }
+
+    public String getNbuDecisionNumber() {
+        return nbuDecisionNumber;
+    }
+    public void setNbuDecisionNumber(String nbuDecisionNumber) {
+        this.nbuDecisionNumber = nbuDecisionNumber;
+    }
+
     //Конструктора
     public Lot() {
     }
@@ -261,32 +289,9 @@ public class Lot implements Serializable, Comparable<Lot> {
         this.decisionNumber = null;
         this.bid = null;
         this.customerInn = 0;
-    }
-
-    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, Date actSignedDate, int lotType, Date planSaleDate, String acceptExchange, boolean needNewFondDec, Date fondDecisionDate, String fondDecision, String decisionNumber, User user, Bid bid, int customerInn) {
-        this.lotNum = lotNum;
-        this.workStage = workStage;
-        this.isItSold = isItSold;
-        this.comment = comment;
-        this.lotDate = lotDate;
-        this.bidStage = bidStage;
-        this.countOfParticipants = countOfParticipants;
-        this.startPrice = startPrice;
-        this.firstStartPrice = firstStartPrice;
-        this.factPrice = factPrice;
-        this.customerName = customerName;
-        this.status = status;
-        this.actSignedDate = actSignedDate;
-        this.lotType = lotType;
-        this.planSaleDate = planSaleDate;
-        this.acceptExchange = acceptExchange;
-        this.needNewFondDec = needNewFondDec;
-        this.fondDecisionDate = fondDecisionDate;
-        this.fondDecision = fondDecision;
-        this.decisionNumber = decisionNumber;
-        this.user = user;
-        this.bid = bid;
-        this.customerInn = customerInn;
+        this.nbuDecision = null;
+        this.nbuDecisionDate = null;
+        this.nbuDecisionNumber = null;
     }
 
     @Override

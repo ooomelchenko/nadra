@@ -149,7 +149,7 @@ h2{
     color: black;
     font-style: italic;
 }
-#fdTab{
+#fdTab, #nbuTab{
     cursor: pointer;
     background-color: whitesmoke;
     font-weight: bolder;
@@ -159,11 +159,11 @@ h2{
     width: 100%;
     border: 2px solid cyan;
 }
-#fdTab tr:hover{
+#fdTab tr:hover, #nbuTab tr:hover{
     background-color: white;
     color: darkblue;
 }
-#fdTab td{
+#fdTab td, #nbuTab td{
     border: 2px solid cyan;
     width: 33%;
 }
