@@ -77,6 +77,7 @@
                     });
             });
             }
+
             $('#findObjBut').click(function () {
                 $.ajax({
                     url: "allObjectsByInNum",

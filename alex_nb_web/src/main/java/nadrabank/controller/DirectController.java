@@ -242,8 +242,14 @@ public class DirectController {
 
         for (long id : bidIdList) {
             Bid bid = bidService.getBid(id);
+
             if (lot.getBid() == null || lot.getBid().getId() != id) {
+                try{
                 historyBids.add(bid);
+                }
+                catch (NullPointerException e){
+
+                }
             }
         }
         model.addAttribute("bidsHistoryList", historyBids);

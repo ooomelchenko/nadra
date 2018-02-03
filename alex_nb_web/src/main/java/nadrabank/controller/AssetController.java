@@ -946,17 +946,19 @@ public class AssetController {
         numStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("$#,##0.00"));
         //end
 
-        int numRow1 = 1;
-        int numRow2 = 1;
+        int numRow1 = 0;
+        int numRow2 = 0;
         // int i = 0;
         for(Asset asset : assetList){
-            XSSFRow row = sheet1.createRow(numRow1);
+
             List<Long> lotIdList = assetService.getLotIdHistoryByAsset(asset.getId());
             for(Long lotId: lotIdList){
+
                 List<Bid> bidList = lotService.getLotHistoryAggregatedByBid(lotId);
                 Collections.sort(bidList);
                 for(Bid bid: bidList){
-
+                    numRow1++;
+                    XSSFRow row = sheet1.createRow(numRow1);
                     row.createCell(0).setCellValue(asset.getInn());
                     row.createCell(1).setCellValue(lotId);
                     row.createCell(2).setCellValue(bid.getExchange().getCompanyName());
@@ -966,16 +968,16 @@ public class AssetController {
                     }
                     catch(NullPointerException e){
                     }
-                    numRow1++;
+
                 }
             }
             List<AcceptPriceHistory> acceptPriceHistoryList = assetService.getDateAndAccPriceHistoryByAsset(asset.getId());
             for(AcceptPriceHistory acceptPriceHistory: acceptPriceHistoryList){
+                numRow2++;
                 XSSFRow row2 = sheet2.createRow(numRow2);
                 row2.createCell(0).setCellValue(asset.getInn());
                 row2.createCell(1).setCellValue(sdfshort.format(acceptPriceHistory.getDate()));
                 row2.createCell(2).setCellValue(acceptPriceHistory.getAcceptedPrice().doubleValue());
-                numRow2++;
             }
         }
 
