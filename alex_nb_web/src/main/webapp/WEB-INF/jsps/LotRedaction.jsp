@@ -358,6 +358,9 @@
                        })
                     });
 
+                    var bidScenario=0 ;
+                    if ($('#input_bid_scenario').is(":checked"))
+                        bidScenario=1;
                     $.ajax({
                         url: "changeLotParams",
                         method: "POST",
@@ -375,7 +378,8 @@
                             factPrice: $('#factPrice').val(),
                             isSold: $('#setSoldButton').val(),
                             selectedBidId: $('#bidSelector').val(),
-                            countOfParticipants: $('#countOfPart').val()
+                            countOfParticipants: $('#countOfPart').val(),
+                            bidScenario: bidScenario
                         },
                         success: function (rez) {
                             if (rez === "1") {
@@ -717,6 +721,15 @@
             <tr>
                 <td title="Повторні торги на біржі">
                     <button style="width: 100%" class="reBidButton" value="1">Повторні торги</button>
+                </td>
+                <td>
+                    <label>Голландський тип</label>
+                    <%if(lot.getBidScenario()==1){%>
+                         <input type="checkbox" id="input_bid_scenario" checked="checked" title="оберіть голландський сценарій торгів">
+                    <%}
+                    else{%>
+                    <input type="checkbox" id="input_bid_scenario" title="оберіть голландський сценарій торгів">
+                    <%}%>
                 </td>
             </tr>
         </table>

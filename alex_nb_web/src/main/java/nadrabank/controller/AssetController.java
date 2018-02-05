@@ -1851,7 +1851,9 @@ public class AssetController {
                                                   @RequestParam("factPrice") BigDecimal factLotPrice,
                                                   @RequestParam("isSold") String isSold,
                                                   @RequestParam("selectedBidId") Long selectedBidId,
-                                                  @RequestParam("countOfParticipants") int countOfParticipants) {
+                                                  @RequestParam("countOfParticipants") int countOfParticipants,
+                                                  @RequestParam("bidScenario") short bidScenario)
+    {
         String login = (String) session.getAttribute("userId");
         Lot lot = lotService.getLot(Long.parseLong(lotId));
         lot.setLotNum(lotNum);
@@ -1867,6 +1869,7 @@ public class AssetController {
         lot.setCustomerInn(Integer.parseInt(customerInn));
 
         lot.setCountOfParticipants(countOfParticipants);
+        lot.setBidScenario(bidScenario);
         lot.setFirstStartPrice(firstPrice);
         if (selectedBidId == 0L) {
             lot.setBid(null);
